@@ -45,17 +45,18 @@
             
   <div class="section" id="beautiful-soup-4-2-0">
 <h1>Beautiful Soup 4.2.0 文档<a class="headerlink" href="#beautiful-soup-4-2-0" title="Permalink to this headline">¶</a></h1>
+<img alt="http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg" class="align-right" src="http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg" />
 <p><a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 是一个可以从HTML或XML文件中提取数据的python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.使用BeautifulSoup会帮助你节省数小时甚至数天的工作.</p>
 <p>这篇文档介绍了BeautifulSoup4中所有主要特性,并切有小例子.让我来向你展示它适合做什么,如何工作,怎样使用,如何达到你想要的效果,和处理异常情况.</p>
 <p>文档中出现的例子在python2.7和python3.2中的执行结果相同</p>
 <p>你可能在寻找 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html">BeautifulSoup3</a> 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, <cite>移植到BS4</cite></p>
-</div>
 <div class="section" id="id1">
-<h1>获取帮助<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>如果你有关于BeautifulSoup的问题,可以发送邮件到`讨论组 &lt;<a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup">https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup</a>&gt;`_ .如果你的问题包含了一段需要转换的HTML代码,确保你提的问题中附带HTML文档的在`诊断代码`</p>
+<h2>获取帮助<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>如果你有关于BeautifulSoup的问题,可以发送邮件到 <a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup">讨论组</a> .如果你的问题包含了一段需要转换的HTML代码,确保你提的问题中附带HTML文档的在 <strong>诊断代码</strong> <a class="footnote-reference" href="#id16" id="id3">[1]</a></p>
 </div>
-<div class="section" id="id2">
-<h1>快速开始<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="id4">
+<h1>快速开始<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
 <p>下面的一段HTML代码将作为我们整篇文档的解析用的例子.这是 <em>爱丽丝梦游仙境的</em> 的一段内容</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">html_doc</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
 <span class="s">&lt;html&gt;&lt;head&gt;&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;&lt;/head&gt;</span>
@@ -170,18 +171,17 @@
 <div class="section" id="beautiful-soup">
 <h1>安装 Beautiful Soup<a class="headerlink" href="#beautiful-soup" title="Permalink to this headline">¶</a></h1>
 <p>如果你用的是新版的Debain或ubuntu,那么可以通过系统包管理来安装</p>
-<p>$ apt-get install python-bs4</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-bs4</span></tt></p>
 <p>Beautiful Soup 4 通过PyPi发布,所以如果你无法使用系统包管理安装,那么也可以通过easy_install活pip来安装.包的名字是 <em>beautifulsoup4</em> ,这个包兼容python2和python3</p>
-<p>$ easy_install beautifulsoup4</p>
-<p>$ pip install beautifulsoup4</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">easy_install</span> <span class="pre">beautifulsoup4</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">beautifulsoup4</span></tt></p>
 <p>(在PyPi中还有一个名字是 <em>beautifulsoup的</em> 包,但那可能不是你想要的,那是 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html">BeautifulSoup3</a> 的发布版本,因为很多项目还在使用BS3, 所以*beautifulsoup* 包依然有效,但是如果你想执行新版本的代码,那么你需要安装的包是 <em>beautifulsoup4</em>)</p>
 <p>如果你没有安装 <em>easy_install</em> 或 <em>pip</em> ,那你也可以 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/download/4.x/">下载BS4的源码</a> ,然后通过setup.py来安装.</p>
-<p>$ python setup.py install</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt></p>
 <p>如果上述安装方法都行不通,Beautiful Soup的发布协议允许你将BS4的代码打包在你的项目中,这样无须安装即可使用.</p>
 <p>作者在Python2.7和Python3.2的版本下开发Beautiful Soup, Beautiful Soup应该在所有当前的python版本中正常工作</p>
-</div>
-<div class="section" id="id4">
-<h1>安装完成后的问题<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id6">
+<h2>安装完成后的问题<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>Beautiful Soup被打包成Python2版本的编码,当在Python3环境下安装时,会自动转换成python3的代码,如果你没有安装的过程,那么代码就不会被转换.</p>
 <p>如果代码抛出了 <em>ImportError</em> 的异常: &#8220;No module named HTMLParser&#8221;, 这是因为你在python3版本中执行python2版本的代码.</p>
 <p>如果代码抛出了 <em>ImportError</em> 的异常: &#8220;No module named html.parser&#8221;, 这是因为你在python2版本中执行python3版本的代码.</p>
@@ -191,8 +191,8 @@
 <p>或在bs4的目录中执行python代码版本转换脚本</p>
 <p>$ 2to3-3.2 -w bs4</p>
 </div>
-<div class="section" id="id5">
-<h1>安装解析器<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id7">
+<h2>安装解析器<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>Beautiful Soup支持python标准库中的HTML解析器,还支持一些第三方的解析器,其中一个是 <a class="reference external" href="http://lxml.de/">lxml parser</a> .根据操作系统不同,可以选择下列不同的安装lxml的方法:</p>
 <p>$ apt-get install python-lxml</p>
 <p>$ easy_install lxml</p>
@@ -204,31 +204,89 @@
 <p>下表列出了主要的解析器,以及它们的优缺点:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="28%" />
-<col width="31%" />
-<col width="21%" />
-<col width="21%" />
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+<col width="26%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">解析器</th>
 <th class="head">使用方法</th>
-<th class="head">优点</th>
-<th class="head">缺点</th>
+<th class="head">优势</th>
+<th class="head">劣势</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>1</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>Python’s html.parser</td>
+<td><tt class="docutils literal"><span class="pre">BeautifulSoup(markup,</span>
+<span class="pre">&quot;html.parser&quot;)</span></tt></td>
+<td><ul class="first last simple">
+<li>Batteries included</li>
+<li>Decent speed</li>
+<li>Lenient (as of Python
+2.7.3 and 3.2.)</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>Not very lenient (before
+Python 2.7.3 or 3.2.2)</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>lxml’s HTML parser</td>
+<td><tt class="docutils literal"><span class="pre">BeautifulSoup(markup,</span>
+<span class="pre">&quot;lxml&quot;)</span></tt></td>
+<td><ul class="first last simple">
+<li>Very fast</li>
+<li>Lenient</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>External C dependency</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>lxml’s XML parser</td>
+<td><p class="first"><tt class="docutils literal"><span class="pre">BeautifulSoup(markup,</span>
+<span class="pre">[&quot;lxml&quot;,</span> <span class="pre">&quot;xml&quot;])</span></tt></p>
+<p class="last"><tt class="docutils literal"><span class="pre">BeautifulSoup(markup,</span>
+<span class="pre">&quot;xml&quot;)</span></tt></p>
+</td>
+<td><ul class="first last simple">
+<li>Very fast</li>
+<li>The only currently
+supported XML parser</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>External C dependency</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>html5lib</td>
+<td><tt class="docutils literal"><span class="pre">BeautifulSoup(markup,</span>
+<span class="pre">&quot;html5lib&quot;)</span></tt></td>
+<td><ul class="first last simple">
+<li>Extremely lenient</li>
+<li>Parses pages the same
+way a web browser does</li>
+<li>Creates valid HTML5</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>Very slow</li>
+<li>External Python depende</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
 <p>推荐使用lxml作为解析器,因为lxml效率更高. 在python2.7.3之前的版本和python3中3.2.2之前的版本,必须安装lxml或html5lib, 因为那些python版本的标准库中内置的HTML解析方法不是很好.</p>
-<p>提示: 如果一段HTML或XML文档格式不正确的话,那么在不同的解析器中返回的结果可能是不一样的,查看 <a href="#id9"><span class="problematic" id="id10">`Differences between parsers &lt;&gt;`_</span></a> 了解更多细节</p>
+<p>提示: 如果一段HTML或XML文档格式不正确的话,那么在不同的解析器中返回的结果可能是不一样的,查看 <a class="reference external" href="http://www.baidu.com">Differences between parsers</a> 了解更多细节</p>
 </div>
-<div class="section" id="id6">
-<h1>用好beautifulSoup<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="id8">
+<h1>用好beautifulSoup<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h1>
 <p>将一段文档传入BeautifulSoup 的构造方法,就能得到一个文档的对象, 可以传入一段字符串或一个文件句柄.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
@@ -243,8 +301,8 @@
 </div>
 <p>然后,Beautiful Soup选择最合适的解析器来解析这段文档,如果手动指定解析器那么Beautiful Soup会选择指定的解析器来解析文档.(参考`Parsing XML &lt;<a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/#id16">http://www.crummy.com/software/BeautifulSoup/bs4/doc/#id16</a>&gt;`_ )</p>
 </div>
-<div class="section" id="id7">
-<h1>对象分类<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id9">
+<h1>对象分类<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h1>
 <p>Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构的python对象,所有对象都是4类对象中的一种: Tag, NavigableString, BeautifulSoup, Comment.</p>
 <div class="section" id="tag">
 <h2>Tag<a class="headerlink" href="#tag" title="Permalink to this headline">¶</a></h2>
@@ -256,9 +314,8 @@
 </pre></div>
 </div>
 <p>Tag有很多方法和属性,在 ` Navigating the tree` 和 <cite>Searching the tree</cite> 有详细解释.现在介绍一下tag中最重要的属性: name和attributes</p>
-</div>
 <div class="section" id="name">
-<h2>Name<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h2>
+<h3>Name<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h3>
 <p>每个tag都有自己的名字,通过 .name 来获取</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="o">.</span><span class="n">name</span>
 <span class="c"># u&#39;b&#39;</span>
@@ -272,7 +329,7 @@
 </div>
 </div>
 <div class="section" id="attributes">
-<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
 <p>一个tag可能有很多个属性. tag <em>&lt;b class=&#8221;boldest&#8221;&gt;</em> 有一个 <em>class</em> 的属性,值为&#8221;boldest&#8221;.tag的属性的操作方法与字典相同:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
 <span class="c"># u&#39;boldest&#39;</span>
@@ -300,9 +357,8 @@
 <span class="c"># None</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id8">
-<h2>多值属性<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h4>多值属性<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <p>HTML 4定义了一系列可以包含多个值的属性.在HTML5中移除了一些,却增加更多.最常见的多值的属性是 class (一个tag可以有多个CSS的class). 还有一些属性  rel, rev, accept-charset, headers, accesskey. 在Beautiful Soup中多值属性的返回值被定义为list(无论是否有多个值):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">css_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
 <span class="n">css_soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
@@ -319,7 +375,207 @@
 <span class="c"># &#39;my id&#39;</span>
 </pre></div>
 </div>
+<p>将tag转换成字符串时,多值属性会合并为一个值</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rel_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p&gt;Back to the &lt;a rel=&quot;index&quot;&gt;homepage&lt;/a&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="n">rel_soup</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="s">&#39;rel&#39;</span><span class="p">]</span>
+<span class="c"># [&#39;index&#39;]</span>
+<span class="n">rel_soup</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="s">&#39;rel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="s">&#39;contents&#39;</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rel_soup</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+<span class="c"># &lt;p&gt;Back to the &lt;a rel=&quot;index contents&quot;&gt;homepage&lt;/a&gt;&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>如果转换的文档是XML格式,那么tag中不包含多值属性</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">xml_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s">&#39;xml&#39;</span><span class="p">)</span>
+<span class="n">xml_soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="c"># u&#39;body strikeout&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="navigablestring">
+<h2>NavigableString<a class="headerlink" href="#navigablestring" title="Permalink to this headline">¶</a></h2>
+<p>字符串常被包含在tag内.Beautiful Soup用 <em>NavigableString</em> 类来包装tag中的字符串</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="o">.</span><span class="n">string</span>
+<span class="c"># u&#39;Extremely bold&#39;</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+<span class="c"># &lt;class &#39;bs4.element.NavigableString&#39;&gt;</span>
+</pre></div>
+</div>
+<p>一个 <em>NavigableString</em> 字符串与python中的unicode字符串相同,并且还支持包含在 Navigating the tree 和 Searching the tree 中的一些特性. 通过unicode()方法可以直接将 <em>NavigableString</em> 对象转换成unicode字符串:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">unicode_string</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+<span class="n">unicode_string</span>
+<span class="c"># u&#39;Extremely bold&#39;</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">unicode_string</span><span class="p">)</span>
+<span class="c"># &lt;type &#39;unicode&#39;&gt;</span>
+</pre></div>
+</div>
+<p>tag中包含的字符串不能编辑,但是可以被替换成其它的字符串,用 <em>replace_with()</em> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">replace_with</span><span class="p">(</span><span class="s">&quot;No longer bold&quot;</span><span class="p">)</span>
+<span class="n">tag</span>
+<span class="c"># &lt;blockquote&gt;No longer bold&lt;/blockquote&gt;</span>
+</pre></div>
+</div>
+<p><cite>NavigableString</cite> 对象支持 <cite>Navigating the tree</cite> 和 <cite>Searching the tree</cite> 中定义的大部分属性, 并非全部.尤其是,一个字符串不能包含其它内容(tag能够包含字符串或是其它tag),字符串不支持 <cite>.contents</cite> 或 <cite>.string</cite> 属性或 <cite>find()</cite> 方法.</p>
+<p>如果想在Beautiful Soup之外使用 <cite>NavigableString</cite> 对象,需要调用 <cite>unicode()</cite> 方法,将该对象转换成普通的unicode字符串,否则就算Beautiful Soup已方法已经执行结束,该对象的输出也会带有实例的引用地址.这样会浪费内存.</p>
+</div>
+<div class="section" id="id11">
+<h2>BeautifulSoup<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p><cite>BeautifulSoup</cite> 对象表示的是一个文档的整体.大部分时候,可以把它当作 <cite>Tag</cite> 对象,它支持 <cite>Navigating the tree</cite> 和 <cite>Searching the tree</cite> 中描述的大部分的方法.</p>
+<p>因为 <cite>BeautifulSoup</cite> 对象并不是真正的HTML或XML的tag,所以它没有name和attribute属性.但有事查看它的 <cite>.name</cite> 属性是很方便的,所以 <cite>BeautifulSoup</cite> 对象包含了一个值为 &#8220;[document]&#8221; 的特殊属性 <cite>.name</cite></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">name</span>
+<span class="c"># u&#39;[document]&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>注释及特殊字符串<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p><em>Tag</em> , <em>NavigableString</em> , <em>BeautifulSoup</em> 几乎覆盖了html和xml中的所有内容,但是还有一些特殊对象.容易让人担心的内容是文档的注释部分:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">markup</span> <span class="o">=</span> <span class="s">&quot;&lt;b&gt;&lt;!--Hey, buddy. Want to buy a used parser?--&gt;&lt;/b&gt;&quot;</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">markup</span><span class="p">)</span>
+<span class="n">comment</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">string</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+<span class="c"># &lt;class &#39;bs4.element.Comment&#39;&gt;</span>
+</pre></div>
+</div>
+<p><em>Comment</em> 对象是一个特殊类型的 <em>NavigableString</em> 对象:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">comment</span>
+<span class="c"># u&#39;Hey, buddy. Want to buy a used parser&#39;</span>
+</pre></div>
+</div>
+<p>但是当它出现在HTML文档中时, <em>Comment</em> 对象会使用特殊的格式输出:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+<span class="c"># &lt;b&gt;</span>
+<span class="c">#  &lt;!--Hey, buddy. Want to buy a used parser?--&gt;</span>
+<span class="c"># &lt;/b&gt;</span>
+</pre></div>
+</div>
+<p>Beautiful Soup中定义的其它类型都可能会出现在XML的文档中: <em>CData</em> , <em>ProcessingInstruction</em> , <em>Declaration</em> , <em>Doctype</em> .与 <em>Comment</em> 对象类似,这些类都是 <em>NavigableString</em> 的子类,只是添加了一些额外的方法的字符串独享.下面是用CDATA来替代注释的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">CData</span>
+<span class="n">cdata</span> <span class="o">=</span> <span class="n">CData</span><span class="p">(</span><span class="s">&quot;A CDATA block&quot;</span><span class="p">)</span>
+<span class="n">comment</span><span class="o">.</span><span class="n">replace_with</span><span class="p">(</span><span class="n">cdata</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+<span class="c"># &lt;b&gt;</span>
+<span class="c">#  &lt;![CDATA[A CDATA block]]&gt;</span>
+<span class="c"># &lt;/b&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id13">
+<h1>文档树的操作<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h1>
+<p>还是拿&#8221;there sister&#8221;的文档来做例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">html_doc</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">&lt;html&gt;&lt;head&gt;&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;&lt;/head&gt;</span>
+
+<span class="s">&lt;p class=&quot;title&quot;&gt;&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;&lt;/p&gt;</span>
+
+<span class="s">&lt;p class=&quot;story&quot;&gt;Once upon a time there were three little sisters; and their names were</span>
+<span class="s">&lt;a href=&quot;http://example.com/elsie&quot; class=&quot;sister&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+<span class="s">&lt;a href=&quot;http://example.com/lacie&quot; class=&quot;sister&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt; and</span>
+<span class="s">&lt;a href=&quot;http://example.com/tillie&quot; class=&quot;sister&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;;</span>
+<span class="s">and they lived at the bottom of a well.&lt;/p&gt;</span>
+
+<span class="s">&lt;p class=&quot;story&quot;&gt;...&lt;/p&gt;</span>
+<span class="s">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>通过这段例子来演示怎样从文档的一段内容跳到另一段内容</p>
+<div class="section" id="going-down">
+<h2>Going down<a class="headerlink" href="#going-down" title="Permalink to this headline">¶</a></h2>
+<p>Tag可能包含字符串或其它的tag,这些内容都是tag的子节点.Beautiful Soup提供了许多操作和遍历子节点的属性.</p>
+<p>注意: Beautiful Soup中字符串节点不支持操作自己点的属性,因为字符串没有子节点</p>
+<div class="section" id="id14">
+<h3>tag的名字<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>操作文档树最简单的方法就是告诉它你想获取的tag的name.如果想获取 &lt;head&gt; 标签,只要用 <em>soup.head</em> :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">head</span>
+<span class="c"># &lt;head&gt;&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;&lt;/head&gt;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+<span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+</pre></div>
+</div>
+<p>这是个获取tag的小窍门,可以在文档树的tag中多次调用这个方法.下面的代码可以获取&lt;body&gt;标签中的第一个&lt;b&gt;标签:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">b</span>
+<span class="c"># &lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;</span>
+</pre></div>
+</div>
+<p>通过点取属性的方式只能获得当前名字的第一个tag:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>如果想要得到所有的&lt;a&gt;标签,或是通过名字得到比一个tag更多的内容的时候,就需要用到 <cite>Searching the tree</cite> 中描述的方法,比如: find_all()</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="contents-children">
+<h3>.contents 和 .children<a class="headerlink" href="#contents-children" title="Permalink to this headline">¶</a></h3>
+<p>tag的 <em>.contents</em> 属性可以将tag的子节点以列表的方式输出:</p>
+<div class="highlight-python"><pre>head_tag = soup.head
+head_tag
+# &lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
+
+head_tag.contents
+[&lt;title&gt;The Dormouse's story&lt;/title&gt;]
+
+title_tag = head_tag.contents[0]
+title_tag
+# &lt;title&gt;The Dormouse's story&lt;/title&gt;
+title_tag.contents
+# [u'The Dormouse's story']</pre>
+</div>
+<p>BeautifulSoup对象本身一定会包含子节点,这说明&lt;html&gt;标签也是 BeautifulSoup 对象的子节点:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">contents</span><span class="p">)</span>
+<span class="c"># 1</span>
+<span class="n">soup</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="c"># u&#39;html&#39;</span>
+</pre></div>
+</div>
+<p>BeautifulSoup中的字符串没有 <em>.contents</em> 属性,因为字符串不能包含人和内容:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">text</span> <span class="o">=</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">text</span><span class="o">.</span><span class="n">contents</span>
+<span class="c"># AttributeError: &#39;NavigableString&#39; object has no attribute &#39;contents&#39;</span>
+</pre></div>
+</div>
+<p>通过tag的 <em>.children</em> 生成器,可以对tag的子节点进行循环:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+    <span class="c"># The Dormouse&#39;s story</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="descendants">
+<h3>.descendants<a class="headerlink" href="#descendants" title="Permalink to this headline">¶</a></h3>
+<p>.contents 和 .children 属性仅包含tag的直接子节点.例如,&lt;head&gt;标签有一个直接子节点&lt;title&gt;</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">head_tag</span><span class="o">.</span><span class="n">contents</span>
+<span class="c"># [&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;]</span>
+</pre></div>
+</div>
+<p>但是&lt;title&gt;标签有一个子节点:字符串 “The Dormouse’s story”,这种情况下字符串 “The Dormouse’s story”也属于&lt;head&gt;标签的子节点. <em>.descendants</em> 属性可以对所有tag的子节点进行递归循环,采用先序遍历方式:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">descendants</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+    <span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+    <span class="c"># The Dormouse&#39;s story</span>
+</pre></div>
+</div>
 <p><a class="reference external" href="http://www.python.org">Python</a></p>
+<p><a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html">BeautifulSoup3 文档</a></p>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>BeautifulSoup的googl讨论组不是很活跃,可能是因为库已经比较完善了吧</td></tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 
@@ -331,18 +587,38 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Beautiful Soup 4.2.0 文档</a></li>
+<li><a class="reference internal" href="#">Beautiful Soup 4.2.0 文档</a><ul>
 <li><a class="reference internal" href="#id1">获取帮助</a></li>
-<li><a class="reference internal" href="#id2">快速开始</a></li>
-<li><a class="reference internal" href="#beautiful-soup">安装 Beautiful Soup</a></li>
-<li><a class="reference internal" href="#id4">安装完成后的问题</a></li>
-<li><a class="reference internal" href="#id5">安装解析器</a></li>
-<li><a class="reference internal" href="#id6">用好beautifulSoup</a></li>
-<li><a class="reference internal" href="#id7">对象分类</a><ul>
-<li><a class="reference internal" href="#tag">Tag</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">快速开始</a></li>
+<li><a class="reference internal" href="#beautiful-soup">安装 Beautiful Soup</a><ul>
+<li><a class="reference internal" href="#id6">安装完成后的问题</a></li>
+<li><a class="reference internal" href="#id7">安装解析器</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">用好beautifulSoup</a></li>
+<li><a class="reference internal" href="#id9">对象分类</a><ul>
+<li><a class="reference internal" href="#tag">Tag</a><ul>
 <li><a class="reference internal" href="#name">Name</a></li>
-<li><a class="reference internal" href="#attributes">Attributes</a></li>
-<li><a class="reference internal" href="#id8">多值属性</a></li>
+<li><a class="reference internal" href="#attributes">Attributes</a><ul>
+<li><a class="reference internal" href="#id10">多值属性</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#navigablestring">NavigableString</a></li>
+<li><a class="reference internal" href="#id11">BeautifulSoup</a></li>
+<li><a class="reference internal" href="#id12">注释及特殊字符串</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">文档树的操作</a><ul>
+<li><a class="reference internal" href="#going-down">Going down</a><ul>
+<li><a class="reference internal" href="#id14">tag的名字</a></li>
+<li><a class="reference internal" href="#contents-children">.contents 和 .children</a></li>
+<li><a class="reference internal" href="#descendants">.descendants</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
