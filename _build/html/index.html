@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Beautiful Soup 4.2.0 文档 &mdash; Beautiful Soup 4.2.0 中文 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.2.0 中文',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Beautiful Soup 4.2.0 中文 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">Beautiful Soup 4.2.0 中文 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="beautiful-soup-4-2-0">
+<h1>Beautiful Soup 4.2.0 文档<a class="headerlink" href="#beautiful-soup-4-2-0" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 是一个可以从HTML或XML文件中提取数据的python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.使用BeautifulSoup会帮助你节省数小时甚至数天的工作.</p>
+<p>这篇文档介绍了BeautifulSoup4中所有主要特性,并切有小例子.让我来向你展示它适合做什么,如何工作,怎样使用,如何达到你想要的效果,和处理异常情况.</p>
+<p>文档中出现的例子在python2.7和python3.2中的执行结果相同</p>
+<p>你可能在寻找 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html">BeautifulSoup3</a> 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, <cite>移植到BS4</cite></p>
+</div>
+<div class="section" id="id1">
+<h1>获取帮助<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>如果你有关于BeautifulSoup的问题,可以发送邮件到`讨论组 &lt;<a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup">https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup</a>&gt;`_ .如果你的问题包含了一段需要转换的HTML代码,确保你提的问题中附带HTML文档的在`诊断代码`</p>
+</div>
+<div class="section" id="id2">
+<h1>快速开始<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>下面的一段HTML代码将作为我们整篇文档的解析用的例子.这是 <em>爱丽丝梦游仙境的</em> 的一段内容</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">html_doc</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">&lt;html&gt;&lt;head&gt;&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;&lt;/head&gt;</span>
+<span class="s">&lt;body&gt;</span>
+<span class="s">&lt;p class=&quot;title&quot;&gt;&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;&lt;/p&gt;</span>
+
+<span class="s">&lt;p class=&quot;story&quot;&gt;Once upon a time there were three little sisters; and their names were</span>
+<span class="s">&lt;a href=&quot;http://example.com/elsie&quot; class=&quot;sister&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+<span class="s">&lt;a href=&quot;http://example.com/lacie&quot; class=&quot;sister&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt; and</span>
+<span class="s">&lt;a href=&quot;http://example.com/tillie&quot; class=&quot;sister&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;;</span>
+<span class="s">and they lived at the bottom of a well.&lt;/p&gt;</span>
+
+<span class="s">&lt;p class=&quot;story&quot;&gt;...&lt;/p&gt;</span>
+<span class="s">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>使用BeautifulSoup解析这段代码,能够得到一个BeautifulSoup的对象,并能按照格式化的结构输出:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_doc</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+<span class="c"># &lt;html&gt;</span>
+<span class="c">#  &lt;head&gt;</span>
+<span class="c">#   &lt;title&gt;</span>
+<span class="c">#    The Dormouse&#39;s story</span>
+<span class="c">#   &lt;/title&gt;</span>
+<span class="c">#  &lt;/head&gt;</span>
+<span class="c">#  &lt;body&gt;</span>
+<span class="c">#   &lt;p class=&quot;title&quot;&gt;</span>
+<span class="c">#    &lt;b&gt;</span>
+<span class="c">#     The Dormouse&#39;s story</span>
+<span class="c">#    &lt;/b&gt;</span>
+<span class="c">#   &lt;/p&gt;</span>
+<span class="c">#   &lt;p class=&quot;story&quot;&gt;</span>
+<span class="c">#    Once upon a time there were three little sisters; and their names were</span>
+<span class="c">#    &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;</span>
+<span class="c">#     Elsie</span>
+<span class="c">#    &lt;/a&gt;</span>
+<span class="c">#    ,</span>
+<span class="c">#    &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;</span>
+<span class="c">#     Lacie</span>
+<span class="c">#    &lt;/a&gt;</span>
+<span class="c">#    and</span>
+<span class="c">#    &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link2&quot;&gt;</span>
+<span class="c">#     Tillie</span>
+<span class="c">#    &lt;/a&gt;</span>
+<span class="c">#    ; and they lived at the bottom of a well.</span>
+<span class="c">#   &lt;/p&gt;</span>
+<span class="c">#   &lt;p class=&quot;story&quot;&gt;</span>
+<span class="c">#    ...</span>
+<span class="c">#   &lt;/p&gt;</span>
+<span class="c">#  &lt;/body&gt;</span>
+<span class="c"># &lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>几个简单的浏览HTML节点的方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+<span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">name</span>
+<span class="c"># u&#39;title&#39;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">string</span>
+<span class="c"># u&#39;The Dormouse&#39;s story&#39;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span>
+<span class="c"># u&#39;head&#39;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">p</span>
+<span class="c"># &lt;p class=&quot;title&quot;&gt;&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;&lt;/p&gt;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="c"># u&#39;title&#39;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">&quot;link3&quot;</span><span class="p">)</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>从文档中找到所有&lt;a&gt;标签的链接:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;href&#39;</span><span class="p">))</span>
+    <span class="c"># http://example.com/elsie</span>
+    <span class="c"># http://example.com/lacie</span>
+    <span class="c"># http://example.com/tillie</span>
+</pre></div>
+</div>
+<p>从文档中获取所有文字内容</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+<span class="c"># The Dormouse&#39;s story</span>
+<span class="c">#</span>
+<span class="c"># The Dormouse&#39;s story</span>
+<span class="c">#</span>
+<span class="c"># Once upon a time there were three little sisters; and their names were</span>
+<span class="c"># Elsie,</span>
+<span class="c"># Lacie and</span>
+<span class="c"># Tillie;</span>
+<span class="c"># and they lived at the bottom of a well.</span>
+<span class="c">#</span>
+<span class="c"># ...</span>
+</pre></div>
+</div>
+<p>这是你需要的吗?别着急,还有更好用的</p>
+</div>
+<div class="section" id="beautiful-soup">
+<h1>安装 Beautiful Soup<a class="headerlink" href="#beautiful-soup" title="Permalink to this headline">¶</a></h1>
+<p>如果你用的是新版的Debain或ubuntu,那么可以通过系统包管理来安装</p>
+<p>$ apt-get install python-bs4</p>
+<p>Beautiful Soup 4 通过PyPi发布,所以如果你无法使用系统包管理安装,那么也可以通过easy_install活pip来安装.包的名字是 <em>beautifulsoup4</em> ,这个包兼容python2和python3</p>
+<p>$ easy_install beautifulsoup4</p>
+<p>$ pip install beautifulsoup4</p>
+<p>(在PyPi中还有一个名字是 <em>beautifulsoup的</em> 包,但那可能不是你想要的,那是 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html">BeautifulSoup3</a> 的发布版本,因为很多项目还在使用BS3, 所以*beautifulsoup* 包依然有效,但是如果你想执行新版本的代码,那么你需要安装的包是 <em>beautifulsoup4</em>)</p>
+<p>如果你没有安装 <em>easy_install</em> 或 <em>pip</em> ,那你也可以 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/download/4.x/">下载BS4的源码</a> ,然后通过setup.py来安装.</p>
+<p>$ python setup.py install</p>
+<p>如果上述安装方法都行不通,Beautiful Soup的发布协议允许你将BS4的代码打包在你的项目中,这样无须安装即可使用.</p>
+<p>作者在Python2.7和Python3.2的版本下开发Beautiful Soup, Beautiful Soup应该在所有当前的python版本中正常工作</p>
+</div>
+<div class="section" id="id4">
+<h1>安装完成后的问题<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
+<p>Beautiful Soup被打包成Python2版本的编码,当在Python3环境下安装时,会自动转换成python3的代码,如果你没有安装的过程,那么代码就不会被转换.</p>
+<p>如果代码抛出了 <em>ImportError</em> 的异常: &#8220;No module named HTMLParser&#8221;, 这是因为你在python3版本中执行python2版本的代码.</p>
+<p>如果代码抛出了 <em>ImportError</em> 的异常: &#8220;No module named html.parser&#8221;, 这是因为你在python2版本中执行python3版本的代码.</p>
+<p>如果遇到上述2种情况,最好的解决方法是重新安装BeautifulSoup4.</p>
+<p>如果遇到 <em>SyntaxError</em> &#8220;Invalid syntax&#8221; 在`ROOT_TAG_NAME = u&#8217;[document]&#8217;` ,需要将把BS4的python代码版本从python2转换到python3. 可以重新安装BS4:</p>
+<p>$ python3 setup.py install</p>
+<p>或在bs4的目录中执行python代码版本转换脚本</p>
+<p>$ 2to3-3.2 -w bs4</p>
+</div>
+<div class="section" id="id5">
+<h1>安装解析器<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<p>Beautiful Soup支持python标准库中的HTML解析器,还支持一些第三方的解析器,其中一个是 <a class="reference external" href="http://lxml.de/">lxml parser</a> .根据操作系统不同,可以选择下列不同的安装lxml的方法:</p>
+<p>$ apt-get install python-lxml</p>
+<p>$ easy_install lxml</p>
+<p>$ pip install lxml</p>
+<p>另一个可以选择的解析器是纯python代码的 <a class="reference external" href="http://code.google.com/p/html5lib/">html5lib parser</a> , html5lib parser的解析方式与浏览器相同,根据安装方式不同,可以选择下列方法安装:</p>
+<p>$ apt-get install python-html5lib</p>
+<p>$ easy_install html5lib</p>
+<p>$ pip install html5lib</p>
+<p>下表列出了主要的解析器,以及它们的优缺点:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="31%" />
+<col width="21%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">解析器</th>
+<th class="head">使用方法</th>
+<th class="head">优点</th>
+<th class="head">缺点</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>推荐使用lxml作为解析器,因为lxml效率更高. 在python2.7.3之前的版本和python3中3.2.2之前的版本,必须安装lxml或html5lib, 因为那些python版本的标准库中内置的HTML解析方法不是很好.</p>
+<p>提示: 如果一段HTML或XML文档格式不正确的话,那么在不同的解析器中返回的结果可能是不一样的,查看 <a href="#id9"><span class="problematic" id="id10">`Differences between parsers &lt;&gt;`_</span></a> 了解更多细节</p>
+</div>
+<div class="section" id="id6">
+<h1>用好beautifulSoup<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h1>
+<p>将一段文档传入BeautifulSoup 的构造方法,就能得到一个文档的对象, 可以传入一段字符串或一个文件句柄.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&quot;index.html&quot;</span><span class="p">))</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&quot;&lt;html&gt;data&lt;/html&gt;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>首先,文档被转换成unicode,并且HTML的实例都被转换成unicode编码</p>
+<div class="highlight-python"><pre>BeautifulSoup("Sacr&amp;eacute; bleu!")
+&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;Sacré bleu!&lt;/body&gt;&lt;/html&gt;</pre>
+</div>
+<p>然后,Beautiful Soup选择最合适的解析器来解析这段文档,如果手动指定解析器那么Beautiful Soup会选择指定的解析器来解析文档.(参考`Parsing XML &lt;<a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/#id16">http://www.crummy.com/software/BeautifulSoup/bs4/doc/#id16</a>&gt;`_ )</p>
+</div>
+<div class="section" id="id7">
+<h1>对象分类<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h1>
+<p>Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构的python对象,所有对象都是4类对象中的一种: Tag, NavigableString, BeautifulSoup, Comment.</p>
+<div class="section" id="tag">
+<h2>Tag<a class="headerlink" href="#tag" title="Permalink to this headline">¶</a></h2>
+<p>Tag 对象与XML或HTML原生文档中的tag内容相符</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;b class=&quot;boldest&quot;&gt;Extremely bold&lt;/b&gt;&#39;</span><span class="p">)</span>
+<span class="n">tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">b</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+<span class="c"># &lt;class &#39;bs4.element.Tag&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Tag有很多方法和属性,在 ` Navigating the tree` 和 <cite>Searching the tree</cite> 有详细解释.现在介绍一下tag中最重要的属性: name和attributes</p>
+</div>
+<div class="section" id="name">
+<h2>Name<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h2>
+<p>每个tag都有自己的名字,通过 .name 来获取</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="o">.</span><span class="n">name</span>
+<span class="c"># u&#39;b&#39;</span>
+</pre></div>
+</div>
+<p>如果改变了tag的name,那将影响所有通过当前Beautiful Soup对象生成的HTML文档</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;blockquote&quot;</span>
+<span class="n">tag</span>
+<span class="c"># &lt;blockquote class=&quot;boldest&quot;&gt;Extremely bold&lt;/blockquote&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
+<p>一个tag可能有很多个属性. tag <em>&lt;b class=&#8221;boldest&#8221;&gt;</em> 有一个 <em>class</em> 的属性,值为&#8221;boldest&#8221;.tag的属性的操作方法与字典相同:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="c"># u&#39;boldest&#39;</span>
+</pre></div>
+</div>
+<p>也可以直接&#8221;点&#8221;取属性, 比如: .attrs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="o">.</span><span class="n">attrs</span>
+<span class="c"># {u&#39;class&#39;: u&#39;boldest&#39;}</span>
+</pre></div>
+</div>
+<p>tag的属性可以被添加,删除或修改. 再说一次, tag的属性操作方法与字典一样</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tag</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;verybold&#39;</span>
+<span class="n">tag</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">tag</span>
+<span class="c"># &lt;blockquote class=&quot;verybold&quot; id=&quot;1&quot;&gt;Extremely bold&lt;/blockquote&gt;</span>
+
+<span class="k">del</span> <span class="n">tag</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">tag</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+<span class="n">tag</span>
+<span class="c"># &lt;blockquote&gt;Extremely bold&lt;/blockquote&gt;</span>
+
+<span class="n">tag</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="c"># KeyError: &#39;class&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">))</span>
+<span class="c"># None</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>多值属性<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>HTML 4定义了一系列可以包含多个值的属性.在HTML5中移除了一些,却增加更多.最常见的多值的属性是 class (一个tag可以有多个CSS的class). 还有一些属性  rel, rev, accept-charset, headers, accesskey. 在Beautiful Soup中多值属性的返回值被定义为list(无论是否有多个值):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">css_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="n">css_soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="c"># [&quot;body&quot;, &quot;strikeout&quot;]</span>
+
+<span class="n">css_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p class=&quot;body&quot;&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="n">css_soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+<span class="c"># [&quot;body&quot;]</span>
+</pre></div>
+</div>
+<p>如果某个属性看起来好像有多个值,但在任何版本的HTML定义中都没有被定义为多值属性,那么Beautiful Soup会将这个属性作为字符串返回</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">id_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p id=&quot;my id&quot;&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="n">id_soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+<span class="c"># &#39;my id&#39;</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="http://www.python.org">Python</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Beautiful Soup 4.2.0 文档</a></li>
+<li><a class="reference internal" href="#id1">获取帮助</a></li>
+<li><a class="reference internal" href="#id2">快速开始</a></li>
+<li><a class="reference internal" href="#beautiful-soup">安装 Beautiful Soup</a></li>
+<li><a class="reference internal" href="#id4">安装完成后的问题</a></li>
+<li><a class="reference internal" href="#id5">安装解析器</a></li>
+<li><a class="reference internal" href="#id6">用好beautifulSoup</a></li>
+<li><a class="reference internal" href="#id7">对象分类</a><ul>
+<li><a class="reference internal" href="#tag">Tag</a></li>
+<li><a class="reference internal" href="#name">Name</a></li>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+<li><a class="reference internal" href="#id8">多值属性</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">Beautiful Soup 4.2.0 中文 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, delong.wang.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
