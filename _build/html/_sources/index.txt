@@ -1,5 +1,5 @@
 .. BeautifulSoup文档 documentation master file, created by
-   sphinx-quickstart on Fri Nov 29 13:49:30 2013.
+   delong wang on Fri Nov 29 13:49:30 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -15,7 +15,7 @@ Beautiful Soup 4.2.0 文档
 
 文档中出现的例子在python2.7和python3.2中的执行结果相同
 
-你可能在寻找 `BeautifulSoup3 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, `移植到BS4`
+你可能在寻找 `BeautifulSoup3 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, `移植到BS4 <http://www.baidu.com>`_
 
 获取帮助
 --------
@@ -239,8 +239,8 @@ $ pip install html5lib
 
 提示: 如果一段HTML或XML文档格式不正确的话,那么在不同的解析器中返回的结果可能是不一样的,查看 `Differences between parsers <http://www.baidu.com>`_ 了解更多细节
 
-用好beautifulSoup
-==================
+如何使用
+========
 
 将一段文档传入BeautifulSoup 的构造方法,就能得到一个文档的对象, 可以传入一段字符串或一个文件句柄.
 
@@ -261,8 +261,8 @@ $ pip install html5lib
 
 然后,Beautiful Soup选择最合适的解析器来解析这段文档,如果手动指定解析器那么Beautiful Soup会选择指定的解析器来解析文档.(参考`Parsing XML <http://www.crummy.com/software/BeautifulSoup/bs4/doc/#id16>`_ )
 
-对象分类
-========
+对象的类型
+==========
 
 Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构的python对象,所有对象都是4类对象中的一种: Tag, NavigableString, BeautifulSoup, Comment.
 
@@ -464,7 +464,7 @@ Beautiful Soup中定义的其它类型都可能会出现在XML的文档中: *CDa
     #  <![CDATA[A CDATA block]]>
     # </b>
 
-文档树的操作
+操作文档树
 ===================
 
 还是拿"there sister"的文档来做例子:
@@ -490,8 +490,8 @@ Beautiful Soup中定义的其它类型都可能会出现在XML的文档中: *CDa
 
 通过这段例子来演示怎样从文档的一段内容跳到另一段内容
 
-Going down
--------------
+子节点
+-------
 
 Tag可能包含字符串或其它的tag,这些内容都是tag的子节点.Beautiful Soup提供了许多操作和遍历子节点的属性.
 
@@ -597,6 +597,672 @@ BeautifulSoup中的字符串没有 *.contents* 属性,因为字符串不能包�
         # <title>The Dormouse's story</title>
         # The Dormouse's story
 
+上面的例子中, <head>标签只有一个子节点,但是有2个子孙节点:<head>节点和<head>的子节点, ``BeautifulSoup`` 有一个直接子节点(<html>节点),却有很多子孙节点:
+
+::
+
+    len(list(soup.children))
+    # 1
+    len(list(soup.descendants))
+    # 25
+
+.string
+........
+
+如果tag只有一个 ``NavigableString`` 类型子节点,那么这个tag可以使用 ``.string`` 得到子节点:
+
+::
+
+    title_tag.string
+    # u'The Dormouse's story'
+
+如果一个tag仅有一个子节点,那么这个tag也可以使用 ``.string`` 方法,输出结果与当前唯一子节点的 ``.string`` 结果相同:
+
+::
+
+    head_tag.contents
+    # [<title>The Dormouse's story</title>]
+
+    head_tag.string
+    # u'The Dormouse's story'
+
+如果tag包含了多个子节点,tag就无法确定 ``.string`` 方法应该调用哪个子节点的内容, ``.string`` 的输出结果是 ``None`` :
+
+::
+
+    print(soup.html.string)
+    # None
+
+.strings 和 stripped_strings
+.............................
+
+如果tag中包含多个字符串[2]_ ,可以使用 ``.strings`` 来循环获取:
+
+::
+
+    for string in soup.strings:
+        print(repr(string))
+        # u"The Dormouse's story"
+        # u'\n\n'
+        # u"The Dormouse's story"
+        # u'\n\n'
+        # u'Once upon a time there were three little sisters; and their names were\n'
+        # u'Elsie'
+        # u',\n'
+        # u'Lacie'
+        # u' and\n'
+        # u'Tillie'
+        # u';\nand they lived at the bottom of a well.'
+        # u'\n\n'
+        # u'...'
+        # u'\n'
+
+输出的字符串中可能包含了很多空格或空行,使用 ``.stripped_strings`` 可以去除多余空白内容:
+
+::
+
+    for string in soup.stripped_strings:
+        print(repr(string))
+        # u"The Dormouse's story"
+        # u"The Dormouse's story"
+        # u'Once upon a time there were three little sisters; and their names were'
+        # u'Elsie'
+        # u','
+        # u'Lacie'
+        # u'and'
+        # u'Tillie'
+        # u';\nand they lived at the bottom of a well.'
+        # u'...'
+
+全部是空格的行会被忽略掉,段首和段末的空白会被删除
+
+父节点 
+-------
+
+继续分析文档树,每个tag或字符串都有父节点:被包含在某个tag中
+
+.parent
+........
+
+通过 ``.parent`` 属性来获取某个元素的父节点.在例子“three sisters”的文档中,<head>标签是<title>标签的父节点:
+
+::
+
+    title_tag = soup.title
+    title_tag
+    # <title>The Dormouse's story</title>
+    title_tag.parent
+    # <head><title>The Dormouse's story</title></head>
+
+文档title的字符串也有父节点:<title>标签
+
+::
+
+    title_tag.string.parent
+    # <title>The Dormouse's story</title>
+
+文档的顶层节点比如<html>的父节点是 ``BeautifulSoup`` 对象:
+
+::
+
+    html_tag = soup.html
+    type(html_tag.parent)
+    # <class 'bs4.BeautifulSoup'>
+
+``BeautifulSoup`` 对象的父节点是None:
+
+::
+
+    print(soup.parent)
+    # None
+
+.parents
+..........
+
+通过元素的 ``.parents`` 属性可以递归得到元素的所有父辈节点,下面的例子使用了 ``.parent`` 方法遍历了<a>标签到根节点的所有节点.
+
+::
+
+    link = soup.a
+    link
+    # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+    for parent in link.parents:
+        if parent is None:
+                print(parent)
+                    else:
+                            print(parent.name)
+                            # p
+                            # body
+                            # html
+                            # [document]
+                            # None
+
+兄弟节点
+---------
+
+看一段简单的例子:
+
+::
+
+    sibling_soup = BeautifulSoup("<a><b>text1</b><c>text2</c></b></a>")
+    print(sibling_soup.prettify())
+    # <html>
+    #  <body>
+    #   <a>
+    #    <b>
+    #     text1
+    #    </b>
+    #    <c>
+    #     text2
+    #    </c>
+    #   </a>
+    #  </body>
+    # </html>
+
+因为<b>标签和<c>标签是同一层:他们是同一个元素的子节点,所以<b>和<c>可以被称为兄弟节点.一段文档以标准格式输出时,兄弟节点有相同的缩进级别.在代码中也可以使用这种关系
+
+.next_sibling 和 .previous_sibling
+....................................
+
+在文档的树形结构中,可以使用 ``.next_sibling`` 和 ``.previous_sibling`` 属性来查询兄弟节点:
+
+::
+
+    sibling_soup.b.next_sibling
+    # <c>text2</c>
+
+    sibling_soup.c.previous_sibling
+    # <b>text1</b>
+
+<b>标签有 ``.next_sibling`` 属性,但是没有 ``.previous_sibling`` 属性,因为<b>标签在同级接点中是第一个.同理,<c>标签有 ``.previous_sibling`` 属性,却没有 ``.next_sibling`` 属性:
+
+::
+
+    print(sibling_soup.b.previous_sibling)
+    # None
+    print(sibling_soup.c.next_sibling)
+    # None
+
+例子中的字符串 “text1” 和 “text2”没有兄弟节点,因为它们的父节点不同:
+
+::
+
+    sibling_soup.b.string
+    # u'text1'
+
+    print(sibling_soup.b.string.next_sibling)
+    # None
+
+实际操作中大部分的文档中的tag的 ``.next_sibling`` 和 ``.previous_sibling`` 属性通常是字符串或空白. 看看“three sisters”文档:
+
+::
+
+    <a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>
+    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a>
+    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>
+
+如果你以为第一个<a>标签的 ``.next_sibling`` 结果是第二个<a>标签,那就错了,真是结果是第一个<a>标签和第二个<a>标签之间的顿号和换行符:
+
+::
+    
+    link = soup.a
+    link
+    # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+
+    link.next_sibling
+    # u',\n'
+
+第二个<a>标签是顿号的 ``.next_sibling`` 属性:
+
+::
+
+    link.next_sibling.next_sibling
+    # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>
+
+.next_siblings 和 .previous_siblings
+......................................
+
+通过 ``.next_siblings`` 和 ``.previous_siblings`` 属性可以对当前节点的兄弟节点迭代输出:
+
+::
+
+    for sibling in soup.a.next_siblings:
+        print(repr(sibling))
+        # u',\n'
+        # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>
+        # u' and\n'
+        # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>
+        # u'; and they lived at the bottom of a well.'
+        # None
+
+        for sibling in soup.find(id="link3").previous_siblings:
+            print(repr(sibling))
+            # ' and\n'
+            # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>
+            # u',\n'
+            # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+            # u'Once upon a time there were three little sisters; and their names were\n'
+            # None
+
+回退和前进
+----------
+
+看一下“three sisters” 文档:
+
+::
+
+    <html><head><title>The Dormouse's story</title></head>
+    <p class="title"><b>The Dormouse's story</b></p>
+
+HTML解析器把这段字符串转换成一连串的事件: "打开<html>标签","打开一个<head>标签","打开一个<title>标签","添加一段字符串","关闭<title>标签","打开<p>标签",等等.Beautiful Soup提供了重现解析器初始化过程的工具.
+
+.next_element 和 .previous_element
+...................................
+
+``.next_element`` 属性指向解析过程中下一个被解析的对象(字符串或tag),结果可能与 ``.next_sibling`` 相同,但通常是不一样的.
+
+这是“three sisters”文档中最后一个<a>标签,它的 ``.next_sibling`` 结果是一个字符串,因为当前的解析过程[2]_因为当前的解析过程因为遇到了<a>标签而终端了:
+
+::
+
+    last_a_tag = soup.find("a", id="link3")
+    last_a_tag
+    # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>
+
+    last_a_tag.next_sibling
+    # '; and they lived at the bottom of a well.'
+
+但这个<a>标签的 ``.next_element`` 属性结果是是<a>被解析之后的解析内容,不是<a>标签后的句子部分,而是字符串"Tillie":
+
+::
+
+    last_a_tag.next_element
+    # u'Tillie'
+
+这是因为在原始文档中,字符串“Tillie” 在分号前出现,解析器先进入<a>标签,然后是字符串“Tillie”,然后关闭</a>标签,然后是分号和剩余部分.分号与<a>标签在同一层级,但是字符串“Tillie”会被先解析.
+
+``.previous_element`` 属性刚好与 ``.next_element`` 相反,它只想当前被解析的对象的前一个解析对象:
+
+::
+
+    last_a_tag.previous_element
+    # u' and\n'
+    last_a_tag.previous_element.next_element
+    # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>
+
+.next_elements 和 .previous_elements
+.....................................
+
+通过 ``.next_elements`` 和 ``.previous_elements`` 的迭代器就可以向前或向后访问文档的解析内容,就好像文档正在被解析一样:
+
+::
+
+    for element in last_a_tag.next_elements:
+        print(repr(element))
+        # u'Tillie'
+        # u';\nand they lived at the bottom of a well.'
+        # u'\n\n'
+        # <p class="story">...</p>
+        # u'...'
+        # u'\n'
+        # None
+
+搜索文档树
+=============
+
+Beautiful Soup定义了很多搜索方法,这里着重介绍2个方法: ``find()`` 和 ``find_all()`` .其它方法的参数和用法类似,请读者举一反三.
+
+再以“three sisters”文档作为例子:
+
+::
+
+    html_doc = """
+    <html><head><title>The Dormouse's story</title></head>
+    
+    <p class="title"><b>The Dormouse's story</b></p>
+
+    <p class="story">Once upon a time there were three little sisters; and their names were
+    <a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+    and they lived at the bottom of a well.</p>
+
+    <p class="story">...</p>
+    """
+    
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(html_doc)
+
+使用 ``find_all()`` 类似的方法可以定位到想要查找的文档内容
+
+过滤器
+------
+
+介绍 ``find_all()`` 方法前,先介绍一下过滤器的类型[3]_,这些过滤器贯穿整个搜索的API.过滤器可以被用在tag的name中,节点的属性中,字符串中或他们的混合中
+
+字符串
+............
+
+最简单的过滤器是字符串.在搜索方法中传入一个字符串参数,Beautiful Soup会查找与字符串完整匹配的内容,下面的例子用于查找文档中所有的<b>标签:
+
+::
+
+    soup.find_all('b')
+    # [<b>The Dormouse's story</b>]
+
+如果传入字节码参数,Beautiful Soup会当作UTF-8编码,可以传入一段Unicode 编码来避免Beautiful Soup解析编码出错
+
+正则表达式
+..............
+
+如果传入正则表达式作为参数,Beautiful Soup会通过正则表达式的 ``match()`` 来匹配内容.下面例子中找出所有以b开头的标签,这表示<body>和<b>标签都应该被找到:
+
+::
+
+    import re
+    for tag in soup.find_all(re.compile("^b")):
+        print(tag.name)
+        # body
+        # b
+
+下面代码找出所有包含h的标签:
+
+::
+
+    for tag in soup.find_all(re.compile("t")):
+        print(tag.name)
+        # html
+        # title
+
+列表
+..............
+
+如果传入列表参数,Beautiful Soup会将与列表中任一元素匹配的内容返回.下面代码找到文档中所有<a>标签和<b>标签:
+
+::
+
+    soup.find_all(["a", "b"])
+    # [<b>The Dormouse's story</b>,
+    #  <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+True
+.....
+
+``True`` 可以匹配任何值,下面代码查找到所有的tag,但是没有查找到字符串
+
+::
+
+    for tag in soup.find_all(True):
+        print(tag.name)
+        # html
+        # head
+        # title
+        # body
+        # p
+        # b
+        # p
+        # a
+        # a
+        # a
+        # p
+
+方法
+....
+
+如果没有合适过滤器,那么还可以定义一个方法,方法只接受一个元素参数[4]_,如果这个方法返回 ``True`` 表示当前元素匹配并且被找到,如果不是则放回 ``False``
+
+下面方法校验了当前元素,如果包含 ``class`` 属性却不包含 ``id`` 属性,那么将返回 ``True``:
+
+::
+
+    def has_class_but_no_id(tag):
+        return tag.has_attr('class') and not tag.has_attr('id')
+
+将这个方法作为参数传入 ``find_all()`` 方法,将得到所有<p>标签:
+
+::
+
+    soup.find_all(has_class_but_no_id)
+    # [<p class="title"><b>The Dormouse's story</b></p>,
+    #  <p class="story">Once upon a time there were...</p>,
+    #  <p class="story">...</p>]
+
+返回结果中只有<p>标签没有<a>标签,因为<a>标签还定义了"id",没有返回<html>和<head>,因为<html>和<head>中没有定义"class"属性.
+
+下面代码找到所有被文字包含的节点内容:
+
+::
+
+    from bs4 import NavigableString
+    def surrounded_by_strings(tag):
+        return (isinstance(tag.next_element, NavigableString)
+                    and isinstance(tag.previous_element, NavigableString))
+
+                    for tag in soup.find_all(surrounded_by_strings):
+                        print tag.name
+                        # p
+                        # a
+                        # a
+                        # a
+                        # p
+
+现在来了解一下搜索方法的细节
+
+find_all()
+-----------
+
+参数: find_all(name, attrs, recursive, text, limit,**kwargs)
+
+``find_all()`` 方法搜索当前tag的所有tag子节点,并判断是否符合过滤器的条件.这里有几个例子:
+
+::
+
+    soup.find_all("title")
+    # [<title>The Dormouse's story</title>]
+
+    soup.find_all("p", "title")
+    # [<p class="title"><b>The Dormouse's story</b></p>]
+
+    soup.find_all("a")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    soup.find_all(id="link2")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+
+    import re
+    soup.find(text=re.compile("sisters"))
+    # u'Once upon a time there were three little sisters; and their names were\n'
+
+有几个方法是刚出现的,参数中的 ``text`` 和 ``id`` 是什么含义? 为什么 ``find_all("p", "title")`` 返回的是CSS Class为"title"的<p>标签? 我们来仔细看一下 ``find_all()`` 的参数
+
+name 参数
+..............
+
+Beautiful Soup的 ``name`` 参数可以查找所有名字为 ``name`` 的tag,字符串对象会被自动忽略掉.
+
+简单的用法如下:
+
+::
+
+    soup.find_all("title")
+    # [<title>The Dormouse's story</title>]
+
+重申: 搜索 ``name`` 参数的值可以使任一类型的 `过滤器`_ ,字符窜,正则表达式,列表,方法或是 ``True`` .
+
+keyword参数
+..............
+
+如果一个指定名字的参数不是搜索内置的参数名,搜索时会把该参数当作
+
+按CSS搜索
+..........
+
+``text`` 参数
+...............
+
+``limit`` 参数
+...............
+
+``recursive`` 参数
+...................
+
+想调用 ``find_all()`` 一样调用tag
+----------------------------------
+
+find()
+-------
+
+find_parents() 和 find_parent()
+--------------------------------
+
+find_next_siblings() 和 find_next_sibling()
+-------------------------------------------
+
+find_previous_siblings() 和 find_previous_sibling()
+-----------------------------------------------------
+
+find_all_next() 和 find_next()
+--------------------------------
+
+find_all_previous() 和 find_previous()
+---------------------------------------
+
+CSS选择器
+------------
+
+修改文档树
+===========
+
+修改tag的名称和属性
+-------------------
+
+修改 .string
+-------------
+
+append()
+----------
+
+BeautifulSoup.new_string() 和 .new_tag()
+-----------------------------------------
+
+insert()
+--------
+
+insert_before() 和 insert_after()
+-----------------------------------
+
+clear()
+--------
+
+extract()
+----------
+
+decompose()
+------------
+
+replace_with()
+---------------
+
+wrap()
+------
+
+unwrap()
+---------
+
+输出
+====
+
+格式化输出
+-----------
+
+压缩输出
+----------
+
+输出格式
+---------
+
+get_text()
+----------
+
+指定文档解析器
+==============
+
+解析器之间的区别
+-----------------
+
+编码
+====
+
+输出编码
+--------
+
+unicode, 靠!
+-------------
+
+输出的编码
+-----------
+
+矛盾的编码
+----------
+
+转换部分文档
+============
+
+SoupStrainer
+-------------
+
+常见问题
+========
+
+diagnose()
+----------
+
+文档解析错误
+-------------
+
+版本错误
+----------
+
+解析XML
+--------
+
+解析器的错误
+------------
+
+杂项错误
+--------
+
+如何提高效率
+------------
+
+Beautiful Soup 3
+=================
+
+迁移到BS4
+----------
+
+需要的解析器
+............
+
+方法的名字
+..........
+
+生成器
+.......
+
+XML
+....
+
+实例
+.....
+
+迁移杂项
+.........
+
 
 
 Python_
@@ -606,5 +1272,10 @@ Python_
 .. _Python: http://www.python.org
 .. _`BeautifulSoup3 文档`: http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html
 
+注释文档
+========
 
 .. [1] BeautifulSoup的googl讨论组不是很活跃,可能是因为库已经比较完善了吧
+.. [2] 文档被解析成树形结构,所以下一步解析过程应该是当前节点的子节点
+.. [3] 过滤器只能作为搜索文档的参数,或者说应该叫参数类型更为贴切,原文中用了 ``filter`` 因此翻译为过滤器
+.. [4] 元素参数,HTML文档中的一个tag节点,不能是文本节点
