@@ -979,9 +979,72 @@ def surrounded_by_strings(tag):
 </div>
 <div class="section" id="css">
 <h3>按CSS搜索<a class="headerlink" href="#css" title="Permalink to this headline">¶</a></h3>
+<p>按照CSS类名搜索tag的功能非常实用,但标识CSS类名的关键字 <tt class="docutils literal"><span class="pre">class</span></tt> 在python中是保留字,使用 <tt class="docutils literal"><span class="pre">class</span></tt> 做参数会导致语法错误.从Beautiful Soup的4.1.1版本开始,可以通过 <tt class="docutils literal"><span class="pre">class_</span></tt> 参数搜索有指定类名的tag:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">&quot;sister&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">class_</span></tt> 参数同样接受不同类型的 <tt class="docutils literal"><span class="pre">过滤器</span></tt> ,字符串,正则表达式,方法或 <tt class="docutils literal"><span class="pre">True</span></tt> :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;itl&quot;</span><span class="p">))</span>
+<span class="c"># [&lt;p class=&quot;title&quot;&gt;&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;&lt;/p&gt;]</span>
+
+<span class="k">def</span> <span class="nf">has_six_characters</span><span class="p">(</span><span class="n">css_class</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">css_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">css_class</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span>
+
+    <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="n">has_six_characters</span><span class="p">)</span>
+    <span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+    <span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+    <span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+</pre></div>
+</div>
+<p>tag的 <tt class="docutils literal"><span class="pre">class</span></tt> 属性是 <a class="reference internal" href="#id11">多值属性</a> .按照CSS类名搜索tag时,可以分别搜索tag中的多个CSS类名:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">css_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&#39;&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="n">css_soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">&quot;strikeout&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;]</span>
+
+<span class="n">css_soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">&quot;body&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;]</span>
+</pre></div>
+</div>
+<p>搜索 <tt class="docutils literal"><span class="pre">class</span></tt> 属性时也可以通过CSS值完全匹配:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">css_soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">&quot;body strikeout&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;p class=&quot;body strikeout&quot;&gt;&lt;/p&gt;]</span>
+</pre></div>
+</div>
+<p>完全匹配 <tt class="docutils literal"><span class="pre">class</span></tt> 的值时,如果CSS类名的数序与实际不符,将搜索不到结果:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;class&quot;</span><span class="p">:</span> <span class="s">&quot;sister&quot;</span><span class="p">})</span>
+<span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="text">
 <h3><tt class="docutils literal"><span class="pre">text</span></tt> 参数<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h3>
+<p>通过 <tt class="docutils literal"><span class="pre">text</span></tt> 参数可以搜搜文档中的字符串内容.与 <tt class="docutils literal"><span class="pre">name</span></tt> 参数的可选值一样, <tt class="docutils literal"><span class="pre">text</span></tt> 参数接受 <a class="reference internal" href="#id22">字符串</a> , <a class="reference internal" href="#id23">正则表达式</a> , <a class="reference internal" href="#id24">列表</a>, <a class="reference internal" href="#true">True</a> . 看例子:</p>
+<div class="highlight-python"><pre>soup.find_all(text="Elsie")
+# [u'Elsie']
+
+soup.find_all(text=["Tillie", "Elsie", "Lacie"])
+# [u'Elsie', u'Lacie', u'Tillie']
+
+soup.find_all(text=re.compile("Dormouse"))
+[u"The Dormouse's story", u"The Dormouse's story"]
+
+def is_the_only_string_within_a_tag(s):
+    ""Return True if this string is the only child of its parent tag.""
+        return (s == s.parent.string)
+
+        soup.find_all(text=is_the_only_string_within_a_tag)
+        # [u"The Dormouse's story", u"The Dormouse's story", u'Elsie', u'Lacie', u'Tillie', u'...']</pre>
+</div>
+<p>虽然 <tt class="docutils literal"><span class="pre">text</span></tt> 参数用于搜索字符串,还可以与其它参数混合使用来过滤tag.Beautiful Soup会找到 <tt class="docutils literal"><span class="pre">.string</span></tt> 方法与 <tt class="docutils literal"><span class="pre">text</span></tt> 参数值相符的tag.下面代码用来搜索内容里面包含“Elsie”的&lt;a&gt;标签:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Elsie&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;a href=&quot;http://example.com/elsie&quot; class=&quot;sister&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;]</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="limit">
 <h3><tt class="docutils literal"><span class="pre">limit</span></tt> 参数<a class="headerlink" href="#limit" title="Permalink to this headline">¶</a></h3>
@@ -991,7 +1054,7 @@ def surrounded_by_strings(tag):
 </div>
 </div>
 <div class="section" id="find-all-tag">
-<h2>想调用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 一样调用tag<a class="headerlink" href="#find-all-tag" title="Permalink to this headline">¶</a></h2>
+<h2>像调用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 一样调用tag<a class="headerlink" href="#find-all-tag" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="find">
 <h2>find()<a class="headerlink" href="#find" title="Permalink to this headline">¶</a></h2>
@@ -1251,7 +1314,7 @@ def surrounded_by_strings(tag):
 <li><a class="reference internal" href="#recursive"><tt class="docutils literal"><span class="pre">recursive</span></tt> 参数</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#find-all-tag">想调用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 一样调用tag</a></li>
+<li><a class="reference internal" href="#find-all-tag">像调用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 一样调用tag</a></li>
 <li><a class="reference internal" href="#find">find()</a></li>
 <li><a class="reference internal" href="#find-parents-find-parent">find_parents() 和 find_parent()</a></li>
 <li><a class="reference internal" href="#find-next-siblings-find-next-sibling">find_next_siblings() 和 find_next_sibling()</a></li>

@@ -1101,8 +1101,86 @@ keyword参数
 按CSS搜索
 ..........
 
+按照CSS类名搜索tag的功能非常实用,但标识CSS类名的关键字 ``class`` 在python中是保留字,使用 ``class`` 做参数会导致语法错误.从Beautiful Soup的4.1.1版本开始,可以通过 ``class_`` 参数搜索有指定类名的tag:
+
+::
+
+    soup.find_all("a", class_="sister")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+``class_`` 参数同样接受不同类型的 ``过滤器`` ,字符串,正则表达式,方法或 ``True`` :
+
+::
+
+    soup.find_all(class_=re.compile("itl"))
+    # [<p class="title"><b>The Dormouse's story</b></p>]
+
+    def has_six_characters(css_class):
+        return css_class is not None and len(css_class) == 6
+
+        soup.find_all(class_=has_six_characters)
+        # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+        #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+        #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+tag的 ``class`` 属性是 `多值属性`_ .按照CSS类名搜索tag时,可以分别搜索tag中的多个CSS类名:
+
+::
+
+    css_soup = BeautifulSoup('<p class="body strikeout"></p>')
+    css_soup.find_all("p", class_="strikeout")
+    # [<p class="body strikeout"></p>]
+
+    css_soup.find_all("p", class_="body")
+    # [<p class="body strikeout"></p>]
+
+搜索 ``class`` 属性时也可以通过CSS值完全匹配:
+
+::
+    
+    css_soup.find_all("p", class_="body strikeout")
+    # [<p class="body strikeout"></p>]
+
+完全匹配 ``class`` 的值时,如果CSS类名的数序与实际不符,将搜索不到结果:
+
+::
+
+    soup.find_all("a", attrs={"class": "sister"})
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
 ``text`` 参数
 ...............
+
+通过 ``text`` 参数可以搜搜文档中的字符串内容.与 ``name`` 参数的可选值一样, ``text`` 参数接受 `字符串`_ , `正则表达式`_ , `列表`_, `True`_ . 看例子:
+
+::
+
+    soup.find_all(text="Elsie")
+    # [u'Elsie']
+
+    soup.find_all(text=["Tillie", "Elsie", "Lacie"])
+    # [u'Elsie', u'Lacie', u'Tillie']
+
+    soup.find_all(text=re.compile("Dormouse"))
+    [u"The Dormouse's story", u"The Dormouse's story"]
+
+    def is_the_only_string_within_a_tag(s):
+        ""Return True if this string is the only child of its parent tag.""
+            return (s == s.parent.string)
+            
+            soup.find_all(text=is_the_only_string_within_a_tag)
+            # [u"The Dormouse's story", u"The Dormouse's story", u'Elsie', u'Lacie', u'Tillie', u'...']
+            
+虽然 ``text`` 参数用于搜索字符串,还可以与其它参数混合使用来过滤tag.Beautiful Soup会找到 ``.string`` 方法与 ``text`` 参数值相符的tag.下面代码用来搜索内容里面包含“Elsie”的<a>标签:
+
+::
+
+    soup.find_all("a", text="Elsie")
+    # [<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>]
 
 ``limit`` 参数
 ...............
@@ -1110,7 +1188,7 @@ keyword参数
 ``recursive`` 参数
 ...................
 
-想调用 ``find_all()`` 一样调用tag
+像调用 ``find_all()`` 一样调用tag
 ----------------------------------
 
 find()
