@@ -6,7 +6,7 @@
 Beautiful Soup 4.2.0 文档
 ==========================
 
-.. image:: http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg
+.. image:: _static/cover.jpg
     :align: right
 
 `BeautifulSoup <http://www.crummy.com/software/BeautifulSoup/>`_ 是一个可以从HTML或XML文件中提取数据的python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.使用BeautifulSoup会帮助你节省数小时甚至数天的工作.
@@ -588,7 +588,7 @@ BeautifulSoup中的字符串没有 *.contents* 属性,因为字符串不能包�
     head_tag.contents
     # [<title>The Dormouse's story</title>]
 
-但是<title>标签有一个子节点:字符串 “The Dormouse’s story”,这种情况下字符串 “The Dormouse’s story”也属于<head>标签的子节点. *.descendants* 属性可以对所有tag的子节点进行递归循环,采用先序遍历方式:
+但是<title>标签有一个子节点:字符串 “The Dormouse’s story”,这种情况下字符串 “The Dormouse’s story”也属于<head>标签的子节点. *.descendants* 属性可以对所有tag的子节点进行递归循环[5]_:
 
 ::
 
@@ -636,7 +636,7 @@ BeautifulSoup中的字符串没有 *.contents* 属性,因为字符串不能包�
 .strings 和 stripped_strings
 .............................
 
-如果tag中包含多个字符串[2]_ ,可以使用 ``.strings`` 来循环获取:
+如果tag中包含多个字符串 [2]_ ,可以使用 ``.strings`` 来循环获取:
 
 ::
 
@@ -861,7 +861,7 @@ HTML解析器把这段字符串转换成一连串的事件: "打开<html>标签"
 
 ``.next_element`` 属性指向解析过程中下一个被解析的对象(字符串或tag),结果可能与 ``.next_sibling`` 相同,但通常是不一样的.
 
-这是“three sisters”文档中最后一个<a>标签,它的 ``.next_sibling`` 结果是一个字符串,因为当前的解析过程[2]_因为当前的解析过程因为遇到了<a>标签而终端了:
+这是“three sisters”文档中最后一个<a>标签,它的 ``.next_sibling`` 结果是一个字符串,因为当前的解析过程 [2]_ 因为当前的解析过程因为遇到了<a>标签而终端了:
 
 ::
 
@@ -938,7 +938,7 @@ Beautiful Soup定义了很多搜索方法,这里着重介绍2个方法: ``find()
 过滤器
 ------
 
-介绍 ``find_all()`` 方法前,先介绍一下过滤器的类型[3]_,这些过滤器贯穿整个搜索的API.过滤器可以被用在tag的name中,节点的属性中,字符串中或他们的混合中
+介绍 ``find_all()`` 方法前,先介绍一下过滤器的类型 [3]_ ,这些过滤器贯穿整个搜索的API.过滤器可以被用在tag的name中,节点的属性中,字符串中或他们的混合中
 
 字符串
 ............
@@ -1011,7 +1011,7 @@ True
 方法
 ....
 
-如果没有合适过滤器,那么还可以定义一个方法,方法只接受一个元素参数[4]_,如果这个方法返回 ``True`` 表示当前元素匹配并且被找到,如果不是则放回 ``False``
+如果没有合适过滤器,那么还可以定义一个方法,方法只接受一个元素参数 [4]_ ,如果这个方法返回 ``True`` 表示当前元素匹配并且被找到,如果不是则放回 ``False``
 
 下面方法校验了当前元素,如果包含 ``class`` 属性却不包含 ``id`` 属性,那么将返回 ``True``:
 
@@ -1093,7 +1093,7 @@ Beautiful Soup的 ``name`` 参数可以查找所有名字为 ``name`` 的tag,字
 
 重申: 搜索 ``name`` 参数的值可以使任一类型的 `过滤器`_ ,字符窜,正则表达式,列表,方法或是 ``True`` .
 
-keyword参数
+keyword 参数
 ..............
 
 如果一个指定名字的参数不是搜索内置的参数名,搜索时会把该参数当作
@@ -1191,23 +1191,167 @@ tag的 ``class`` 属性是 `多值属性`_ .按照CSS类名搜索tag时,可以�
 像调用 ``find_all()`` 一样调用tag
 ----------------------------------
 
+``find_all()`` 几乎是Beautiful Soup中最常用的搜索方法,所以我们定义了 ``find_all()`` 的简写方法. 一个 ``BeautifulSoup`` 对象和 ``tag`` 对象可以被当作一个方法来看待,这个方法的执行结果与调用这个对象的 ``find_all()`` 方法相同,下面两行代码是等价的:
+
+::
+
+    soup.find_all("a")
+    soup("a")
+
+这两行代码也是等价的:
+
+::
+
+    soup.title.find_all(text=True)
+    soup.title(text=True)
+
 find()
 -------
+
+find( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+``find_all()`` 方法将返回文档中符合条件的所有tag,尽管有时候我们只想得到一个tag结果.假如你知道文档中只有一个<body>标签,那么使用 ``find_all()`` 方法来查找<body>标签是不划算的, ``find()`` 方法仅返回一个值.
+
+``find_all()`` 方法没有找到目标是返回空列表, ``find()`` 方法找不到目标时,返回 ``None`` .
+
+::
+
+    print(soup.find("nosuchtag"))
+    # None
+
+``soup.head.title`` 是 `tag的名字`_ 方法的简写.这个简写的原理就是多次调用当前tag的 ``find()`` 方法:
+
+::
+
+    soup.head.title
+    # <title>The Dormouse's story</title>
+
+    soup.find("head").find("title")
+    # <title>The Dormouse's story</title>
 
 find_parents() 和 find_parent()
 --------------------------------
 
-find_next_siblings() 和 find_next_sibling()
+find_parents( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+find_parent( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+我们已经用了很大篇幅来介绍 ``find_all()`` 和 ``find()`` 方法,Beautiful Soup中还有10个用于搜索的API.它们中的五个用的是与 ``find_all()`` 相同的搜索参数,另外5个与 ``find()`` 方法的搜索参数类似.区别仅是它们搜索文档的不同部分.
+
+记住: ``find_all()`` 和 ``find()`` 只搜索当前节点的所有子节点,孙子节点等. ``find_parents()`` 和 ``find_parent()`` 用来搜索当前节点的父辈节点,搜索方法与普通tag的搜索方法相同,搜索文档\搜索文档包含的内容. 我们从一个文档中的一个自己点开始:
+
+::
+
+    a_string = soup.find(text="Lacie")
+    a_string
+    # u'Lacie'
+
+    a_string.find_parents("a")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+
+    a_string.find_parent("p")
+    # <p class="story">Once upon a time there were three little sisters; and their names were
+    #  <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>;
+    #  and they lived at the bottom of a well.</p>
+
+    a_string.find_parents("p", class="title")
+    # []
+
+find_next_siblings() 合 find_next_sibling()
 -------------------------------------------
+
+find_next_siblings( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+find_next_sibling( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+这2个方法通过 `.next_siblings`_ 属性对当tag的所有后面 [5]_ 兄弟tag节点进行迭代, ``find_next_siblings()`` 方法返回所有符合条件的后面的兄弟节点, ``find_next_sibling()`` 只返回符合条件的后面的第一个tag节点.
+
+::
+
+    first_link = soup.a
+    first_link
+    # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+
+    first_link.find_next_siblings("a")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    first_story_paragraph = soup.find("p", "story")
+    first_story_paragraph.find_next_sibling("p")
+    # <p class="story">...</p>
 
 find_previous_siblings() 和 find_previous_sibling()
 -----------------------------------------------------
 
+find_previous_siblings( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+find_previous_sibling( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+这2个方法通过 `.previous_siblings`_ 属性对当前tag的前面 [5]_ 的兄弟tag节点进行迭代, ``find_previous_siblings()`` 方法返回所有符合条件的前面的兄弟节点, ``find_previous_sibling()`` 方法返回第一个符合条件的前面的兄弟节点:
+
+::
+
+    last_link = soup.find("a", id="link3")
+    last_link
+    # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>
+
+    last_link.find_previous_siblings("a")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>]
+
+    first_story_paragraph = soup.find("p", "story")
+    first_story_paragraph.find_previous_sibling("p")
+    # <p class="title"><b>The Dormouse's story</b></p>
+
 find_all_next() 和 find_next()
 --------------------------------
 
+find_all_next( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+find_next( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+这2个方法通过 `.next_elements`_ 属性对当前节点后面的tag和字符串进行迭代, ``find_all_next()`` 方法返回所有符合条件的节点, ``find_next()`` 方法返回第一个符合条件的节点:
+
+::
+
+    first_link = soup.a
+    first_link
+    # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+
+    first_link.find_all_next(text=True)
+    # [u'Elsie', u',\n', u'Lacie', u' and\n', u'Tillie',
+    #  u';\nand they lived at the bottom of a well.', u'\n\n', u'...', u'\n']
+
+    first_link.find_next("p")
+    # <p class="story">...</p>
+
+第一个例子中,字符串 “Elsie”也被显示出来,尽管它被包含在我们开始查找的<a>标签的里面.第二个例子中,最后一个<p>标签也被显示出来,尽管它与我们开始查找位置的<a>标签不属于同一部分.例子中,搜索的重点是要匹配过滤器的条件,并且在文档中出现的顺序而不是开始查找的元素的位置.
+
 find_all_previous() 和 find_previous()
 ---------------------------------------
+
+find_all_previous( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+find_previous( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
+
+这2个方法通过 `.previous_elements`_ 属性对当前节点前面的tag和字符串进行迭代, ``find_all_previous()`` 方法返回所有符合条件的节点, ``find_previous()`` 方法返回第一个符合条件的节点.
+
+::
+
+    first_link = soup.a
+    first_link
+    # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+
+    first_link.find_all_previous("p")
+    # [<p class="story">Once upon a time there were three little sisters; ...</p>,
+    #  <p class="title"><b>The Dormouse's story</b></p>]
+
+    first_link.find_previous("title")
+    # <title>The Dormouse's story</title>
+
+
 
 CSS选择器
 ------------
@@ -1349,6 +1493,15 @@ Python_
 
 .. _Python: http://www.python.org
 .. _`BeautifulSoup3 文档`: http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html
+.. _name: `name 参数`_
+.. _attrs: `按CSS搜索`_
+.. _recursive: `recursive 参数`_
+.. _text: `text 参数`_
+.. _**kwargs: `keyword 参数`_
+.. _.next_siblings: `.next_siblings 和 .previous_siblings`_
+.. _.previous_siblings: `.next_siblings 和 .previous_siblings`_
+.. _.next_elements: `.next_elements 和 .previous_elements`_
+.. _.previous_elements: `.next_elements 和 .previous_elements`_
 
 注释文档
 ========
@@ -1357,3 +1510,4 @@ Python_
 .. [2] 文档被解析成树形结构,所以下一步解析过程应该是当前节点的子节点
 .. [3] 过滤器只能作为搜索文档的参数,或者说应该叫参数类型更为贴切,原文中用了 ``filter`` 因此翻译为过滤器
 .. [4] 元素参数,HTML文档中的一个tag节点,不能是文本节点
+.. [5] 采用先序遍历方式

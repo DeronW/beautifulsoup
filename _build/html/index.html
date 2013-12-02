@@ -45,14 +45,14 @@
             
   <div class="section" id="beautiful-soup-4-2-0">
 <h1>Beautiful Soup 4.2.0 文档<a class="headerlink" href="#beautiful-soup-4-2-0" title="Permalink to this headline">¶</a></h1>
-<img alt="http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg" class="align-right" src="http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg" />
+<img alt="_images/cover.jpg" class="align-right" src="_images/cover.jpg" />
 <p><a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 是一个可以从HTML或XML文件中提取数据的python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.使用BeautifulSoup会帮助你节省数小时甚至数天的工作.</p>
 <p>这篇文档介绍了BeautifulSoup4中所有主要特性,并切有小例子.让我来向你展示它适合做什么,如何工作,怎样使用,如何达到你想要的效果,和处理异常情况.</p>
 <p>文档中出现的例子在python2.7和python3.2中的执行结果相同</p>
 <p>你可能在寻找 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html">BeautifulSoup3</a> 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, <a class="reference external" href="http://www.baidu.com">移植到BS4</a></p>
 <div class="section" id="id1">
 <h2>获取帮助<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>如果你有关于BeautifulSoup的问题,可以发送邮件到 <a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup">讨论组</a> .如果你的问题包含了一段需要转换的HTML代码,确保你提的问题中附带HTML文档的在 <strong>诊断代码</strong> <a class="footnote-reference" href="#id57" id="id3">[1]</a></p>
+<p>如果你有关于BeautifulSoup的问题,可以发送邮件到 <a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup">讨论组</a> .如果你的问题包含了一段需要转换的HTML代码,确保你提的问题中附带HTML文档的在 <strong>诊断代码</strong> <a class="footnote-reference" href="#id66" id="id3">[1]</a></p>
 </div>
 </div>
 <div class="section" id="id4">
@@ -560,7 +560,7 @@ title_tag.contents
 <span class="c"># [&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;]</span>
 </pre></div>
 </div>
-<p>但是&lt;title&gt;标签有一个子节点:字符串 “The Dormouse’s story”,这种情况下字符串 “The Dormouse’s story”也属于&lt;head&gt;标签的子节点. <em>.descendants</em> 属性可以对所有tag的子节点进行递归循环,采用先序遍历方式:</p>
+<p>但是&lt;title&gt;标签有一个子节点:字符串 “The Dormouse’s story”,这种情况下字符串 “The Dormouse’s story”也属于&lt;head&gt;标签的子节点. <em>.descendants</em> 属性可以对所有tag的子节点进行递归循环[5]_:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">descendants</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
     <span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
@@ -598,7 +598,7 @@ title_tag.contents
 </div>
 <div class="section" id="strings-stripped-strings">
 <h3>.strings 和 stripped_strings<a class="headerlink" href="#strings-stripped-strings" title="Permalink to this headline">¶</a></h3>
-<p>如果tag中包含多个字符串[2]_ ,可以使用 <tt class="docutils literal"><span class="pre">.strings</span></tt> 来循环获取:</p>
+<p>如果tag中包含多个字符串 <a class="footnote-reference" href="#id67" id="id17">[2]</a> ,可以使用 <tt class="docutils literal"><span class="pre">.strings</span></tt> 来循环获取:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">strings</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
     <span class="c"># u&quot;The Dormouse&#39;s story&quot;</span>
@@ -635,8 +635,8 @@ title_tag.contents
 <p>全部是空格的行会被忽略掉,段首和段末的空白会被删除</p>
 </div>
 </div>
-<div class="section" id="id17">
-<h2>父节点<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h2>父节点<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <p>继续分析文档树,每个tag或字符串都有父节点:被包含在某个tag中</p>
 <div class="section" id="parent">
 <h3>.parent<a class="headerlink" href="#parent" title="Permalink to this headline">¶</a></h3>
@@ -684,8 +684,8 @@ for parent in link.parents:
 </div>
 </div>
 </div>
-<div class="section" id="id18">
-<h2>兄弟节点<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id19">
+<h2>兄弟节点<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
 <p>看一段简单的例子:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">sibling_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">&quot;&lt;a&gt;&lt;b&gt;text1&lt;/b&gt;&lt;c&gt;text2&lt;/c&gt;&lt;/b&gt;&lt;/a&gt;&quot;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sibling_soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
@@ -773,8 +773,8 @@ for parent in link.parents:
 </div>
 </div>
 </div>
-<div class="section" id="id19">
-<h2>回退和前进<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h2>回退和前进<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
 <p>看一下“three sisters” 文档:</p>
 <div class="highlight-python"><pre>&lt;html&gt;&lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
 &lt;p class="title"&gt;&lt;b&gt;The Dormouse's story&lt;/b&gt;&lt;/p&gt;</pre>
@@ -783,7 +783,7 @@ for parent in link.parents:
 <div class="section" id="next-element-previous-element">
 <h3>.next_element 和 .previous_element<a class="headerlink" href="#next-element-previous-element" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">.next_element</span></tt> 属性指向解析过程中下一个被解析的对象(字符串或tag),结果可能与 <tt class="docutils literal"><span class="pre">.next_sibling</span></tt> 相同,但通常是不一样的.</p>
-<p>这是“three sisters”文档中最后一个&lt;a&gt;标签,它的 <tt class="docutils literal"><span class="pre">.next_sibling</span></tt> 结果是一个字符串,因为当前的解析过程[2]_因为当前的解析过程因为遇到了&lt;a&gt;标签而终端了:</p>
+<p>这是“three sisters”文档中最后一个&lt;a&gt;标签,它的 <tt class="docutils literal"><span class="pre">.next_sibling</span></tt> 结果是一个字符串,因为当前的解析过程 <a class="footnote-reference" href="#id67" id="id21">[2]</a> 因为当前的解析过程因为遇到了&lt;a&gt;标签而终端了:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">last_a_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;link3&quot;</span><span class="p">)</span>
 <span class="n">last_a_tag</span>
 <span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;</span>
@@ -823,8 +823,8 @@ for parent in link.parents:
 </div>
 </div>
 </div>
-<div class="section" id="id20">
-<h1>搜索文档树<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id22">
+<h1>搜索文档树<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h1>
 <p>Beautiful Soup定义了很多搜索方法,这里着重介绍2个方法: <tt class="docutils literal"><span class="pre">find()</span></tt> 和 <tt class="docutils literal"><span class="pre">find_all()</span></tt> .其它方法的参数和用法类似,请读者举一反三.</p>
 <p>再以“three sisters”文档作为例子:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">html_doc</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
@@ -846,11 +846,11 @@ for parent in link.parents:
 </pre></div>
 </div>
 <p>使用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 类似的方法可以定位到想要查找的文档内容</p>
-<div class="section" id="id21">
-<h2>过滤器<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
-<p>介绍 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 方法前,先介绍一下过滤器的类型[3]_,这些过滤器贯穿整个搜索的API.过滤器可以被用在tag的name中,节点的属性中,字符串中或他们的混合中</p>
-<div class="section" id="id22">
-<h3>字符串<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h2>过滤器<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<p>介绍 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 方法前,先介绍一下过滤器的类型 <a class="footnote-reference" href="#id68" id="id24">[3]</a> ,这些过滤器贯穿整个搜索的API.过滤器可以被用在tag的name中,节点的属性中,字符串中或他们的混合中</p>
+<div class="section" id="id25">
+<h3>字符串<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <p>最简单的过滤器是字符串.在搜索方法中传入一个字符串参数,Beautiful Soup会查找与字符串完整匹配的内容,下面的例子用于查找文档中所有的&lt;b&gt;标签:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">)</span>
 <span class="c"># [&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;]</span>
@@ -858,8 +858,8 @@ for parent in link.parents:
 </div>
 <p>如果传入字节码参数,Beautiful Soup会当作UTF-8编码,可以传入一段Unicode 编码来避免Beautiful Soup解析编码出错</p>
 </div>
-<div class="section" id="id23">
-<h3>正则表达式<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>正则表达式<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>如果传入正则表达式作为参数,Beautiful Soup会通过正则表达式的 <tt class="docutils literal"><span class="pre">match()</span></tt> 来匹配内容.下面例子中找出所有以b开头的标签,这表示&lt;body&gt;和&lt;b&gt;标签都应该被找到:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
 <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;^b&quot;</span><span class="p">)):</span>
@@ -876,8 +876,8 @@ for parent in link.parents:
 </pre></div>
 </div>
 </div>
-<div class="section" id="id24">
-<h3>列表<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>列表<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <p>如果传入列表参数,Beautiful Soup会将与列表中任一元素匹配的内容返回.下面代码找到文档中所有&lt;a&gt;标签和&lt;b&gt;标签:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">([</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">])</span>
 <span class="c"># [&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;,</span>
@@ -906,9 +906,9 @@ for parent in link.parents:
 </pre></div>
 </div>
 </div>
-<div class="section" id="id25">
-<h3>方法<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
-<p>如果没有合适过滤器,那么还可以定义一个方法,方法只接受一个元素参数[4]_,如果这个方法返回 <tt class="docutils literal"><span class="pre">True</span></tt> 表示当前元素匹配并且被找到,如果不是则放回 <tt class="docutils literal"><span class="pre">False</span></tt></p>
+<div class="section" id="id28">
+<h3>方法<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<p>如果没有合适过滤器,那么还可以定义一个方法,方法只接受一个元素参数 <a class="footnote-reference" href="#id69" id="id29">[4]</a> ,如果这个方法返回 <tt class="docutils literal"><span class="pre">True</span></tt> 表示当前元素匹配并且被找到,如果不是则放回 <tt class="docutils literal"><span class="pre">False</span></tt></p>
 <p>下面方法校验了当前元素,如果包含 <tt class="docutils literal"><span class="pre">class</span></tt> 属性却不包含 <tt class="docutils literal"><span class="pre">id</span></tt> 属性,那么将返回 <tt class="docutils literal"><span class="pre">True</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">has_class_but_no_id</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tag</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">)</span>
@@ -963,18 +963,18 @@ def surrounded_by_strings(tag):
 </pre></div>
 </div>
 <p>有几个方法是刚出现的,参数中的 <tt class="docutils literal"><span class="pre">text</span></tt> 和 <tt class="docutils literal"><span class="pre">id</span></tt> 是什么含义? 为什么 <tt class="docutils literal"><span class="pre">find_all(&quot;p&quot;,</span> <span class="pre">&quot;title&quot;)</span></tt> 返回的是CSS Class为&#8221;title&#8221;的&lt;p&gt;标签? 我们来仔细看一下 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 的参数</p>
-<div class="section" id="id26">
-<h3>name 参数<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>name 参数<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <p>Beautiful Soup的 <tt class="docutils literal"><span class="pre">name</span></tt> 参数可以查找所有名字为 <tt class="docutils literal"><span class="pre">name</span></tt> 的tag,字符串对象会被自动忽略掉.</p>
 <p>简单的用法如下:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;title&quot;</span><span class="p">)</span>
 <span class="c"># [&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;]</span>
 </pre></div>
 </div>
-<p>重申: 搜索 <tt class="docutils literal"><span class="pre">name</span></tt> 参数的值可以使任一类型的 <a class="reference internal" href="#id21">过滤器</a> ,字符窜,正则表达式,列表,方法或是 <tt class="docutils literal"><span class="pre">True</span></tt> .</p>
+<p>重申: 搜索 <tt class="docutils literal"><span class="pre">name</span></tt> 参数的值可以使任一类型的 <a class="reference internal" href="#id23">过滤器</a> ,字符窜,正则表达式,列表,方法或是 <tt class="docutils literal"><span class="pre">True</span></tt> .</p>
 </div>
 <div class="section" id="keyword">
-<h3>keyword参数<a class="headerlink" href="#keyword" title="Permalink to this headline">¶</a></h3>
+<h3>keyword 参数<a class="headerlink" href="#keyword" title="Permalink to this headline">¶</a></h3>
 <p>如果一个指定名字的参数不是搜索内置的参数名,搜索时会把该参数当作</p>
 </div>
 <div class="section" id="css">
@@ -1023,7 +1023,7 @@ def surrounded_by_strings(tag):
 </div>
 <div class="section" id="text">
 <h3><tt class="docutils literal"><span class="pre">text</span></tt> 参数<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h3>
-<p>通过 <tt class="docutils literal"><span class="pre">text</span></tt> 参数可以搜搜文档中的字符串内容.与 <tt class="docutils literal"><span class="pre">name</span></tt> 参数的可选值一样, <tt class="docutils literal"><span class="pre">text</span></tt> 参数接受 <a class="reference internal" href="#id22">字符串</a> , <a class="reference internal" href="#id23">正则表达式</a> , <a class="reference internal" href="#id24">列表</a>, <a class="reference internal" href="#true">True</a> . 看例子:</p>
+<p>通过 <tt class="docutils literal"><span class="pre">text</span></tt> 参数可以搜搜文档中的字符串内容.与 <tt class="docutils literal"><span class="pre">name</span></tt> 参数的可选值一样, <tt class="docutils literal"><span class="pre">text</span></tt> 参数接受 <a class="reference internal" href="#id25">字符串</a> , <a class="reference internal" href="#id26">正则表达式</a> , <a class="reference internal" href="#id27">列表</a>, <a class="reference internal" href="#true">True</a> . 看例子:</p>
 <div class="highlight-python"><pre>soup.find_all(text="Elsie")
 # [u'Elsie']
 
@@ -1055,36 +1055,145 @@ def is_the_only_string_within_a_tag(s):
 </div>
 <div class="section" id="find-all-tag">
 <h2>像调用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 一样调用tag<a class="headerlink" href="#find-all-tag" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">find_all()</span></tt> 几乎是Beautiful Soup中最常用的搜索方法,所以我们定义了 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 的简写方法. 一个 <tt class="docutils literal"><span class="pre">BeautifulSoup</span></tt> 对象和 <tt class="docutils literal"><span class="pre">tag</span></tt> 对象可以被当作一个方法来看待,这个方法的执行结果与调用这个对象的 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 方法相同,下面两行代码是等价的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="n">soup</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这两行代码也是等价的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="find">
 <h2>find()<a class="headerlink" href="#find" title="Permalink to this headline">¶</a></h2>
+<p>find( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p><tt class="docutils literal"><span class="pre">find_all()</span></tt> 方法将返回文档中符合条件的所有tag,尽管有时候我们只想得到一个tag结果.假如你知道文档中只有一个&lt;body&gt;标签,那么使用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 方法来查找&lt;body&gt;标签是不划算的, <tt class="docutils literal"><span class="pre">find()</span></tt> 方法仅返回一个值.</p>
+<p><tt class="docutils literal"><span class="pre">find_all()</span></tt> 方法没有找到目标是返回空列表, <tt class="docutils literal"><span class="pre">find()</span></tt> 方法找不到目标时,返回 <tt class="docutils literal"><span class="pre">None</span></tt> .</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;nosuchtag&quot;</span><span class="p">))</span>
+<span class="c"># None</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">soup.head.title</span></tt> 是 <a class="reference internal" href="#id16">tag的名字</a> 方法的简写.这个简写的原理就是多次调用当前tag的 <tt class="docutils literal"><span class="pre">find()</span></tt> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">soup</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">title</span>
+<span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+
+<span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;title&quot;</span><span class="p">)</span>
+<span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="find-parents-find-parent">
 <h2>find_parents() 和 find_parent()<a class="headerlink" href="#find-parents-find-parent" title="Permalink to this headline">¶</a></h2>
+<p>find_parents( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>find_parent( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>我们已经用了很大篇幅来介绍 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 和 <tt class="docutils literal"><span class="pre">find()</span></tt> 方法,Beautiful Soup中还有10个用于搜索的API.它们中的五个用的是与 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 相同的搜索参数,另外5个与 <tt class="docutils literal"><span class="pre">find()</span></tt> 方法的搜索参数类似.区别仅是它们搜索文档的不同部分.</p>
+<p>记住: <tt class="docutils literal"><span class="pre">find_all()</span></tt> 和 <tt class="docutils literal"><span class="pre">find()</span></tt> 只搜索当前节点的所有子节点,孙子节点等. <tt class="docutils literal"><span class="pre">find_parents()</span></tt> 和 <tt class="docutils literal"><span class="pre">find_parent()</span></tt> 用来搜索当前节点的父辈节点,搜索方法与普通tag的搜索方法相同,搜索文档搜索文档包含的内容. 我们从一个文档中的一个自己点开始:</p>
+<div class="highlight-python"><pre>a_string = soup.find(text="Lacie")
+a_string
+# u'Lacie'
+
+a_string.find_parents("a")
+# [&lt;a class="sister" href="http://example.com/lacie" id="link2"&gt;Lacie&lt;/a&gt;]
+
+a_string.find_parent("p")
+# &lt;p class="story"&gt;Once upon a time there were three little sisters; and their names were
+#  &lt;a class="sister" href="http://example.com/elsie" id="link1"&gt;Elsie&lt;/a&gt;,
+#  &lt;a class="sister" href="http://example.com/lacie" id="link2"&gt;Lacie&lt;/a&gt; and
+#  &lt;a class="sister" href="http://example.com/tillie" id="link3"&gt;Tillie&lt;/a&gt;;
+#  and they lived at the bottom of a well.&lt;/p&gt;
+
+a_string.find_parents("p", class="title")
+# []</pre>
+</div>
 </div>
 <div class="section" id="find-next-siblings-find-next-sibling">
-<h2>find_next_siblings() 和 find_next_sibling()<a class="headerlink" href="#find-next-siblings-find-next-sibling" title="Permalink to this headline">¶</a></h2>
+<h2>find_next_siblings() 合 find_next_sibling()<a class="headerlink" href="#find-next-siblings-find-next-sibling" title="Permalink to this headline">¶</a></h2>
+<p>find_next_siblings( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>find_next_sibling( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>这2个方法通过 <a class="reference internal" href="#next-siblings-previous-siblings">.next_siblings</a> 属性对当tag的所有后面 <a class="footnote-reference" href="#id70" id="id31">[5]</a> 兄弟tag节点进行迭代, <tt class="docutils literal"><span class="pre">find_next_siblings()</span></tt> 方法返回所有符合条件的后面的兄弟节点, <tt class="docutils literal"><span class="pre">find_next_sibling()</span></tt> 只返回符合条件的后面的第一个tag节点.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">first_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="n">first_link</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;</span>
+
+<span class="n">first_link</span><span class="o">.</span><span class="n">find_next_siblings</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+
+<span class="n">first_story_paragraph</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="s">&quot;story&quot;</span><span class="p">)</span>
+<span class="n">first_story_paragraph</span><span class="o">.</span><span class="n">find_next_sibling</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
+<span class="c"># &lt;p class=&quot;story&quot;&gt;...&lt;/p&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="find-previous-siblings-find-previous-sibling">
 <h2>find_previous_siblings() 和 find_previous_sibling()<a class="headerlink" href="#find-previous-siblings-find-previous-sibling" title="Permalink to this headline">¶</a></h2>
+<p>find_previous_siblings( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>find_previous_sibling( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>这2个方法通过 <a class="reference internal" href="#next-siblings-previous-siblings">.previous_siblings</a> 属性对当前tag的前面 <a class="footnote-reference" href="#id70" id="id32">[5]</a> 的兄弟tag节点进行迭代, <tt class="docutils literal"><span class="pre">find_previous_siblings()</span></tt> 方法返回所有符合条件的前面的兄弟节点, <tt class="docutils literal"><span class="pre">find_previous_sibling()</span></tt> 方法返回第一个符合条件的前面的兄弟节点:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">last_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;link3&quot;</span><span class="p">)</span>
+<span class="n">last_link</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;</span>
+
+<span class="n">last_link</span><span class="o">.</span><span class="n">find_previous_siblings</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+<span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;]</span>
+
+<span class="n">first_story_paragraph</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">,</span> <span class="s">&quot;story&quot;</span><span class="p">)</span>
+<span class="n">first_story_paragraph</span><span class="o">.</span><span class="n">find_previous_sibling</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
+<span class="c"># &lt;p class=&quot;title&quot;&gt;&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;&lt;/p&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="find-all-next-find-next">
 <h2>find_all_next() 和 find_next()<a class="headerlink" href="#find-all-next-find-next" title="Permalink to this headline">¶</a></h2>
+<p>find_all_next( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>find_next( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>这2个方法通过 <a class="reference internal" href="#next-elements-previous-elements">.next_elements</a> 属性对当前节点后面的tag和字符串进行迭代, <tt class="docutils literal"><span class="pre">find_all_next()</span></tt> 方法返回所有符合条件的节点, <tt class="docutils literal"><span class="pre">find_next()</span></tt> 方法返回第一个符合条件的节点:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">first_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="n">first_link</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;</span>
+
+<span class="n">first_link</span><span class="o">.</span><span class="n">find_all_next</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c"># [u&#39;Elsie&#39;, u&#39;,\n&#39;, u&#39;Lacie&#39;, u&#39; and\n&#39;, u&#39;Tillie&#39;,</span>
+<span class="c">#  u&#39;;\nand they lived at the bottom of a well.&#39;, u&#39;\n\n&#39;, u&#39;...&#39;, u&#39;\n&#39;]</span>
+
+<span class="n">first_link</span><span class="o">.</span><span class="n">find_next</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
+<span class="c"># &lt;p class=&quot;story&quot;&gt;...&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>第一个例子中,字符串 “Elsie”也被显示出来,尽管它被包含在我们开始查找的&lt;a&gt;标签的里面.第二个例子中,最后一个&lt;p&gt;标签也被显示出来,尽管它与我们开始查找位置的&lt;a&gt;标签不属于同一部分.例子中,搜索的重点是要匹配过滤器的条件,并且在文档中出现的顺序而不是开始查找的元素的位置.</p>
 </div>
 <div class="section" id="find-all-previous-find-previous">
 <h2>find_all_previous() 和 find_previous()<a class="headerlink" href="#find-all-previous-find-previous" title="Permalink to this headline">¶</a></h2>
+<p>find_all_previous( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>find_previous( <a class="reference internal" href="#id30">name</a> , <a class="reference internal" href="#css">attrs</a> , <a class="reference internal" href="#recursive">recursive</a> , <a class="reference internal" href="#text">text</a> , <a class="reference internal" href="#keyword">**kwargs</a> )</p>
+<p>这2个方法通过 <a class="reference internal" href="#next-elements-previous-elements">.previous_elements</a> 属性对当前节点前面的tag和字符串进行迭代, <tt class="docutils literal"><span class="pre">find_all_previous()</span></tt> 方法返回所有符合条件的节点, <tt class="docutils literal"><span class="pre">find_previous()</span></tt> 方法返回第一个符合条件的节点.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">first_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="n">first_link</span>
+<span class="c"># &lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;</span>
+
+<span class="n">first_link</span><span class="o">.</span><span class="n">find_all_previous</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
+<span class="c"># [&lt;p class=&quot;story&quot;&gt;Once upon a time there were three little sisters; ...&lt;/p&gt;,</span>
+<span class="c">#  &lt;p class=&quot;title&quot;&gt;&lt;b&gt;The Dormouse&#39;s story&lt;/b&gt;&lt;/p&gt;]</span>
+
+<span class="n">first_link</span><span class="o">.</span><span class="n">find_previous</span><span class="p">(</span><span class="s">&quot;title&quot;</span><span class="p">)</span>
+<span class="c"># &lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+</pre></div>
 </div>
-<div class="section" id="id27">
-<h2>CSS选择器<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id33">
+<h2>CSS选择器<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="id28">
-<h1>修改文档树<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id29">
-<h2>修改tag的名称和属性<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id34">
+<h1>修改文档树<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id35">
+<h2>修改tag的名称和属性<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id30">
-<h2>修改 .string<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id36">
+<h2>修改 .string<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="append">
 <h2>append()<a class="headerlink" href="#append" title="Permalink to this headline">¶</a></h2>
@@ -1117,122 +1226,128 @@ def is_the_only_string_within_a_tag(s):
 <h2>unwrap()<a class="headerlink" href="#unwrap" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="id31">
-<h1>输出<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id32">
-<h2>格式化输出<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id37">
+<h1>输出<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id38">
+<h2>格式化输出<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id33">
-<h2>压缩输出<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id39">
+<h2>压缩输出<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id34">
-<h2>输出格式<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id40">
+<h2>输出格式<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="get-text">
 <h2>get_text()<a class="headerlink" href="#get-text" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="id35">
-<h1>指定文档解析器<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id36">
-<h2>解析器之间的区别<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id41">
+<h1>指定文档解析器<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id42">
+<h2>解析器之间的区别<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="id37">
-<h1>编码<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id38">
-<h2>输出编码<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id43">
+<h1>编码<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id44">
+<h2>输出编码<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="unicode">
 <h2>unicode, 靠!<a class="headerlink" href="#unicode" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id39">
-<h2>输出的编码<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id45">
+<h2>输出的编码<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id40">
-<h2>矛盾的编码<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id46">
+<h2>矛盾的编码<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="id41">
-<h1>转换部分文档<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id47">
+<h1>转换部分文档<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="soupstrainer">
 <h2>SoupStrainer<a class="headerlink" href="#soupstrainer" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
-<div class="section" id="id42">
-<h1>常见问题<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id48">
+<h1>常见问题<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="diagnose">
 <h2>diagnose()<a class="headerlink" href="#diagnose" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id43">
-<h2>文档解析错误<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id49">
+<h2>文档解析错误<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id44">
-<h2>版本错误<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id50">
+<h2>版本错误<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="xml">
 <h2>解析XML<a class="headerlink" href="#xml" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id45">
-<h2>解析器的错误<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id51">
+<h2>解析器的错误<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id46">
-<h2>杂项错误<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id52">
+<h2>杂项错误<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id47">
-<h2>如何提高效率<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id53">
+<h2>如何提高效率<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 <div class="section" id="beautiful-soup-3">
 <h1>Beautiful Soup 3<a class="headerlink" href="#beautiful-soup-3" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id48">
-<h2>迁移到BS4<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id49">
-<h3>需要的解析器<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id50">
-<h3>方法的名字<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id51">
-<h3>生成器<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id52">
-<h3>XML<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id53">
-<h3>实例<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
-</div>
 <div class="section" id="id54">
-<h3>迁移杂项<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
+<h2>迁移到BS4<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id55">
+<h3>需要的解析器<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id56">
+<h3>方法的名字<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id57">
+<h3>生成器<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id58">
+<h3>XML<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id59">
+<h3>实例<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id60">
+<h3>迁移杂项<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://www.python.org">Python</a></p>
 <p><a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html">BeautifulSoup3 文档</a></p>
 </div>
 </div>
 </div>
-<div class="section" id="id56">
-<h1>注释文档<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h1>
-<table class="docutils footnote" frame="void" id="id57" rules="none">
+<div class="section" id="id65">
+<h1>注释文档<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h1>
+<table class="docutils footnote" frame="void" id="id66" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>BeautifulSoup的googl讨论组不是很活跃,可能是因为库已经比较完善了吧</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id58" rules="none">
+<table class="docutils footnote" frame="void" id="id67" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td>文档被解析成树形结构,所以下一步解析过程应该是当前节点的子节点</td></tr>
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id17">1</a>, <a class="fn-backref" href="#id21">2</a>)</em> 文档被解析成树形结构,所以下一步解析过程应该是当前节点的子节点</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id59" rules="none">
+<table class="docutils footnote" frame="void" id="id68" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[3]</td><td>过滤器只能作为搜索文档的参数,或者说应该叫参数类型更为贴切,原文中用了 <tt class="docutils literal"><span class="pre">filter</span></tt> 因此翻译为过滤器</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id24">[3]</a></td><td>过滤器只能作为搜索文档的参数,或者说应该叫参数类型更为贴切,原文中用了 <tt class="docutils literal"><span class="pre">filter</span></tt> 因此翻译为过滤器</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id60" rules="none">
+<table class="docutils footnote" frame="void" id="id69" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[4]</td><td>元素参数,HTML文档中的一个tag节点,不能是文本节点</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id29">[4]</a></td><td>元素参数,HTML文档中的一个tag节点,不能是文本节点</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id70" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td><em>(<a class="fn-backref" href="#id31">1</a>, <a class="fn-backref" href="#id32">2</a>)</em> 采用先序遍历方式</td></tr>
 </tbody>
 </table>
 </div>
@@ -1279,35 +1394,35 @@ def is_the_only_string_within_a_tag(s):
 <li><a class="reference internal" href="#strings-stripped-strings">.strings 和 stripped_strings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id17">父节点</a><ul>
+<li><a class="reference internal" href="#id18">父节点</a><ul>
 <li><a class="reference internal" href="#parent">.parent</a></li>
 <li><a class="reference internal" href="#parents">.parents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id18">兄弟节点</a><ul>
+<li><a class="reference internal" href="#id19">兄弟节点</a><ul>
 <li><a class="reference internal" href="#next-sibling-previous-sibling">.next_sibling 和 .previous_sibling</a></li>
 <li><a class="reference internal" href="#next-siblings-previous-siblings">.next_siblings 和 .previous_siblings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id19">回退和前进</a><ul>
+<li><a class="reference internal" href="#id20">回退和前进</a><ul>
 <li><a class="reference internal" href="#next-element-previous-element">.next_element 和 .previous_element</a></li>
 <li><a class="reference internal" href="#next-elements-previous-elements">.next_elements 和 .previous_elements</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id20">搜索文档树</a><ul>
-<li><a class="reference internal" href="#id21">过滤器</a><ul>
-<li><a class="reference internal" href="#id22">字符串</a></li>
-<li><a class="reference internal" href="#id23">正则表达式</a></li>
-<li><a class="reference internal" href="#id24">列表</a></li>
+<li><a class="reference internal" href="#id22">搜索文档树</a><ul>
+<li><a class="reference internal" href="#id23">过滤器</a><ul>
+<li><a class="reference internal" href="#id25">字符串</a></li>
+<li><a class="reference internal" href="#id26">正则表达式</a></li>
+<li><a class="reference internal" href="#id27">列表</a></li>
 <li><a class="reference internal" href="#true">True</a></li>
-<li><a class="reference internal" href="#id25">方法</a></li>
+<li><a class="reference internal" href="#id28">方法</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#find-all">find_all()</a><ul>
-<li><a class="reference internal" href="#id26">name 参数</a></li>
-<li><a class="reference internal" href="#keyword">keyword参数</a></li>
+<li><a class="reference internal" href="#id30">name 参数</a></li>
+<li><a class="reference internal" href="#keyword">keyword 参数</a></li>
 <li><a class="reference internal" href="#css">按CSS搜索</a></li>
 <li><a class="reference internal" href="#text"><tt class="docutils literal"><span class="pre">text</span></tt> 参数</a></li>
 <li><a class="reference internal" href="#limit"><tt class="docutils literal"><span class="pre">limit</span></tt> 参数</a></li>
@@ -1317,16 +1432,16 @@ def is_the_only_string_within_a_tag(s):
 <li><a class="reference internal" href="#find-all-tag">像调用 <tt class="docutils literal"><span class="pre">find_all()</span></tt> 一样调用tag</a></li>
 <li><a class="reference internal" href="#find">find()</a></li>
 <li><a class="reference internal" href="#find-parents-find-parent">find_parents() 和 find_parent()</a></li>
-<li><a class="reference internal" href="#find-next-siblings-find-next-sibling">find_next_siblings() 和 find_next_sibling()</a></li>
+<li><a class="reference internal" href="#find-next-siblings-find-next-sibling">find_next_siblings() 合 find_next_sibling()</a></li>
 <li><a class="reference internal" href="#find-previous-siblings-find-previous-sibling">find_previous_siblings() 和 find_previous_sibling()</a></li>
 <li><a class="reference internal" href="#find-all-next-find-next">find_all_next() 和 find_next()</a></li>
 <li><a class="reference internal" href="#find-all-previous-find-previous">find_all_previous() 和 find_previous()</a></li>
-<li><a class="reference internal" href="#id27">CSS选择器</a></li>
+<li><a class="reference internal" href="#id33">CSS选择器</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id28">修改文档树</a><ul>
-<li><a class="reference internal" href="#id29">修改tag的名称和属性</a></li>
-<li><a class="reference internal" href="#id30">修改 .string</a></li>
+<li><a class="reference internal" href="#id34">修改文档树</a><ul>
+<li><a class="reference internal" href="#id35">修改tag的名称和属性</a></li>
+<li><a class="reference internal" href="#id36">修改 .string</a></li>
 <li><a class="reference internal" href="#append">append()</a></li>
 <li><a class="reference internal" href="#beautifulsoup-new-string-new-tag">BeautifulSoup.new_string() 和 .new_tag()</a></li>
 <li><a class="reference internal" href="#insert">insert()</a></li>
@@ -1339,51 +1454,51 @@ def is_the_only_string_within_a_tag(s):
 <li><a class="reference internal" href="#unwrap">unwrap()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id31">输出</a><ul>
-<li><a class="reference internal" href="#id32">格式化输出</a></li>
-<li><a class="reference internal" href="#id33">压缩输出</a></li>
-<li><a class="reference internal" href="#id34">输出格式</a></li>
+<li><a class="reference internal" href="#id37">输出</a><ul>
+<li><a class="reference internal" href="#id38">格式化输出</a></li>
+<li><a class="reference internal" href="#id39">压缩输出</a></li>
+<li><a class="reference internal" href="#id40">输出格式</a></li>
 <li><a class="reference internal" href="#get-text">get_text()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id35">指定文档解析器</a><ul>
-<li><a class="reference internal" href="#id36">解析器之间的区别</a></li>
+<li><a class="reference internal" href="#id41">指定文档解析器</a><ul>
+<li><a class="reference internal" href="#id42">解析器之间的区别</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id37">编码</a><ul>
-<li><a class="reference internal" href="#id38">输出编码</a></li>
+<li><a class="reference internal" href="#id43">编码</a><ul>
+<li><a class="reference internal" href="#id44">输出编码</a></li>
 <li><a class="reference internal" href="#unicode">unicode, 靠!</a></li>
-<li><a class="reference internal" href="#id39">输出的编码</a></li>
-<li><a class="reference internal" href="#id40">矛盾的编码</a></li>
+<li><a class="reference internal" href="#id45">输出的编码</a></li>
+<li><a class="reference internal" href="#id46">矛盾的编码</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id41">转换部分文档</a><ul>
+<li><a class="reference internal" href="#id47">转换部分文档</a><ul>
 <li><a class="reference internal" href="#soupstrainer">SoupStrainer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id42">常见问题</a><ul>
+<li><a class="reference internal" href="#id48">常见问题</a><ul>
 <li><a class="reference internal" href="#diagnose">diagnose()</a></li>
-<li><a class="reference internal" href="#id43">文档解析错误</a></li>
-<li><a class="reference internal" href="#id44">版本错误</a></li>
+<li><a class="reference internal" href="#id49">文档解析错误</a></li>
+<li><a class="reference internal" href="#id50">版本错误</a></li>
 <li><a class="reference internal" href="#xml">解析XML</a></li>
-<li><a class="reference internal" href="#id45">解析器的错误</a></li>
-<li><a class="reference internal" href="#id46">杂项错误</a></li>
-<li><a class="reference internal" href="#id47">如何提高效率</a></li>
+<li><a class="reference internal" href="#id51">解析器的错误</a></li>
+<li><a class="reference internal" href="#id52">杂项错误</a></li>
+<li><a class="reference internal" href="#id53">如何提高效率</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#beautiful-soup-3">Beautiful Soup 3</a><ul>
-<li><a class="reference internal" href="#id48">迁移到BS4</a><ul>
-<li><a class="reference internal" href="#id49">需要的解析器</a></li>
-<li><a class="reference internal" href="#id50">方法的名字</a></li>
-<li><a class="reference internal" href="#id51">生成器</a></li>
-<li><a class="reference internal" href="#id52">XML</a></li>
-<li><a class="reference internal" href="#id53">实例</a></li>
-<li><a class="reference internal" href="#id54">迁移杂项</a></li>
+<li><a class="reference internal" href="#id54">迁移到BS4</a><ul>
+<li><a class="reference internal" href="#id55">需要的解析器</a></li>
+<li><a class="reference internal" href="#id56">方法的名字</a></li>
+<li><a class="reference internal" href="#id57">生成器</a></li>
+<li><a class="reference internal" href="#id58">XML</a></li>
+<li><a class="reference internal" href="#id59">实例</a></li>
+<li><a class="reference internal" href="#id60">迁移杂项</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id56">注释文档</a></li>
+<li><a class="reference internal" href="#id65">注释文档</a></li>
 </ul>
 
   <h3>This Page</h3>
