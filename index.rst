@@ -1351,49 +1351,401 @@ find_previous( `name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ )
     first_link.find_previous("title")
     # <title>The Dormouse's story</title>
 
-
+``find_all_previous("p")`` 返回了文档中的第一段(class="title"的那段),但还返回了第二段,<p>标签包含了我们开始查找的<a>标签.不要惊讶,这段代码的功能是查找所有出现在指定<a>标签之前的<p>标签,因为这个<p>标签包含了开始的<a>标签,所以<p>标签一定是在<a>之前出现的.
 
 CSS选择器
 ------------
 
+Beautiful Soup支持大部分的CSS选择器 [6]_ ,在 ``Tag`` 或 ``BeautifulSoup`` 对象的 ``.select()`` 方法中传入字符串参数,即可使用CSS选择器的语法找到tag:
+
+::
+
+    soup.select("title")
+    # [<title>The Dormouse's story</title>]
+
+    soup.select("p nth-of-type(3)")
+    # [<p class="story">...</p>]
+
+通过tag标签逐层查找:
+
+::
+
+    soup.select("body a")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie"  id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    soup.select("html head title")
+    # [<title>The Dormouse's story</title>]
+
+找到某个tag标签下的直接子标签 [6]_ :
+
+::
+
+    soup.select("head > title")
+    # [<title>The Dormouse's story</title>]
+
+    soup.select("p > a")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie"  id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    soup.select("p > a:nth-of-type(2)")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+
+    soup.select("p > #link1")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>]
+
+    soup.select("body > a")
+    # []
+
+找到兄弟节点标签:
+
+::
+    
+    soup.select("#link1 ~ .sister")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie"  id="link3">Tillie</a>]
+
+    soup.select("#link1 + .sister")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+
+通过CSS的类名查找:
+
+::
+
+    soup.select(".sister")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    soup.select("[class~=sister]")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+通过tag的id查找:
+
+::
+
+    soup.select("#link1")
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>]
+
+    soup.select("a#link2")
+    # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+
+通过是否存在某个属性来查找:
+
+::
+
+    soup.select('a[href]')
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+通过属性的值来查找:
+
+::
+
+    soup.select('a[href="http://example.com/elsie"]')
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>]
+
+    soup.select('a[href^="http://example.com/"]')
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,
+    #  <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
+    #  <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    soup.select('a[href$="tillie"]')
+    # [<a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+    soup.select('a[href*=".com/el"]')
+    # [<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>]
+
+通过语言设置来查找:
+
+::
+
+    multilingual_markup = """
+     <p lang="en">Hello</p>
+     <p lang="en-us">Howdy, y'all</p>
+     <p lang="en-gb">Pip-pip, old fruit</p>
+     <p lang="fr">Bonjour mes amis</p>
+    """
+    multilingual_soup = BeautifulSoup(multilingual_markup)
+    multilingual_soup.select('p[lang|=en]')
+    # [<p lang="en">Hello</p>,
+    #  <p lang="en-us">Howdy, y'all</p>,
+    #  <p lang="en-gb">Pip-pip, old fruit</p>]
+
+对于熟悉CSS选择器语法的人来说这是个非常方便的方法.Beautiful Soup也支持CSS选择器API,如果你仅仅需要CSS选择器的功能,那么直接使用 ``lxml`` 也可以,而且速度更快,支持更多的CSS选择器语法,但Beautiful Soup整合了CSS选择器的语法和自身方便使用API.
+        
+
 修改文档树
 ===========
+
+Beautiful Soup的强项是文档树的搜索,但同时也可以方便的修改文档树
 
 修改tag的名称和属性
 -------------------
 
+在 `Attributes`_ 的章节中已经介绍过这个功能,但是再看一遍也无妨. 重命名一个tag,改变属性的值,添加或删除属性:
+
+::
+
+    soup = BeautifulSoup('<b class="boldest">Extremely bold</b>')
+    tag = soup.b
+
+    tag.name = "blockquote"
+    tag['class'] = 'verybold'
+    tag['id'] = 1
+    tag
+    # <blockquote class="verybold" id="1">Extremely bold</blockquote>
+
+    del tag['class']
+    del tag['id']
+    tag
+    # <blockquote>Extremely bold</blockquote>
+
 修改 .string
 -------------
+
+给tag的 ``.string`` 属性赋值,就相当于用当前的内容替代了原来的内容:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+
+    tag = soup.a
+    tag.string = "New link text."
+    tag
+    # <a href="http://example.com/">New link text.</a>
+
+注意: 如果当前的tag包含了其它tag,那么给它的 ``.string`` 属性赋值会覆盖掉原有的所有内容包括子tag
 
 append()
 ----------
 
+``Tag.append()`` 方法想tag中添加内容,就好像python的列表的 ``.append()`` 方法:
+
+::
+
+    soup = BeautifulSoup("<a>Foo</a>")
+    soup.a.append("Bar")
+
+    soup
+    # <html><head></head><body><a>FooBar</a></body></html>
+    soup.a.contents
+    # [u'Foo', u'Bar']
+
 BeautifulSoup.new_string() 和 .new_tag()
 -----------------------------------------
+
+如果想添加一段文本内容到文档中也没问题,可以调用python的 ``append`` 方法或调用工厂方法 ``BeautifulSoup.new_string()`` :
+
+::
+
+    soup = BeautifulSoup("<b></b>")
+    tag = soup.b
+    tag.append("Hello")
+    new_string = soup.new_string(" there")
+    tag.append(new_string)
+    tag
+    # <b>Hello there.</b>
+    tag.contents
+    # [u'Hello', u' there']
+
+如果想要创建一段注释,或 ``NavigableString`` 的任何子类,将子类作为 ``new_string()`` 方法的第二个参数传入:
+
+::
+
+    from bs4 import Comment
+    new_comment = soup.new_string("Nice to see you.", Comment)
+    tag.append(new_comment)
+    tag
+    # <b>Hello there<!--Nice to see you.--></b>
+    tag.contents
+    # [u'Hello', u' there', u'Nice to see you.']
+
+# 这是Beautiful Soup 4.2.1 中新增的方法
+
+创建一个tag最好的方法是调用工厂方法 ``BeautifulSoup.new_tag()`` :
+
+::
+
+    soup = BeautifulSoup("<b></b>")
+    original_tag = soup.b
+
+    new_tag = soup.new_tag("a", href="http://www.example.com")
+    original_tag.append(new_tag)
+    original_tag
+    # <b><a href="http://www.example.com"></a></b>
+
+    new_tag.string = "Link text."
+    original_tag
+    # <b><a href="http://www.example.com">Link text.</a></b>
+
+第一个参数作为tag的name,是必填,其它参数选填
 
 insert()
 --------
 
+``Tag.insert()`` 方法与 ``Tag.append()`` 方法类似,区别是不会把新元素添加到父节点 ``.contents`` 属性的最后,而是把元素插入到指定的位置.与python列表总的 ``.insert()`` 方法的用法下同:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    tag = soup.a
+
+    tag.insert(1, "but did not endorse ")
+    tag
+    # <a href="http://example.com/">I linked to but did not endorse <i>example.com</i></a>
+    tag.contents
+    # [u'I linked to ', u'but did not endorse', <i>example.com</i>]
+
 insert_before() 和 insert_after()
 -----------------------------------
+
+``insert_before()`` 方法在当前tag或文本节点前插入内容:
+
+::
+
+    soup = BeautifulSoup("<b>stop</b>")
+    tag = soup.new_tag("i")
+    tag.string = "Don't"
+    soup.b.string.insert_before(tag)
+    soup.b
+    # <b><i>Don't</i>stop</b>
+
+``insert_after()`` 方法在当前tag或文本节点后插入内容:
+
+::
+
+    soup.b.i.insert_after(soup.new_string(" ever "))
+    soup.b
+    # <b><i>Don't</i> ever stop</b>
+    soup.b.contents
+    # [<i>Don't</i>, u' ever ', u'stop']
 
 clear()
 --------
 
+``Tag.clear()`` 方法移除当前tag的内容:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    tag = soup.a
+
+    tag.clear()
+    tag
+    # <a href="http://example.com/"></a>
+
 extract()
 ----------
+
+``PageElement.extract()`` 方法将当前tag移除文档树,并作为方法结果返回:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    a_tag = soup.a
+
+    i_tag = soup.i.extract()
+
+    a_tag
+    # <a href="http://example.com/">I linked to</a>
+
+    i_tag
+    # <i>example.com</i>
+
+    print(i_tag.parent)
+    None
+
+这个方法实际上产生了2个文档树: 一个是用来解析原始文档的 ``BeautifulSoup`` 对象,另一个是被移除并且返回的tag.被移除并返回的tag可以继续调用 ``extract`` 方法:
+
+::
+
+    my_string = i_tag.string.extract()
+    my_string
+    # u'example.com'
+
+    print(my_string.parent)
+    # None
+    i_tag
+    # <i></i>
 
 decompose()
 ------------
 
+``Tag.decompose()`` 方法将当前节点移除文档树并完全销毁:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    a_tag = soup.a
+
+    soup.i.decompose()
+
+    a_tag
+    # <a href="http://example.com/">I linked to</a>
+
 replace_with()
 ---------------
+
+``PageElement.replace_with()`` 方法移除文档树中的某段内容,并用新tag或文本节点替代它:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    a_tag = soup.a
+
+    new_tag = soup.new_tag("b")
+    new_tag.string = "example.net"
+    a_tag.i.replace_with(new_tag)
+
+    a_tag
+    # <a href="http://example.com/">I linked to <b>example.net</b></a>
+
+``replace_with()`` 方法返回被替代的tag或文本节点,可以用来浏览或添加到文档树其它地方
 
 wrap()
 ------
 
+``PageElement.wrap()`` 方法可以对指定的tag元素进行包装,并返回包装后的结果:
+
+::
+
+    soup = BeautifulSoup("<p>I wish I was bold.</p>")
+    soup.p.string.wrap(soup.new_tag("b"))
+    # <b>I wish I was bold.</b>
+
+    soup.p.wrap(soup.new_tag("div"))
+    # <div><p><b>I wish I was bold.</b></p></div>
+    
+# 改方法在 Beautiful Soup 4.0.5 中添加
+
 unwrap()
 ---------
+
+``Tag.unwrap()`` 方法与 ``wrap()`` 方法相反.将移除tag内的所有tag标签,该方法常被用来进行标记的解包:
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    a_tag = soup.a
+
+    a_tag.i.unwrap()
+    a_tag
+    # <a href="http://example.com/">I linked to example.com</a>
+
+与 ``replace_with()`` 方法相同, ``unwrap()`` 方法返回被移除的tag
 
 输出
 ====
@@ -1401,38 +1753,392 @@ unwrap()
 格式化输出
 -----------
 
+``prettify()`` 方法将Beautiful Soup的文档树格式化后以unicode编码输出,每个XML/HTML标签都独占一行
+
+::
+
+    markup = '<a href="http://example.com/">I linked to <i>example.com</i></a>'
+    soup = BeautifulSoup(markup)
+    soup.prettify()
+    # '<html>\n <head>\n </head>\n <body>\n  <a href="http://example.com/">\n...'
+
+    print(soup.prettify())
+    # <html>
+    #  <head>
+    #  </head>
+    #  <body>
+    #   <a href="http://example.com/">
+    #    I linked to
+    #    <i>
+    #     example.com
+    #    </i>
+    #   </a>
+    #  </body>
+    # </html>
+
+``BeautifulSoup`` 对象和它的所有tag节点都可以调用 ``prettify()`` 方法:
+
+::
+
+    print(soup.a.prettify())
+    # <a href="http://example.com/">
+    #  I linked to
+    #  <i>
+    #   example.com
+    #  </i>
+    # </a>
+
 压缩输出
 ----------
+
+如果只想得到结果字符串,不重视格式,那么可以对一个 ``BeautifulSoup`` 对象或 ``Tag`` 对象使用python的 ``unicode()`` 或 ``str()`` 方法:
+
+::
+
+    str(soup)
+    # '<html><head></head><body><a href="http://example.com/">I linked to <i>example.com</i></a></body></html>'
+
+    unicode(soup.a)
+    # u'<a href="http://example.com/">I linked to <i>example.com</i></a>'
+
+``str()`` 方法返回UTF-8编码的字符串,可以指定 `编码`_ 的设置.
+
+还可以调用 ``encode()`` 方法获得字节码或调用 ``decode()`` 方法获得unicode.
 
 输出格式
 ---------
 
+Beautiful Soup输出是会将HTML中的特殊字符转换成unicode,比如“&lquot;”:
+
+::
+
+    soup = BeautifulSoup("&ldquo;Dammit!&rdquo; he said.")
+    unicode(soup)
+    # u'<html><head></head><body>\u201cDammit!\u201d he said.</body></html>'
+
+如果将文档转换成字符串,Unicode编码会被编码成UTF-8.这样就无法正确显示HTML特殊字符了:
+
+::
+
+    str(soup)
+    # '<html><head></head><body>\xe2\x80\x9cDammit!\xe2\x80\x9d he said.</body></html>'
+
 get_text()
 ----------
+
+如果只想得到tag中包含的文本内容,那么可以嗲用 ``get_text()`` 方法,这个方法获取到tag中包含的所有文版内容包括子孙tag中的内容,并将结果作为unicode字符串返回:
+
+::
+
+    markup = '<a href="http://example.com/">\nI linked to <i>example.com</i>\n</a>'
+    soup = BeautifulSoup(markup)
+
+    soup.get_text()
+    u'\nI linked to example.com\n'
+    soup.i.get_text()
+    u'example.com'
+
+可以通过参数指定tag的文本内容的分隔符:
+
+::
+
+    # soup.get_text("|")
+    u'\nI linked to |example.com|\n'
+
+还可以去除获得文本内容的前后空白:
+
+::
+
+    # soup.get_text("|", strip=True)
+    u'I linked to|example.com'
+
+或者使用 `.stripped_strings`_ 生成器,获得文本列表后手动处理列表:
+
+::
+    
+    [text for text in soup.stripped_strings]
+    # [u'I linked to', u'example.com']
 
 指定文档解析器
 ==============
 
+如果仅是想要解析HTML文档,只要用文档创建 ``BeautifulSoup`` 对象就可以了.Beautiful Soup会自动选择一个解析器来解析文档.但是还有一些参数可以可以用来指定使用那种解析器来解析当前的文档.
+
+``BeautifulSoup`` 第一个参数应该是要被解析的文档字符串或是文件句柄,第二个参数用来标识怎样解析文档.如果第二个参数为空,那么Beautiful Soup根据当前系统安装的库自动选择解析器,解析器的有限数序: lxml, html5lib,python标准库.这个顺序可以手动修改:
+
+    * 要解析的文档是什么类型: 目前支持,  “html”, “xml”, 和 “html5”
+    * 指定使用哪种解析器: 目前支持, “lxml”, “html5lib”, 和 “html.parser”
+
+`安装解析器`_ 章节介绍了可以使用哪种解析器,以及如何安装.
+
+如果指定的解析器没有安装,Beautiful Soup会自动选择其它方案.目前只有 lxml 解析器支持XML文档的解析,在没有安装lxml库的情况下,创建 ``beautifulsoup`` 对象时无论是否指定使用lxml,都无法得到解析后的对象
+
 解析器之间的区别
 -----------------
+
+Beautiful Soup为不同的解析器提供了相同的接口,但解析器本身时有区别的.同一片文档被不同的解析器解析后可能会生成不同结构的树型文档.区别最大的是HTML解析器和XML解析器,看下面片段被解析成HTML结构:
+
+::
+
+    BeautifulSoup("<a><b /></a>")
+    # <html><head></head><body><a><b></b></a></body></html>
+
+因为空标签<b />不符合HTML标准,所以解析器把它解析成<b></b>
+
+同样的文档使用XML解析如下(解析XML需要安装lxml库).注意,空标签<b />依然被保留,并且文档前添加了XML头,而不是被包含在<html>标签内:
+
+::
+    
+    BeautifulSoup("<a><b /></a>", "xml")
+    # <?xml version="1.0" encoding="utf-8"?>
+    # <a><b/></a>
+
+HTML解析器之间也有区别,如果被解析的HTML文档是标准格式,那么解析器之间没有任何差别,只是解析速度不同,结果都会返回正确的文档树.
+
+但是如果被解析文档不是标准格式,那么不同的解析器返回结果可能不同.下面例子中,使用lxml解析错误格式的文档,结果</p>被直接忽略掉了:
+
+::
+
+    BeautifulSoup("<a></p>", "lxml")
+    # <html><body><a></a></body></html>
+
+使用html5lib库解析相同文档会得到不同的结果:
+
+::
+
+    BeautifulSoup("<a></p>", "html5lib")
+    # <html><head></head><body><a><p></p></a></body></html>
+
+html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树添加了<head>标签.
+
+使用pyhton内置库解析结果如下:
+
+::
+
+    BeautifulSoup("<a></p>", "html.parser")
+    # <a></a>
+
+与lxml [7]_ 库类似的,python内置库忽略掉了</p>标签,与html5lib库不同的是标准库没有尝试创建符合标准的文档格式或将文档片段包含在<body>标签内,与lxml不同的是标准库甚至连<html>标签都没有尝试去添加.
+
+因为文档片段“<a></p>”是错误格式,所以以上解析方式都能算作"正确",html5lib库使用的是HTML5的部分标准,所以最接近"正确".不过所有解析器的结构都能够被认为是"正常"的.
+
+不同的解析器可能影响代码执行结果,如果在分发给别人的代码中使用了 ``BeautifulSoup`` ,那么最好注明使用了哪种解析器,以减少不必要的麻烦.
 
 编码
 ====
 
+任何HTML或XML文档都有自己的编码方式,比如ASCII 或 UTF-8,但是使用Beautiful Soup解析后,文档都被转换成了unicode:
+
+::
+
+    markup = "<h1>Sacr\xc3\xa9 bleu!</h1>"
+    soup = BeautifulSoup(markup)
+    soup.h1
+    # <h1>Sacré bleu!</h1>
+    soup.h1.string
+    # u'Sacr\xe9 bleu!'
+
+这不是魔术(但很神奇),Beautiful Soup用了 `Unicode, dammit! (靠!)`_ 子库来识别当前文档编码并转换成Unicode编码. ``BeautifulSoup`` 对象的 ``.original_encoding`` 属性记录了自动识别编码的结果:
+
+::
+
+    soup.original_encoding
+    'utf-8'
+
+`Unicode, dammit! (靠!)`_ 大部分时候都能猜对编码格式,但有时候也会出错.有时候即使猜测正确,也是在逐个字节的遍历整个文档后才猜对的,这样很慢.如果预先知道文档编码,可以传入编码参数来减少自动检查编码出错的概率并且提高文档解析速度.在创建 ``BeautifulSoup`` 对象的时候传入 ``from_encoding`` 参数.
+
+下面一段文档用了ISO-8859-8编码方式,这段文档太短,结果Beautiful Soup以为文档是用ISO-8859-7编码:
+
+::
+
+    markup = b"<h1>\xed\xe5\xec\xf9</h1>"
+    soup = BeautifulSoup(markup)
+    soup.h1
+    <h1>νεμω</h1>
+    soup.original_encoding
+    'ISO-8859-7'
+
+通过传入 ``from_encoding`` 参数来指定编码方式:
+
+::
+
+    soup = BeautifulSoup(markup, from_encoding="iso-8859-8")
+    soup.h1
+    <h1>םולש</h1>
+    soup.original_encoding
+    'iso8859-8'
+
+少数情况下(通常是UTF-8编码的文档中包含了其它编码格式的文件),获得正确的Unicode编码的唯一途径是将文档中的其它编码字符通过特殊的Unicode编码替换,“REPLACEMENT CHARACTER” (U+FFFD, �). 如果Beautifu Soup猜测文档编码时需要这一步,那么将把 ``UnicodeDammit`` 或 ``BeautifulSoup`` 对象的 ``.contains_replacement_characters`` 属性标记为 ``True`` .这样就可以知道当前文档进行Unicode编码后丢失了一部分特殊内容字符.如果文档中包含�而 ``.contains_replacement_characters`` 属性是 ``False`` ,则表示�就是文档中原来的字符,不是转码失败.
+
 输出编码
 --------
 
-unicode, 靠!
--------------
+通过Beautiful Soup输出文档时,不管输入文档是什么编码方式,输出编码均为UTF-8编码,下面例子输入文档是Latin-1编码:
 
-输出的编码
------------
+::
+
+    markup = b'''
+    <html>
+      <head>
+        <meta content="text/html; charset=ISO-Latin-1" http-equiv="Content-type" />
+      </head>
+      <body>
+        <p>Sacr\xe9 bleu!</p>
+      </body>
+    </html>
+    '''
+
+    soup = BeautifulSoup(markup)
+    print(soup.prettify())
+    # <html>
+    #  <head>
+    #   <meta content="text/html; charset=utf-8" http-equiv="Content-type" />
+    #  </head>
+    #  <body>
+    #   <p>
+    #    Sacré bleu!
+    #   </p>
+    #  </body>
+    # </html>
+
+注意,输出文档中的<meta>标签的编码设置已经修改成了与输出编码一致的UTF-8.
+
+如果不想用UTF-8编码输出,可以将编码方式传入 ``prettify()`` 方法:
+
+::
+
+    print(soup.prettify("latin-1"))
+    # <html>
+    #  <head>
+    #   <meta content="text/html; charset=latin-1" http-equiv="Content-type" />
+    # ...
+
+还可以调用 ``BeautifulSoup`` 对象或任意节点的 ``encode()`` 方法,就像python的字符串调用 ``encode()`` 方法一样:
+
+::
+
+    soup.p.encode("latin-1")
+    # '<p>Sacr\xe9 bleu!</p>'
+
+    soup.p.encode("utf-8")
+    # '<p>Sacr\xc3\xa9 bleu!</p>'
+
+如果文档中包含当前编码不支持的字符,那么这些字符将呗转换成一系列XML特殊字符引用,下面例子中包含了Unicode编码字符SNOWMAN:
+
+::
+
+    markup = u"<b>\N{SNOWMAN}</b>"
+    snowman_soup = BeautifulSoup(markup)
+    tag = snowman_soup.b
+
+SNOWMAN字符在UTF-8编码中可以正常显示(看上去像是☃),但有些编码不支持SNOWMAN字符,比如ISO-Latin-1或ASCII,那么在这些编码中SNOWMAN字符会被转换成“&#9731”:
+
+::
+
+    print(tag.encode("utf-8"))
+    # <b>☃</b>
+
+    print tag.encode("latin-1")
+    # <b>&#9731;</b>
+
+    print tag.encode("ascii")
+    # <b>&#9731;</b>
+
+Unicode, dammit! (靠!)
+-----------------------
+
+Beautiful Soup的编码检测功能可以在Beautiful Soup以外使用,当检测某段位置编码问当时,就可以使用这段方法:
+
+::
+
+    from bs4 import UnicodeDammit
+    dammit = UnicodeDammit("Sacr\xc3\xa9 bleu!")
+    print(dammit.unicode_markup)
+    # Sacré bleu!
+    dammit.original_encoding
+    # 'utf-8'
+
+如果Python中安装了 ``chardet`` 或 ``cchardet`` 那么编码检测功能的准确率将大大提高.输入的字符越多,检测结果越精确,如果实现猜测到一些可能编码,那么可以将猜测的编码作为参数,这样将有限检测这些编码:
+
+::
+
+
+    dammit = UnicodeDammit("Sacr\xe9 bleu!", ["latin-1", "iso-8859-1"])
+    print(dammit.unicode_markup)
+    # Sacré bleu!
+    dammit.original_encoding
+    # 'latin-1'
+
+Beautiful Soup的编码检测功能中有2项是Beautiful Soup库中用不到的
+
+智能引号
+...........
+
+使用Unicode时,Beautiful Soup还会智能的把引号转换成HTML或XML中的特殊字符:
+
+::
+
+    markup = b"<p>I just \x93love\x94 Microsoft Word\x92s smart quotes</p>"
+
+    UnicodeDammit(markup, ["windows-1252"], smart_quotes_to="html").unicode_markup
+    # u'<p>I just &ldquo;love&rdquo; Microsoft Word&rsquo;s smart quotes</p>'
+
+    UnicodeDammit(markup, ["windows-1252"], smart_quotes_to="xml").unicode_markup
+    # u'<p>I just &#x201C;love&#x201D; Microsoft Word&#x2019;s smart quotes</p>'
+
+也可以把引号转换为ASCII码:
+
+::
+
+    UnicodeDammit(markup, ["windows-1252"], smart_quotes_to="ascii").unicode_markup
+    # u'<p>I just "love" Microsoft Word\'s smart quotes</p>'
+
+很有用的功能,但是Beautiful Soup没有使用这种方式.默认情况下,Beautiful Soup把引号转换成Unicode:
+
+::
+
+    UnicodeDammit(markup, ["windows-1252"]).unicode_markup
+    # u'<p>I just \u201clove\u201d Microsoft Word\u2019s smart quotes</p>'
 
 矛盾的编码
-----------
+...........
+
+有时文档的大部分都是用UTF-8,但同时还包含了Windows-1252编码的字符,就像微软的智能引号一样.一些包含多个信息的来源网站容易出现这种情况. ``UnicodeDammit.detwingle()`` 方法可以把这类文档转换成纯UTF-8编码格式,看个简单的例子:
+
+::
+
+    snowmen = (u"\N{SNOWMAN}" * 3)
+    quote = (u"\N{LEFT DOUBLE QUOTATION MARK}I like snowmen!\N{RIGHT DOUBLE QUOTATION MARK}")
+    doc = snowmen.encode("utf8") + quote.encode("windows_1252")
+
+这段文档很杂乱,snowmen是UTF-8编码,引号是Windows-1252编码,直接输出时不能同时显示snowmen和引号,因为它们编码不同:
+
+::
+
+    print(doc)
+    # ☃☃☃�I like snowmen!�
+
+    print(doc.decode("windows-1252"))
+    # â˜ƒâ˜ƒâ˜ƒ“I like snowmen!”
+
+如果对这段文档用UTF-8解码就会得到 ``UnicodeDecodeError`` 异常,如果用Windows-1252解码就回得到一堆乱码.幸好, ``UnicodeDammit.detwingle()`` 方法会吧这段字符串转换成UTF-8编码,允许我们同时显示出文档中的snowmen和引号:
+
+::
+
+    new_doc = UnicodeDammit.detwingle(doc)
+    print(new_doc.decode("utf8"))
+    # ☃☃☃“I like snowmen!”
+
+``UnicodeDammit.detwingle()`` 方法只能解码包含在UTF-8编码中的Windows-1252编码内容,但这是最常见的问题.
+
+在创建 ``BeautifulSoup`` 或 ``UnicodeDammit`` 对象前一定要先对文档调用 ``UnicodeDammit.detwingle()`` 确保文档的编码方式正确.如果尝试去解析一段包含Windows-1252编码的UTF-8文档,就会得到一堆乱码,比如: ` â˜ƒâ˜ƒâ˜ƒ“I like snowmen!”`.
+
+# ``UnicodeDammit.detwingle()`` 方法在Beautiful Soup 4.1.0版本中新增
 
 转换部分文档
 ============
+
+如果仅仅因为想要查找文档中的<a>标签而将整片文档进行解析,实在是浪费内存和时间.最快的方法是从一开始就把<a>标签以外的东西都忽略掉. ``SoupStrainer`` 类可以定义文档的某段内容,这样搜索文档时就不必先解析整片文档,只会解析在 ``SoupStrainer`` 中定义过的文档. 创建一个 ``SoupStrainer`` 对象并作为 ``parse_only`` 参数给 ``BeautifulSoup`` 的构造方法即可.
 
 SoupStrainer
 -------------
@@ -1502,6 +2208,7 @@ Python_
 .. _.previous_siblings: `.next_siblings 和 .previous_siblings`_
 .. _.next_elements: `.next_elements 和 .previous_elements`_
 .. _.previous_elements: `.next_elements 和 .previous_elements`_
+.. _.stripped_strings: `.strings 和 stripped_strings`_
 
 注释文档
 ========
@@ -1511,3 +2218,5 @@ Python_
 .. [3] 过滤器只能作为搜索文档的参数,或者说应该叫参数类型更为贴切,原文中用了 ``filter`` 因此翻译为过滤器
 .. [4] 元素参数,HTML文档中的一个tag节点,不能是文本节点
 .. [5] 采用先序遍历方式
+.. [6] CSS选择器是一种单独的文档搜索语法, 参考 http://www.w3school.com.cn/css/css_selector_type.asp
+.. [7] 原文写的是 html5lib, 译者觉得这是愿文档的一个笔误
