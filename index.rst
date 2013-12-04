@@ -2131,11 +2131,11 @@ Beautiful Soup的编码检测功能中有2项是Beautiful Soup库中用不到的
 
 ``UnicodeDammit.detwingle()`` 方法只能解码包含在UTF-8编码中的Windows-1252编码内容,但这是最常见的问题.
 
-在创建 ``BeautifulSoup`` 或 ``UnicodeDammit`` 对象前一定要先对文档调用 ``UnicodeDammit.detwingle()`` 确保文档的编码方式正确.如果尝试去解析一段包含Windows-1252编码的UTF-8文档,就会得到一堆乱码,比如: ` â˜ƒâ˜ƒâ˜ƒ“I like snowmen!”`.
+在创建 ``BeautifulSoup`` 或 ``UnicodeDammit`` 对象前一定要先对文档调用 ``UnicodeDammit.detwingle()`` 确保文档的编码方式正确.如果尝试去解析一段包含Windows-1252编码的UTF-8文档,就会得到一堆乱码,比如: â˜ƒâ˜ƒâ˜ƒ“I like snowmen!”.
 
 # ``UnicodeDammit.detwingle()`` 方法在Beautiful Soup 4.1.0版本中新增
 
-转换部分文档
+解析部分文档
 ============
 
 如果仅仅因为想要查找文档中的<a>标签而将整片文档进行解析,实在是浪费内存和时间.最快的方法是从一开始就把<a>标签以外的东西都忽略掉. ``SoupStrainer`` 类可以定义文档的某段内容,这样搜索文档时就不必先解析整片文档,只会解析在 ``SoupStrainer`` 中定义过的文档. 创建一个 ``SoupStrainer`` 对象并作为 ``parse_only`` 参数给 ``BeautifulSoup`` 的构造方法即可.
@@ -2143,57 +2143,333 @@ Beautiful Soup的编码检测功能中有2项是Beautiful Soup库中用不到的
 SoupStrainer
 -------------
 
+``SoupStrainer`` 类接受与典型搜索方法相同的参数：`name`_ , `attrs`_ , `recursive`_ , `text`_ , `**kwargs`_ 。下面距离说明3中 ``SoupStrainer`` 对象：
+
+::
+
+    from bs4 import SoupStrainer
+
+    only_a_tags = SoupStrainer("a")
+
+    only_tags_with_id_link2 = SoupStrainer(id="link2")
+
+    def is_short_string(string):
+        return len(string) < 10
+
+    only_short_strings = SoupStrainer(text=is_short_string)
+
+再拿“three sisters”文档来举例，来看看使用3种 ``SoupStrainer`` 对象做参数会有什么不同:
+
+::
+
+    html_doc = """
+    <html><head><title>The Dormouse's story</title></head>
+
+    <p class="title"><b>The Dormouse's story</b></p>
+
+    <p class="story">Once upon a time there were three little sisters; and their names were
+    <a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+    and they lived at the bottom of a well.</p>
+
+    <p class="story">...</p>
+    """
+
+    print(BeautifulSoup(html_doc, "html.parser", parse_only=only_a_tags).prettify())
+    # <a class="sister" href="http://example.com/elsie" id="link1">
+    #  Elsie
+    # </a>
+    # <a class="sister" href="http://example.com/lacie" id="link2">
+    #  Lacie
+    # </a>
+    # <a class="sister" href="http://example.com/tillie" id="link3">
+    #  Tillie
+    # </a>
+
+    print(BeautifulSoup(html_doc, "html.parser", parse_only=only_tags_with_id_link2).prettify())
+    # <a class="sister" href="http://example.com/lacie" id="link2">
+    #  Lacie
+    # </a>
+
+    print(BeautifulSoup(html_doc, "html.parser", parse_only=only_short_strings).prettify())
+    # Elsie
+    # ,
+    # Lacie
+    # and
+    # Tillie
+    # ...
+    #
+
+还可以将 ``SoupStrainer`` 作为参数传入 `搜索文档树`_ 中提到的方法.这可能不是个糟糕的用法,所以还是提一下:
+
+::
+
+    soup = BeautifulSoup(html_doc)
+    soup.find_all(only_short_strings)
+    # [u'\n\n', u'\n\n', u'Elsie', u',\n', u'Lacie', u' and\n', u'Tillie',
+    #  u'\n\n', u'...', u'\n']
+
 常见问题
 ========
 
-diagnose()
+方法诊断
 ----------
+
+如果想知道Beautiful Soup到底怎样处理一份文档,可以将文档传入 ``diagnose()`` 方法(Beautiful Soup 4.2.0中新增),Beautiful Soup会输出一份报告,说明不同的解析器会怎样处理这段文档,并标出当前的解析过程会使用哪种解析器:
+
+::
+
+    from bs4.diagnose import diagnose
+    data = open("bad.html").read()
+    diagnose(data)
+
+    # Diagnostic running on Beautiful Soup 4.2.0
+    # Python version 2.7.3 (default, Aug  1 2012, 05:16:07)
+    # I noticed that html5lib is not installed. Installing it may help.
+    # Found lxml version 2.3.2.0
+    #
+    # Trying to parse your data with html.parser
+    # Here's what html.parser did with the document:
+    # ...
+
+``diagnose()`` 方法的输出结果可能帮助你找到问题的原因,如果不行,还可以把结果复制出来以便寻求他人的帮助
 
 文档解析错误
 -------------
 
+文档解析错误有2种.一种是崩溃,Beautiful Soup尝试解析一段文档结果却抛除了异常,通常是 ``HTMLParser.HTMLParseError`` .还有一种异常情况,Beautiful Soup解析后的文档树看起来与原来的内容相差很多.
+
+这些错误几乎都不是Beautiful Soup的原因,这不会是因为Beautiful Soup得代码写的太优秀,而是因为Beautiful Soup没有包含任何文档解析代码.异常产生自被依赖的解析器,如果解析器不能很好的解析出当前的文档,那么最好的办法是换一个解析器.更多细节查看 `安装解析器`_ 章节.
+
+最常见的解析错误是 ``HTMLParser.HTMLParseError: malformed start tag`` 和 ``HTMLParser.HTMLParseError: bad end tag`` .这都是由Python内置的解析器引起的,解决方法是 `安装lxml或html5lib`_
+
+最常见的异常现象是当前文档找不到指定的tag,而这个tag光是用眼睛就足够发现的了. ``find_all()`` 方法返回 [] ,而 ``find()`` 方法返回 None .这是Python内置解析器的又一个问题: 解析器会跳过那些它不知道的tag.解决方法还是 `安装lxml或html5lib`_
+
 版本错误
 ----------
 
-解析XML
---------
+* ``SyntaxError: Invalid syntax`` (异常位置在代码行: ``ROOT_TAG_NAME = u'[document]'`` ),因为Python2版本的代码没有经过迁移就在Python3中窒息感
+
+* ``ImportError: No module named HTMLParser`` 因为在Python3中执行Python2版本的Beautiful Soup
+
+* ``ImportError: No module named html.parser`` 因为在Python2中执行Python3版本的Beautiful Soup
+
+* ``ImportError: No module named BeautifulSoup`` 因为在没有安装BeautifulSoup3库的Python环境下执行代码,或忘记了BeautifulSoup4的代码需要从 ``bs4`` 包中引入
+
+* ``ImportError: No module named bs4`` 因为当前Python环境下还没有安装BeautifulSoup4
+
+解析成XML
+----------
+
+默认情况下,Beautiful Soup会将当前文档作为HTML格式解析,如果要解析XML文档,要在 ``BeautifulSoup`` 构造方法中加入第二个参数 "xml":
+
+::
+
+    soup = BeautifulSoup(markup, "xml")
+
+当然,还需要 `安装lxml`_
 
 解析器的错误
 ------------
 
+* 如果同样的代码在不同环境下结果不同,可能是因为两个环境下使用不同的解析器造成的.例如这个环境中安装了lxml,而另一个环境中只有html5lib, `解析器之间的区别`_ 中说明了原因.修复方法是在 ``BeautifulSoup`` 的构造方法中中指定解析器
+
+* 因为HTML标签是 `大小写敏感 <http://www.w3.org/TR/html5/syntax.html#syntax>`_ 的,所以3种解析器再出来文档时都将tag和属性转换成小写.例如文档中的 <TAG></TAG> 会被转换为 <tag></tag> .如果想要保留tag的大写的话,那么应该将文档 `解析成XML`_ .
+
 杂项错误
 --------
+
+* ``UnicodeEncodeError: 'charmap' codec can't encode character u'\xfoo' in position bar`` (或其它类型的 ``UnicodeEncodeError`` )的错误,主要是两方面的错误(都不是Beautiful Soup的原因),第一种是正在使用的终端(console)无法显示部分Unicode,参考 `python wiki <http://wiki.python.org/moin/PrintFails>`_ ,第二种是向文件写入时,被写入文件不支持部分Unicode,这时只要用 ``u.encode("utf8")`` 方法将编码转换为UTF-8.
+
+* ``KeyError: [attr]`` 因为调用 ``tag['attr']`` 方法而引起,因为这个tag没有定义该属性.出错最多的是 ``KeyError: 'href'`` 和 ``KeyError: 'class'`` .如果不确定某个属性是否存在时,用 ``tag.get('attr')`` 方法去获取它,跟获取python字典的key一样
+
+* ``AttributeError: 'ResultSet' object has no attribute 'foo'`` 错误通常是因为把 ``find_all()`` 的返回结果当作一个tag或文本节点使用,实际上返回结果是一个列表或 ``ResultSet`` 对象的字符串,需要对结果进行循环才能得到每个节点的 ``.foo`` 属性.或者使用 ``find()`` 方法仅获取到一个节点
+
+* ``AttributeError: 'NoneType' object has no attribute 'foo'`` 这个错误通常是在调用了 ``find()`` 方法后直接点取某个属性 .foo 但是 ``find()`` 方法并没有找到任何结果,所以它的返回值是 ``None`` .需要找出为什么 ``find()`` 的返回值是 ``None`` .
 
 如何提高效率
 ------------
 
+Beautiful Soup对文档的解析速度不会比它所依赖的解析器更快,如果对计算时间要求很高或者计算机的时间比程序员的时间更值钱,那么就应该直接使用 `lxml <http://lxml.de/>`_ .
+
+换句话说,还有提高Beautiful Soup效率的办法,如果Beautiful Soup的解析器不是lxml,那么就 `安装lxml`_ .Beautiful Soup用lxml做解析器比用html5lib或python内置解析器速度快很多.
+
+安装 `cchardet <http://pypi.python.org/pypi/cchardet/>`_ 后文档的解码的编码检测会速度更快
+
+`解析部分文档`_ 不会节省多少解析时间,但是会节省很多内存,并且搜索时也会变得更快.
+
 Beautiful Soup 3
 =================
+
+Beautiful Soup 3是上一个发布版本,目前已经停止维护.Beautiful Soup 3库目前已经被几个主要的linux平台添加到源里:
+
+``$ apt-get install python-beautifulsoup``
+
+在PyPi中分发的包名字是 ``BeautifulSoup`` :
+
+``$ easy_install BeautifulSoup``
+
+``$ pip install BeautifulSoup``
+
+或通过 `Beautiful Soup 3.2.0源码包 <http://www.crummy.com/software/BeautifulSoup/bs3/download/3.x/BeautifulSoup-3.2.0.tar.gz>`_ 安装
+
+Beautiful Soup 3的在线文档查看 `这里 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ ,当然还有 `中文版 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html>`_ ,然后再读本片文档,来对比Beautiful Soup 4中有什新变化.
 
 迁移到BS4
 ----------
 
+只要一个小变动就能让大部分的Beautiful Soup 3代码在Beautiful Soup 4中运行----修改 ``BeautifulSoup`` 对象的引入方式:
+
+::
+
+    from BeautifulSoup import BeautifulSoup
+
+修改为:
+
+::
+
+    from bs4 import BeautifulSoup
+
+* 如果代码抛出 ``ImportError`` 异常“No module named BeautifulSoup”,原因可能是尝试执行Beautiful Soup 3,但环境中只安装了Beautiful Soup 4库
+
+* 如果代码跑出 ``ImportError`` 异常“No module named bs4”,原因可能是尝试运行Beautiful Soup 4的代码,但环境中只安装了Beautiful Soup 3.
+
+虽然BS4兼容绝大部分BS3的功能,但BS3中的大部分方法已经不推荐使用了,就方法按照 `PEP8标准 <http://www.python.org/dev/peps/pep-0008/>`_ 重新定义了方法名.很多方法都重新定义了方法名,但只有少数几个方法没有向下兼容.
+
+上述内容就是BS3迁移到BS4的注意事项
+
 需要的解析器
 ............
 
-方法的名字
-..........
+Beautiful Soup 3曾使用python的 ``SGMLParser`` 解析器,这个模块在python3中已经被移除了.Beautiful Soup 4默认使用系统的 ``html.parser`` ,也可以使用lxml或html5lib扩展库代替.查看 `安装解析器`_ 章节
+
+因为 ``html.parser`` 解析器与 ``SGMLParser`` 解析器不同,它们在处理格式不正确的文档时也会产生不同结果.通常 ``html.parser`` 解析器会抛出异常.所以推荐安装扩展库作为解析器.有时 ``html.parser`` 解析出的文档树结构与 ``SGMLParser`` 的不同.如果发生这种情况,那么需要升级BS3来处理新的文档树.
+
+方法名的变化
+............
+
+* renderContents -> encode_contents
+
+* replaceWith -> replace_with
+
+* replaceWithChildren -> unwrap
+
+* findAll -> find_all
+
+* findAllNext -> find_all_next
+
+* findAllPrevious -> find_all_previous
+
+* findNext -> find_next
+
+* findNextSibling -> find_next_sibling
+
+* findNextSiblings -> find_next_siblings
+
+* findParent -> find_parent
+
+* findParents -> find_parents
+
+* findPrevious -> find_previous
+
+* findPreviousSibling -> find_previous_sibling
+
+* findPreviousSiblings -> find_previous_siblings
+
+* nextSibling -> next_sibling
+
+* previousSibling -> previous_sibling
+
+Beautiful Soup构造方法的参数部分也有名字变化:
+
+* BeautifulSoup(parseOnlyThese=...) -> BeautifulSoup(parse_only=...)
+
+* BeautifulSoup(fromEncoding=...) -> BeautifulSoup(from_encoding=...)
+
+为了适配python3,修改了一个方法名:
+
+* Tag.has_key() -> Tag.has_attr()
+
+修改了一个属性名,让它看起来更专业点:
+
+* Tag.isSelfClosing -> Tag.is_empty_element
+
+修改了下面3个属性的名字,以免雨python保留字冲突.这些变动不是向下兼容的,如果在BS3中使用了这些属性,那么在BS4中这些代码无法执行.
+
+* UnicodeDammit.unicode -> UnicodeDammit.unicode_markup
+
+* Tag.next -> Tag.next_element
+
+* Tag.previous -> Tag.previous_element
 
 生成器
 .......
 
+将下列生成器按照PEP8标准重新命名,并转换成对象的属性:
+
+* childGenerator() -> children
+
+* nextGenerator() -> next_elements
+
+* nextSiblingGenerator() -> next_siblings
+
+* previousGenerator() -> previous_elements
+
+* previousSiblingGenerator() -> previous_siblings
+
+* recursiveChildGenerator() -> descendants
+
+* parentGenerator() -> parents
+
+所以迁移到BS4版本时要替换这些代码:
+
+::
+
+    for parent in tag.parentGenerator():
+        ...
+
+替换为:
+
+::
+
+    for parent in tag.parents:
+        ...
+
+(生成器的就代码其实,也能用)
+
+BS3中有的生成器循环结束后会返回 ``None`` 然后结束.这是个bug.新版生成器不再返回 ``None`` .
+
+BS4中增加了2个新的生成器, `.strings 和 stripped_strings`_ . ``.strings`` 生成器返回NavigableString对象, ``.stripped_strings`` 方法返回去除前后空白的python的string对象.
+
 XML
 ....
 
-实例
+BS4中移除了解析XML的 ``BeautifulStoneSoup`` 类.如果要解析一段XML文档,使用 ``BeautifulSoup`` 构造方法并在第二个参数设置为“xml”.同时 ``BeautifulSoup`` 构造方法也不再识别 ``isHTML`` 参数.
+
+Beautiful Soup处理XML空标签的方法升级了.旧版本中解析XML时必须指明哪个标签是标签. 构造方法的 ``selfClosingTags`` 参数已经不再使用.新版Beautiful Soup将所有空标签解析为空元素,如果向空元素中添加子节点,那么这个元素就不再是空元素了.
+
+实体
 .....
+
+HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3中有很多处理实体的方法,在新版中都被移除了. ``BeautifulSoup`` 构造方法也不再接受 ``smartQuotesTo`` 或 ``convertEntities`` 参数. `编码自动检测`_ 方法依然有 ``smart_quotes_to`` 参数,但是默认会将引号转换成Unicode.内容配置项 ``HTML_ENTITIES`` , ``XML_ENTITIES`` 和 ``XHTML_ENTITIES`` 在新版中被移除.因为它们代表的特性已经不再被支持.
+
+如果在输出文档时想把Unicode字符转换成HTML实体,而不是输出成UTF-8编码,那就需要用到 `输出格式`_ 的方法.
 
 迁移杂项
 .........
 
+`Tag.string`_ 属性现在是一个递归操作.如果A标签只包含了一个B标签,那么A标签的.string属性值与B标签的.string属性值相同.
 
+`多值属性`_ 比如 ``class`` 属性包含一个他们的值的列表,而不是一个字符串.这可能会影响到如何按照CSS类名哦搜索tag.
 
-Python_
+如果使用 ``find*`` 方法时同时传入了 `text 参数`_ 和 `name 参数`_ .Beautiful Soup会搜索指定name的tag,并且这个tag的 `Tag.string`_ 属性包含text参数的内容.结果中不会包含字符串本身.旧版本中Beautiful Soup会忽略掉tag参数,只搜索text参数.
+
+``BeautifulSoup`` 构造方法不再支持 markupMassage 参数.现在由解析器负责文档的解析正确性.
+
+很少被用到的几个解析器方法在新版中被移除,比如 ``ICantBelieveItsBeautifulSoup`` 和 ``BeautifulSOAP`` .现在由解析器完全负责如何解释模糊不清的文档标记.
+
+``prettify()`` 方法在新版中返回Unicode字符串,不再返回字节流.
 
 `BeautifulSoup3 文档`_
 
@@ -2209,6 +2485,10 @@ Python_
 .. _.next_elements: `.next_elements 和 .previous_elements`_
 .. _.previous_elements: `.next_elements 和 .previous_elements`_
 .. _.stripped_strings: `.strings 和 stripped_strings`_
+.. _安装lxml: `安装解析器`_
+.. _安装lxml或html5lib: `安装解析器`_
+.. _编码自动检测: `Unicode, dammit! (靠!)`_
+.. _Tag.string: `.string`_
 
 注释文档
 ========
