@@ -9,23 +9,23 @@ Beautiful Soup 4.2.0 文档
 .. image:: _static/cover.jpg
     :align: right
 
-`BeautifulSoup <http://www.crummy.com/software/BeautifulSoup/>`_ 是一个可以从HTML或XML文件中提取数据的python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.使用BeautifulSoup会帮助你节省数小时甚至数天的工作.
+`Beautiful Soup <http://www.crummy.com/software/BeautifulSoup/>`_ 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.
 
 这篇文档介绍了BeautifulSoup4中所有主要特性,并切有小例子.让我来向你展示它适合做什么,如何工作,怎样使用,如何达到你想要的效果,和处理异常情况.
 
-文档中出现的例子在python2.7和python3.2中的执行结果相同
+文档中出现的例子在Python2.7和Python3.2中的执行结果相同
 
-你可能在寻找 `BeautifulSoup3 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, `移植到BS4 <http://www.baidu.com>`_
+你可能在寻找 `Beautiful Soup3 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的文档,Beautiful Soup 3 目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4, `移植到BS4 <http://www.baidu.com>`_
 
-获取帮助
+寻求帮助
 --------
 
-如果你有关于BeautifulSoup的问题,可以发送邮件到 `讨论组 <https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup>`_ .如果你的问题包含了一段需要转换的HTML代码,确保你提的问题中附带HTML文档的在 **诊断代码** [1]_
+如果你有关于BeautifulSoup的问题,可以发送邮件到 `讨论组 <https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup>`_ .如果你的问题包含了一段需要转换的HTML代码,那么确保你提的问题描述中附带这段HTML文档的 `代码诊断`_ [1]_
 
 快速开始
-==========
+========
 
-下面的一段HTML代码将作为我们整篇文档的解析用的例子.这是 *爱丽丝梦游仙境的* 的一段内容
+下面的一段HTML代码将作为例子被多次用到.这是 *爱丽丝梦游仙境的* 的一段内容:
 
 ::
 
@@ -43,7 +43,7 @@ Beautiful Soup 4.2.0 文档
     <p class="story">...</p>
     """
 
-使用BeautifulSoup解析这段代码,能够得到一个BeautifulSoup的对象,并能按照格式化的结构输出:
+使用BeautifulSoup解析这段代码,能够得到一个 ``BeautifulSoup`` 的对象,并能按照标准的缩进格式的结构输出:
 
 ::
 
@@ -84,7 +84,7 @@ Beautiful Soup 4.2.0 文档
     #  </body>
     # </html>
 
-几个简单的浏览HTML节点的方法:
+几个简单的浏览结构化数据的方法:
 
 ::
 
@@ -127,7 +127,7 @@ Beautiful Soup 4.2.0 文档
         # http://example.com/lacie
         # http://example.com/tillie
 
-从文档中获取所有文字内容
+从文档中获取所有文字内容:
 
 ::
 
@@ -144,100 +144,98 @@ Beautiful Soup 4.2.0 文档
     #
     # ...
 
-这是你需要的吗?别着急,还有更好用的
+这是你想要的吗?别着急,还有更好用的
 
 安装 Beautiful Soup
 ======================
 
-如果你用的是新版的Debain或ubuntu,那么可以通过系统包管理来安装
+如果你用的是新版的Debain或ubuntu,那么可以通过系统的软件包管理来安装:
 
-``$ apt-get install python-bs4``
+``$ apt-get install Python-bs4``
 
-Beautiful Soup 4 通过PyPi发布,所以如果你无法使用系统包管理安装,那么也可以通过easy_install活pip来安装.包的名字是 *beautifulsoup4* ,这个包兼容python2和python3
+Beautiful Soup 4 通过PyPi发布,所以如果你无法使用系统包管理安装,那么也可以通过 ``easy_install`` 或 ``pip`` 来安装.包的名字是 ``beautifulsoup4`` ,这个包兼容Python2和Python3.
 
 ``$ easy_install beautifulsoup4``
 
 ``$ pip install beautifulsoup4``
 
-(在PyPi中还有一个名字是 *beautifulsoup的* 包,但那可能不是你想要的,那是 `BeautifulSoup3 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的发布版本,因为很多项目还在使用BS3, 所以*beautifulsoup* 包依然有效,但是如果你想执行新版本的代码,那么你需要安装的包是 *beautifulsoup4*)
+(在PyPi中还有一个名字是 ``BeautifulSoup`` 的包,但那可能不是你想要的,那是 `Beautiful Soup3 <http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的发布版本,因为很多项目还在使用BS3, 所以 ``BeautifulSoup`` 包依然有效.但是如果你在编写新项目,那么你应该安装的 ``beautifulsoup4`` )
 
-如果你没有安装 *easy_install* 或 *pip* ,那你也可以 `下载BS4的源码 <http://www.crummy.com/software/BeautifulSoup/download/4.x/>`_ ,然后通过setup.py来安装.
+如果你没有安装 ``easy_install`` 或 ``pip`` ,那你也可以 `下载BS4的源码 <http://www.crummy.com/software/BeautifulSoup/download/4.x/>`_ ,然后通过setup.py来安装.
 
-``$ python setup.py install``
+``$ Python setup.py install``
 
 如果上述安装方法都行不通,Beautiful Soup的发布协议允许你将BS4的代码打包在你的项目中,这样无须安装即可使用.
 
-作者在Python2.7和Python3.2的版本下开发Beautiful Soup, Beautiful Soup应该在所有当前的python版本中正常工作
+作者在Python2.7和Python3.2的版本下开发Beautiful Soup, 理论上Beautiful Soup应该在所有当前的Python版本中正常工作
 
 安装完成后的问题
 -----------------
 
-Beautiful Soup被打包成Python2版本的编码,当在Python3环境下安装时,会自动转换成python3的代码,如果你没有安装的过程,那么代码就不会被转换.
+Beautiful Soup发布时打包成Python2版本的代码,在Python3环境下安装时,会自动转换成Python3的代码,如果没有一个安装的过程,那么代码就不会被转换.
 
-如果代码抛出了 *ImportError* 的异常: "No module named HTMLParser", 这是因为你在python3版本中执行python2版本的代码.
+如果代码抛出了 ``ImportError`` 的异常: "No module named HTMLParser", 这是因为你在Python3版本中执行Python2版本的代码.
 
 
-如果代码抛出了 *ImportError* 的异常: "No module named html.parser", 这是因为你在python2版本中执行python3版本的代码.
+如果代码抛出了 ``ImportError`` 的异常: "No module named html.parser", 这是因为你在Python2版本中执行Python3版本的代码.
 
 如果遇到上述2种情况,最好的解决方法是重新安装BeautifulSoup4.
 
-如果遇到 *SyntaxError* "Invalid syntax" 在`ROOT_TAG_NAME = u'[document]'` ,需要将把BS4的python代码版本从python2转换到python3. 可以重新安装BS4:
+如果在ROOT_TAG_NAME = u'[document]'代码处遇到 ``SyntaxError`` "Invalid syntax"错误,需要将把BS4的Python代码版本从Python2转换到Python3. 可以重新安装BS4:
 
-$ python3 setup.py install
+``$ Python3 setup.py install``
 
-或在bs4的目录中执行python代码版本转换脚本
+或在bs4的目录中执行Python代码版本转换脚本
 
-$ 2to3-3.2 -w bs4
+``$ 2to3-3.2 -w bs4``
 
 安装解析器
 ------------
 
-Beautiful Soup支持python标准库中的HTML解析器,还支持一些第三方的解析器,其中一个是 `lxml parser <http://lxml.de/>`_ .根据操作系统不同,可以选择下列不同的安装lxml的方法:
+Beautiful Soup支持Python标准库中的HTML解析器,还支持一些第三方的解析器,其中一个是 `lxml <http://lxml.de/>`_ .根据操作系统不同,可以选择下列方法来安装lxml:
 
-$ apt-get install python-lxml
+``$ apt-get install Python-lxml``
 
-$ easy_install lxml
+``$ easy_install lxml``
 
-$ pip install lxml
+``$ pip install lxml``
 
-另一个可以选择的解析器是纯python代码的 `html5lib parser <http://code.google.com/p/html5lib/>`_ , html5lib parser的解析方式与浏览器相同,根据安装方式不同,可以选择下列方法安装:
+另一个可供选择的解析器是纯Python实现的 `html5lib <http://code.google.com/p/html5lib/>`_ , html5lib的解析方式与浏览器相同,可以选择下列方法来安装html5lib:
 
-$ apt-get install python-html5lib
+``$ apt-get install Python-html5lib``
 
-$ easy_install html5lib
+``$ easy_install html5lib``
 
-$ pip install html5lib
+``$ pip install html5lib``
 
 下表列出了主要的解析器,以及它们的优缺点:
 
 +-----------------------+---------------------------+---------------------------+---------------------------+
 |         解析器        |         使用方法          |            优势           |            劣势           |
 +=======================+===========================+===========================+===========================+
-| Python’s html.parser  | ``BeautifulSoup(markup,   | - Batteries included      | - Not very lenient (before|
-|                       | "html.parser")``          | - Decent speed            |   Python 2.7.3 or 3.2.2)  |
-|                       |                           | - Lenient (as of Python   |                           |
-|                       |                           |   2.7.3 and 3.2.)         |                           |
+| Python标准库          | ``BeautifulSoup(markup,   | - Python的内置标准库      | - Python 2.7.3 or 3.2.2)前|
+|                       | "html.parser")``          | - 执行速度适中            |   的版本中文档容错能力差  |
+|                       |                           | - 文档容错能力强          |                           |
 |                       |                           |                           |                           |
 +-----------------------+---------------------------+---------------------------+---------------------------+
-| lxml’s HTML parser    | ``BeautifulSoup(markup,   | - Very fast               | - External C dependency   |
-|                       | "lxml")``                 | - Lenient                 |                           |
+| lxml HTML 解析器      | ``BeautifulSoup(markup,   | - 速度快                  | - 需要安装C语言库         |
+|                       | "lxml")``                 | - 文档容错能力强          |                           |
 |                       |                           |                           |                           |
 +-----------------------+---------------------------+---------------------------+---------------------------+
-| lxml’s XML parser     | ``BeautifulSoup(markup,   | - Very fast               |  - External C dependency  |
-|                       | ["lxml", "xml"])``        | - The only currently      |                           |
-|                       |                           |   supported XML parser    |                           |
+| lxml XML 解析器       | ``BeautifulSoup(markup,   | - 速度快                  | - 需要安装C语言库         |
+|                       | ["lxml", "xml"])``        | - 唯一支持XML的解析器     |                           |
+|                       |                           |                           |                           |
 |                       | ``BeautifulSoup(markup,   |                           |                           |
 |                       | "xml")``                  |                           |                           |
 +-----------------------+---------------------------+---------------------------+---------------------------+
-| html5lib              | ``BeautifulSoup(markup,   | - Extremely lenient       | - Very slow               |
-|                       | "html5lib")``             | - Parses pages the same   | - External Python depende |
-|                       |                           |   way a web browser does  |                           |
-|                       |                           | - Creates valid HTML5     |                           |
+| html5lib              | ``BeautifulSoup(markup,   | - 最好的容错性            | - 速度慢                  |
+|                       | "html5lib")``             | - 以浏览器的方式解析文档  | - 不依赖外部扩展          |
+|                       |                           | - 生成HTML5格式的文档     |                           |
 +-----------------------+---------------------------+---------------------------+---------------------------+
 
-推荐使用lxml作为解析器,因为lxml效率更高. 在python2.7.3之前的版本和python3中3.2.2之前的版本,必须安装lxml或html5lib, 因为那些python版本的标准库中内置的HTML解析方法不是很好.
+推荐使用lxml作为解析器,因为效率更高. 在Python2.7.3之前的版本和Python3中3.2.2之前的版本,必须安装lxml或html5lib, 因为那些Python版本的标准库中内置的HTML解析方法不够稳定.
 
-提示: 如果一段HTML或XML文档格式不正确的话,那么在不同的解析器中返回的结果可能是不一样的,查看 `Differences between parsers <http://www.baidu.com>`_ 了解更多细节
+提示: 如果一段HTML或XML文档格式不正确的话,那么在不同的解析器中返回的结果可能是不一样的,查看 `解析器之间的区别`_  了解更多细节
 
 如何使用
 ========
@@ -252,24 +250,24 @@ $ pip install html5lib
 
     soup = BeautifulSoup("<html>data</html>")
 
-首先,文档被转换成unicode,并且HTML的实例都被转换成unicode编码
+首先,文档被转换成Unicode,并且HTML的实例都被转换成Unicode编码
 
 ::
 
     BeautifulSoup("Sacr&eacute; bleu!")
     <html><head></head><body>Sacré bleu!</body></html>
 
-然后,Beautiful Soup选择最合适的解析器来解析这段文档,如果手动指定解析器那么Beautiful Soup会选择指定的解析器来解析文档.(参考`Parsing XML <http://www.crummy.com/software/BeautifulSoup/bs4/doc/#id16>`_ )
+然后,Beautiful Soup选择最合适的解析器来解析这段文档,如果手动指定解析器那么Beautiful Soup会选择指定的解析器来解析文档.(参考 `解析成XML`_ ).
 
-对象的类型
+对象的种类
 ==========
 
-Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构的python对象,所有对象都是4类对象中的一种: Tag, NavigableString, BeautifulSoup, Comment.
+Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构,每个节点都是Python对象,所有对象可以归纳为4种: ``Tag`` , ``NavigableString`` , ``BeautifulSoup`` , ``Comment`` .
 
 Tag
 -----
 
-Tag 对象与XML或HTML原生文档中的tag内容相符
+``Tag`` 对象与XML或HTML原生文档中的tag相同:
 
 ::
 
@@ -278,19 +276,19 @@ Tag 对象与XML或HTML原生文档中的tag内容相符
     type(tag)
     # <class 'bs4.element.Tag'>
 
-Tag有很多方法和属性,在 ` Navigating the tree` 和 `Searching the tree` 有详细解释.现在介绍一下tag中最重要的属性: name和attributes
+Tag有很多方法和属性,在 `遍历文档树`_ 和 `搜索文档树`_ 中有详细解释.现在介绍一下tag中最重要的属性: name和attributes
 
 Name
-..........
+.....
 
-每个tag都有自己的名字,通过 .name 来获取
+每个tag都有自己的名字,通过 ``.name`` 来获取:
 
 ::
 
     tag.name
     # u'b'
 
-如果改变了tag的name,那将影响所有通过当前Beautiful Soup对象生成的HTML文档
+如果改变了tag的name,那将影响所有通过当前Beautiful Soup对象生成的HTML文档:
 
 ::
 
@@ -301,14 +299,14 @@ Name
 Attributes
 ............
 
-一个tag可能有很多个属性. tag *<b class="boldest">* 有一个 *class* 的属性,值为"boldest".tag的属性的操作方法与字典相同:
+一个tag可能有很多个属性. tag ``<b class="boldest">`` 有一个 "class" 的属性,值为 "boldest" . tag的属性的操作方法与字典相同:
 
 ::
 
     tag['class']
     # u'boldest'
 
-也可以直接"点"取属性, 比如: .attrs:
+也可以直接"点"取属性, 比如: ``.attrs`` :
 
 ::
 
@@ -337,7 +335,7 @@ tag的属性可以被添加,删除或修改. 再说一次, tag的属性操作方
 多值属性
 ``````````
 
-HTML 4定义了一系列可以包含多个值的属性.在HTML5中移除了一些,却增加更多.最常见的多值的属性是 class (一个tag可以有多个CSS的class). 还有一些属性  rel, rev, accept-charset, headers, accesskey. 在Beautiful Soup中多值属性的返回值被定义为list(无论是否有多个值):
+HTML 4定义了一系列可以包含多个值的属性.在HTML5中移除了一些,却增加更多.最常见的多值的属性是 class (一个tag可以有多个CSS的class). 还有一些属性 ``rel`` , ``rev`` , ``accept-charset`` , ``headers`` , ``accesskey`` . 在Beautiful Soup中多值属性的返回类型是list:
 
 ::
 
@@ -376,10 +374,10 @@ HTML 4定义了一系列可以包含多个值的属性.在HTML5中移除了一�
     xml_soup.p['class']
     # u'body strikeout'
 
-NavigableString
+可以遍历的字符串
 ----------------
 
-字符串常被包含在tag内.Beautiful Soup用 *NavigableString* 类来包装tag中的字符串
+字符串常被包含在tag内.Beautiful Soup用 ``NavigableString`` 类来包装tag中的字符串:
 
 ::
 
@@ -388,7 +386,7 @@ NavigableString
     type(tag.string)
     # <class 'bs4.element.NavigableString'>
 
-一个 *NavigableString* 字符串与python中的unicode字符串相同,并且还支持包含在 Navigating the tree 和 Searching the tree 中的一些特性. 通过unicode()方法可以直接将 *NavigableString* 对象转换成unicode字符串:
+一个 ``NavigableString`` 字符串与Python中的Unicode字符串相同,并且还支持包含在 `遍历文档树`_ 和 `搜索文档树`_ 中的一些特性. 通过 ``unicode()`` 方法可以直接将 ``NavigableString`` 对象转换成Unicode字符串:
 
 ::
 
@@ -398,7 +396,7 @@ NavigableString
     type(unicode_string)
     # <type 'unicode'>
 
-tag中包含的字符串不能编辑,但是可以被替换成其它的字符串,用 *replace_with()* 方法:
+tag中包含的字符串不能编辑,但是可以被替换成其它的字符串,用 `replace_with()`_ 方法:
 
 ::
 
@@ -406,16 +404,16 @@ tag中包含的字符串不能编辑,但是可以被替换成其它的字符串,
     tag
     # <blockquote>No longer bold</blockquote>
 
-`NavigableString` 对象支持 `Navigating the tree` 和 `Searching the tree` 中定义的大部分属性, 并非全部.尤其是,一个字符串不能包含其它内容(tag能够包含字符串或是其它tag),字符串不支持 `.contents` 或 `.string` 属性或 `find()` 方法.
+``NavigableString`` 对象支持 `遍历文档树`_ 和 `搜索文档树`_ 中定义的大部分属性, 并非全部.尤其是,一个字符串不能包含其它内容(tag能够包含字符串或是其它tag),字符串不支持 ``.contents`` 或 ``.string`` 属性或 ``find()`` 方法.
 
-如果想在Beautiful Soup之外使用 `NavigableString` 对象,需要调用 `unicode()` 方法,将该对象转换成普通的unicode字符串,否则就算Beautiful Soup已方法已经执行结束,该对象的输出也会带有实例的引用地址.这样会浪费内存.
+如果想在Beautiful Soup之外使用 ``NavigableString`` 对象,需要调用 ``unicode()`` 方法,将该对象转换成普通的Unicode字符串,否则就算Beautiful Soup已方法已经执行结束,该对象的输出也会带有对象的引用地址.这样会浪费内存.
 
 BeautifulSoup
 ----------------
 
-`BeautifulSoup` 对象表示的是一个文档的整体.大部分时候,可以把它当作 `Tag` 对象,它支持 `Navigating the tree` 和 `Searching the tree` 中描述的大部分的方法.
+``BeautifulSoup`` 对象表示的是一个文档的全部内容.大部分时候,可以把它当作 ``Tag`` 对象,它支持 `遍历文档树`_ 和 `搜索文档树`_ 中描述的大部分的方法.
 
-因为 `BeautifulSoup` 对象并不是真正的HTML或XML的tag,所以它没有name和attribute属性.但有事查看它的 `.name` 属性是很方便的,所以 `BeautifulSoup` 对象包含了一个值为 "[document]" 的特殊属性 `.name`
+因为 ``BeautifulSoup`` 对象并不是真正的HTML或XML的tag,所以它没有name和attribute属性.但有时查看它的 ``.name`` 属性是很方便的,所以 ``BeautifulSoup`` 对象包含了一个值为 "[document]" 的特殊属性 ``.name``
 
 ::
 
@@ -423,9 +421,9 @@ BeautifulSoup
     # u'[document]'
 
 注释及特殊字符串
------------------------
+-----------------
 
-*Tag* , *NavigableString* , *BeautifulSoup* 几乎覆盖了html和xml中的所有内容,但是还有一些特殊对象.容易让人担心的内容是文档的注释部分:
+``Tag`` , ``NavigableString`` , ``BeautifulSoup`` 几乎覆盖了html和xml中的所有内容,但是还有一些特殊对象.容易让人担心的内容是文档的注释部分:
 
 ::
 
@@ -435,14 +433,14 @@ BeautifulSoup
     type(comment)
     # <class 'bs4.element.Comment'>
 
-*Comment* 对象是一个特殊类型的 *NavigableString* 对象:
+``Comment`` 对象是一个特殊类型的 ``NavigableString`` 对象:
 
 ::
 
     comment
     # u'Hey, buddy. Want to buy a used parser'
 
-但是当它出现在HTML文档中时, *Comment* 对象会使用特殊的格式输出:
+但是当它出现在HTML文档中时, ``Comment`` 对象会使用特殊的格式输出:
 
 ::
 
@@ -451,7 +449,7 @@ BeautifulSoup
     #  <!--Hey, buddy. Want to buy a used parser?-->
     # </b>
 
-Beautiful Soup中定义的其它类型都可能会出现在XML的文档中: *CData* , *ProcessingInstruction* , *Declaration* , *Doctype* .与 *Comment* 对象类似,这些类都是 *NavigableString* 的子类,只是添加了一些额外的方法的字符串独享.下面是用CDATA来替代注释的例子:
+Beautiful Soup中定义的其它类型都可能会出现在XML的文档中: ``CData`` , ``ProcessingInstruction`` , ``Declaration`` , ``Doctype`` .与 ``Comment`` 对象类似,这些类都是 ``NavigableString`` 的子类,只是添加了一些额外的方法的字符串独享.下面是用CDATA来替代注释的例子:
 
 ::
 
@@ -464,8 +462,8 @@ Beautiful Soup中定义的其它类型都可能会出现在XML的文档中: *CDa
     #  <![CDATA[A CDATA block]]>
     # </b>
 
-操作文档树
-===================
+遍历文档树
+==========
 
 还是拿"there sister"的文档来做例子:
 
@@ -500,7 +498,7 @@ Tag可能包含字符串或其它的tag,这些内容都是tag的子节点.Beauti
 tag的名字
 ..........
 
-操作文档树最简单的方法就是告诉它你想获取的tag的name.如果想获取 <head> 标签,只要用 *soup.head* :
+操作文档树最简单的方法就是告诉它你想获取的tag的name.如果想获取 <head> 标签,只要用 ``soup.head`` :
 
 ::
 
@@ -1101,7 +1099,7 @@ keyword 参数
 按CSS搜索
 ..........
 
-按照CSS类名搜索tag的功能非常实用,但标识CSS类名的关键字 ``class`` 在python中是保留字,使用 ``class`` 做参数会导致语法错误.从Beautiful Soup的4.1.1版本开始,可以通过 ``class_`` 参数搜索有指定类名的tag:
+按照CSS类名搜索tag的功能非常实用,但标识CSS类名的关键字 ``class`` 在Python中是保留字,使用 ``class`` 做参数会导致语法错误.从Beautiful Soup的4.1.1版本开始,可以通过 ``class_`` 参数搜索有指定类名的tag:
 
 ::
 
@@ -1526,7 +1524,7 @@ Beautiful Soup的强项是文档树的搜索,但同时也可以方便的修改�
 append()
 ----------
 
-``Tag.append()`` 方法想tag中添加内容,就好像python的列表的 ``.append()`` 方法:
+``Tag.append()`` 方法想tag中添加内容,就好像Python的列表的 ``.append()`` 方法:
 
 ::
 
@@ -1541,7 +1539,7 @@ append()
 BeautifulSoup.new_string() 和 .new_tag()
 -----------------------------------------
 
-如果想添加一段文本内容到文档中也没问题,可以调用python的 ``append`` 方法或调用工厂方法 ``BeautifulSoup.new_string()`` :
+如果想添加一段文本内容到文档中也没问题,可以调用Python的 ``append`` 方法或调用工厂方法 ``BeautifulSoup.new_string()`` :
 
 ::
 
@@ -1590,7 +1588,7 @@ BeautifulSoup.new_string() 和 .new_tag()
 insert()
 --------
 
-``Tag.insert()`` 方法与 ``Tag.append()`` 方法类似,区别是不会把新元素添加到父节点 ``.contents`` 属性的最后,而是把元素插入到指定的位置.与python列表总的 ``.insert()`` 方法的用法下同:
+``Tag.insert()`` 方法与 ``Tag.append()`` 方法类似,区别是不会把新元素添加到父节点 ``.contents`` 属性的最后,而是把元素插入到指定的位置.与Python列表总的 ``.insert()`` 方法的用法下同:
 
 ::
 
@@ -1753,7 +1751,7 @@ unwrap()
 格式化输出
 -----------
 
-``prettify()`` 方法将Beautiful Soup的文档树格式化后以unicode编码输出,每个XML/HTML标签都独占一行
+``prettify()`` 方法将Beautiful Soup的文档树格式化后以Unicode编码输出,每个XML/HTML标签都独占一行
 
 ::
 
@@ -1791,7 +1789,7 @@ unwrap()
 压缩输出
 ----------
 
-如果只想得到结果字符串,不重视格式,那么可以对一个 ``BeautifulSoup`` 对象或 ``Tag`` 对象使用python的 ``unicode()`` 或 ``str()`` 方法:
+如果只想得到结果字符串,不重视格式,那么可以对一个 ``BeautifulSoup`` 对象或 ``Tag`` 对象使用Python的 ``unicode()`` 或 ``str()`` 方法:
 
 ::
 
@@ -1803,12 +1801,12 @@ unwrap()
 
 ``str()`` 方法返回UTF-8编码的字符串,可以指定 `编码`_ 的设置.
 
-还可以调用 ``encode()`` 方法获得字节码或调用 ``decode()`` 方法获得unicode.
+还可以调用 ``encode()`` 方法获得字节码或调用 ``decode()`` 方法获得Unicode.
 
 输出格式
 ---------
 
-Beautiful Soup输出是会将HTML中的特殊字符转换成unicode,比如“&lquot;”:
+Beautiful Soup输出是会将HTML中的特殊字符转换成Unicode,比如“&lquot;”:
 
 ::
 
@@ -1826,7 +1824,7 @@ Beautiful Soup输出是会将HTML中的特殊字符转换成unicode,比如“&lq
 get_text()
 ----------
 
-如果只想得到tag中包含的文本内容,那么可以嗲用 ``get_text()`` 方法,这个方法获取到tag中包含的所有文版内容包括子孙tag中的内容,并将结果作为unicode字符串返回:
+如果只想得到tag中包含的文本内容,那么可以嗲用 ``get_text()`` 方法,这个方法获取到tag中包含的所有文版内容包括子孙tag中的内容,并将结果作为Unicode字符串返回:
 
 ::
 
@@ -1864,7 +1862,7 @@ get_text()
 
 如果仅是想要解析HTML文档,只要用文档创建 ``BeautifulSoup`` 对象就可以了.Beautiful Soup会自动选择一个解析器来解析文档.但是还有一些参数可以可以用来指定使用那种解析器来解析当前的文档.
 
-``BeautifulSoup`` 第一个参数应该是要被解析的文档字符串或是文件句柄,第二个参数用来标识怎样解析文档.如果第二个参数为空,那么Beautiful Soup根据当前系统安装的库自动选择解析器,解析器的有限数序: lxml, html5lib,python标准库.这个顺序可以手动修改:
+``BeautifulSoup`` 第一个参数应该是要被解析的文档字符串或是文件句柄,第二个参数用来标识怎样解析文档.如果第二个参数为空,那么Beautiful Soup根据当前系统安装的库自动选择解析器,解析器的有限数序: lxml, html5lib,Python标准库.这个顺序可以手动修改:
 
     * 要解析的文档是什么类型: 目前支持,  “html”, “xml”, 和 “html5”
     * 指定使用哪种解析器: 目前支持, “lxml”, “html5lib”, 和 “html.parser”
@@ -1918,7 +1916,7 @@ html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树
     BeautifulSoup("<a></p>", "html.parser")
     # <a></a>
 
-与lxml [7]_ 库类似的,python内置库忽略掉了</p>标签,与html5lib库不同的是标准库没有尝试创建符合标准的文档格式或将文档片段包含在<body>标签内,与lxml不同的是标准库甚至连<html>标签都没有尝试去添加.
+与lxml [7]_ 库类似的,Python内置库忽略掉了</p>标签,与html5lib库不同的是标准库没有尝试创建符合标准的文档格式或将文档片段包含在<body>标签内,与lxml不同的是标准库甚至连<html>标签都没有尝试去添加.
 
 因为文档片段“<a></p>”是错误格式,所以以上解析方式都能算作"正确",html5lib库使用的是HTML5的部分标准,所以最接近"正确".不过所有解析器的结构都能够被认为是"正常"的.
 
@@ -1927,7 +1925,7 @@ html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树
 编码
 ====
 
-任何HTML或XML文档都有自己的编码方式,比如ASCII 或 UTF-8,但是使用Beautiful Soup解析后,文档都被转换成了unicode:
+任何HTML或XML文档都有自己的编码方式,比如ASCII 或 UTF-8,但是使用Beautiful Soup解析后,文档都被转换成了Unicode:
 
 ::
 
@@ -2013,7 +2011,7 @@ html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树
     #   <meta content="text/html; charset=latin-1" http-equiv="Content-type" />
     # ...
 
-还可以调用 ``BeautifulSoup`` 对象或任意节点的 ``encode()`` 方法,就像python的字符串调用 ``encode()`` 方法一样:
+还可以调用 ``BeautifulSoup`` 对象或任意节点的 ``encode()`` 方法,就像Python的字符串调用 ``encode()`` 方法一样:
 
 ::
 
@@ -2213,7 +2211,7 @@ SoupStrainer
 常见问题
 ========
 
-方法诊断
+代码诊断
 ----------
 
 如果想知道Beautiful Soup到底怎样处理一份文档,可以将文档传入 ``diagnose()`` 方法(Beautiful Soup 4.2.0中新增),Beautiful Soup会输出一份报告,说明不同的解析器会怎样处理这段文档,并标出当前的解析过程会使用哪种解析器:
@@ -2280,9 +2278,9 @@ SoupStrainer
 杂项错误
 --------
 
-* ``UnicodeEncodeError: 'charmap' codec can't encode character u'\xfoo' in position bar`` (或其它类型的 ``UnicodeEncodeError`` )的错误,主要是两方面的错误(都不是Beautiful Soup的原因),第一种是正在使用的终端(console)无法显示部分Unicode,参考 `python wiki <http://wiki.python.org/moin/PrintFails>`_ ,第二种是向文件写入时,被写入文件不支持部分Unicode,这时只要用 ``u.encode("utf8")`` 方法将编码转换为UTF-8.
+* ``UnicodeEncodeError: 'charmap' codec can't encode character u'\xfoo' in position bar`` (或其它类型的 ``UnicodeEncodeError`` )的错误,主要是两方面的错误(都不是Beautiful Soup的原因),第一种是正在使用的终端(console)无法显示部分Unicode,参考 `Python wiki <http://wiki.Python.org/moin/PrintFails>`_ ,第二种是向文件写入时,被写入文件不支持部分Unicode,这时只要用 ``u.encode("utf8")`` 方法将编码转换为UTF-8.
 
-* ``KeyError: [attr]`` 因为调用 ``tag['attr']`` 方法而引起,因为这个tag没有定义该属性.出错最多的是 ``KeyError: 'href'`` 和 ``KeyError: 'class'`` .如果不确定某个属性是否存在时,用 ``tag.get('attr')`` 方法去获取它,跟获取python字典的key一样
+* ``KeyError: [attr]`` 因为调用 ``tag['attr']`` 方法而引起,因为这个tag没有定义该属性.出错最多的是 ``KeyError: 'href'`` 和 ``KeyError: 'class'`` .如果不确定某个属性是否存在时,用 ``tag.get('attr')`` 方法去获取它,跟获取Python字典的key一样
 
 * ``AttributeError: 'ResultSet' object has no attribute 'foo'`` 错误通常是因为把 ``find_all()`` 的返回结果当作一个tag或文本节点使用,实际上返回结果是一个列表或 ``ResultSet`` 对象的字符串,需要对结果进行循环才能得到每个节点的 ``.foo`` 属性.或者使用 ``find()`` 方法仅获取到一个节点
 
@@ -2293,9 +2291,9 @@ SoupStrainer
 
 Beautiful Soup对文档的解析速度不会比它所依赖的解析器更快,如果对计算时间要求很高或者计算机的时间比程序员的时间更值钱,那么就应该直接使用 `lxml <http://lxml.de/>`_ .
 
-换句话说,还有提高Beautiful Soup效率的办法,如果Beautiful Soup的解析器不是lxml,那么就 `安装lxml`_ .Beautiful Soup用lxml做解析器比用html5lib或python内置解析器速度快很多.
+换句话说,还有提高Beautiful Soup效率的办法,如果Beautiful Soup的解析器不是lxml,那么就 `安装lxml`_ .Beautiful Soup用lxml做解析器比用html5lib或Python内置解析器速度快很多.
 
-安装 `cchardet <http://pypi.python.org/pypi/cchardet/>`_ 后文档的解码的编码检测会速度更快
+安装 `cchardet <http://pypi.Python.org/pypi/cchardet/>`_ 后文档的解码的编码检测会速度更快
 
 `解析部分文档`_ 不会节省多少解析时间,但是会节省很多内存,并且搜索时也会变得更快.
 
@@ -2304,7 +2302,7 @@ Beautiful Soup 3
 
 Beautiful Soup 3是上一个发布版本,目前已经停止维护.Beautiful Soup 3库目前已经被几个主要的linux平台添加到源里:
 
-``$ apt-get install python-beautifulsoup``
+``$ apt-get install Python-beautifulsoup``
 
 在PyPi中分发的包名字是 ``BeautifulSoup`` :
 
@@ -2335,14 +2333,14 @@ Beautiful Soup 3的在线文档查看 `这里 <http://www.crummy.com/software/Be
 
 * 如果代码跑出 ``ImportError`` 异常“No module named bs4”,原因可能是尝试运行Beautiful Soup 4的代码,但环境中只安装了Beautiful Soup 3.
 
-虽然BS4兼容绝大部分BS3的功能,但BS3中的大部分方法已经不推荐使用了,就方法按照 `PEP8标准 <http://www.python.org/dev/peps/pep-0008/>`_ 重新定义了方法名.很多方法都重新定义了方法名,但只有少数几个方法没有向下兼容.
+虽然BS4兼容绝大部分BS3的功能,但BS3中的大部分方法已经不推荐使用了,就方法按照 `PEP8标准 <http://www.Python.org/dev/peps/pep-0008/>`_ 重新定义了方法名.很多方法都重新定义了方法名,但只有少数几个方法没有向下兼容.
 
 上述内容就是BS3迁移到BS4的注意事项
 
 需要的解析器
 ............
 
-Beautiful Soup 3曾使用python的 ``SGMLParser`` 解析器,这个模块在python3中已经被移除了.Beautiful Soup 4默认使用系统的 ``html.parser`` ,也可以使用lxml或html5lib扩展库代替.查看 `安装解析器`_ 章节
+Beautiful Soup 3曾使用Python的 ``SGMLParser`` 解析器,这个模块在Python3中已经被移除了.Beautiful Soup 4默认使用系统的 ``html.parser`` ,也可以使用lxml或html5lib扩展库代替.查看 `安装解析器`_ 章节
 
 因为 ``html.parser`` 解析器与 ``SGMLParser`` 解析器不同,它们在处理格式不正确的文档时也会产生不同结果.通常 ``html.parser`` 解析器会抛出异常.所以推荐安装扩展库作为解析器.有时 ``html.parser`` 解析出的文档树结构与 ``SGMLParser`` 的不同.如果发生这种情况,那么需要升级BS3来处理新的文档树.
 
@@ -2387,7 +2385,7 @@ Beautiful Soup构造方法的参数部分也有名字变化:
 
 * BeautifulSoup(fromEncoding=...) -> BeautifulSoup(from_encoding=...)
 
-为了适配python3,修改了一个方法名:
+为了适配Python3,修改了一个方法名:
 
 * Tag.has_key() -> Tag.has_attr()
 
@@ -2395,9 +2393,9 @@ Beautiful Soup构造方法的参数部分也有名字变化:
 
 * Tag.isSelfClosing -> Tag.is_empty_element
 
-修改了下面3个属性的名字,以免雨python保留字冲突.这些变动不是向下兼容的,如果在BS3中使用了这些属性,那么在BS4中这些代码无法执行.
+修改了下面3个属性的名字,以免雨Python保留字冲突.这些变动不是向下兼容的,如果在BS3中使用了这些属性,那么在BS4中这些代码无法执行.
 
-* UnicodeDammit.unicode -> UnicodeDammit.unicode_markup
+* UnicodeDammit.Unicode -> UnicodeDammit.Unicode_markup
 
 * Tag.next -> Tag.next_element
 
@@ -2440,7 +2438,7 @@ Beautiful Soup构造方法的参数部分也有名字变化:
 
 BS3中有的生成器循环结束后会返回 ``None`` 然后结束.这是个bug.新版生成器不再返回 ``None`` .
 
-BS4中增加了2个新的生成器, `.strings 和 stripped_strings`_ . ``.strings`` 生成器返回NavigableString对象, ``.stripped_strings`` 方法返回去除前后空白的python的string对象.
+BS4中增加了2个新的生成器, `.strings 和 stripped_strings`_ . ``.strings`` 生成器返回NavigableString对象, ``.stripped_strings`` 方法返回去除前后空白的Python的string对象.
 
 XML
 ....
@@ -2473,7 +2471,6 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3中有很多处�
 
 `BeautifulSoup3 文档`_
 
-.. _Python: http://www.python.org
 .. _`BeautifulSoup3 文档`: http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html
 .. _name: `name 参数`_
 .. _attrs: `按CSS搜索`_
@@ -2490,10 +2487,8 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3中有很多处�
 .. _编码自动检测: `Unicode, dammit! (靠!)`_
 .. _Tag.string: `.string`_
 
-注释文档
-========
 
-.. [1] BeautifulSoup的googl讨论组不是很活跃,可能是因为库已经比较完善了吧
+.. [1] BeautifulSoup的google讨论组不是很活跃,可能是因为库已经比较完善了吧,但是作者还是会很热心的尽量帮你解决问题的.
 .. [2] 文档被解析成树形结构,所以下一步解析过程应该是当前节点的子节点
 .. [3] 过滤器只能作为搜索文档的参数,或者说应该叫参数类型更为贴切,原文中用了 ``filter`` 因此翻译为过滤器
 .. [4] 元素参数,HTML文档中的一个tag节点,不能是文本节点
