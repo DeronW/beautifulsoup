@@ -6,7 +6,7 @@
 Beautiful Soup 4.2.0 文档
 ==========================
 
-.. image:: _static/cover.jpg
+.. image:: http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg
     :align: right
 
 `Beautiful Soup <http://www.crummy.com/software/BeautifulSoup/>`_ 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.
@@ -2562,7 +2562,8 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3版本中有很�
 
 ``prettify()`` 方法在新版中返回Unicode字符串,不再返回字节流.
 
-`BeautifulSoup3 文档`_
+附录
+=====
 
 .. _`BeautifulSoup3 文档`: http://www.crummy.com/software/BeautifulSoup/bs3/documentation.zh.html
 .. _name: `name 参数`_
@@ -2591,3 +2592,9 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3版本中有很�
 .. [8] wrap含有包装,打包的意思,但是这里的包装不是在外部包装而是将当前tag的内部内容包装在一个tag里.包装原来内容的新tag依然在执行 `wrap()`_ 方法的tag内
 .. [9] 文档中特殊编码字符被替换成特殊字符(通常是�)的过程是Beautful Soup自动实现的,如果想要多种编码格式的文档被完全转换正确,那么,只好,预先手动处理,统一编码格式
 .. [10] 智能引号,常出现在microsoft的word软件中,即在某一段落中按引号出现的顺序每个引号都被自动转换为左引号,或右引号.
+
+原文: http://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+翻译: delong.wang
+
+查看 `BeautifulSoup3 文档`_
