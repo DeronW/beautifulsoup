@@ -2588,13 +2588,13 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3版本中有很�
 .. [4] 元素参数,HTML文档中的一个tag节点,不能是文本节点
 .. [5] 采用先序遍历方式
 .. [6] CSS选择器是一种单独的文档搜索语法, 参考 http://www.w3school.com.cn/css/css_selector_type.asp
-.. [7] 原文写的是 html5lib, 译者觉得这是愿文档的一个笔误
+.. [7] 原文写的是 html5lib, 译者觉得这是原文档的一个笔误
 .. [8] wrap含有包装,打包的意思,但是这里的包装不是在外部包装而是将当前tag的内部内容包装在一个tag里.包装原来内容的新tag依然在执行 `wrap()`_ 方法的tag内
 .. [9] 文档中特殊编码字符被替换成特殊字符(通常是�)的过程是Beautful Soup自动实现的,如果想要多种编码格式的文档被完全转换正确,那么,只好,预先手动处理,统一编码格式
 .. [10] 智能引号,常出现在microsoft的word软件中,即在某一段落中按引号出现的顺序每个引号都被自动转换为左引号,或右引号.
 
 原文: http://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
-翻译: delong.wang
+翻译: delong
 
 查看 `BeautifulSoup3 文档`_
