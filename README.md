@@ -1,7 +1,7 @@
 Beautiful Soup4
 ================
 
-This is the Beautiful Soup4 document in chinese.
+This is the Beautiful Soup4 document in Chinese.
 
 这是Beautiful Soup 4 的中文文档.
 

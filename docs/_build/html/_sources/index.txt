@@ -6,9 +6,6 @@
 Beautiful Soup 4.4.0 文档
 ==========================
 
-.. image:: http://www.crummy.com/software/BeautifulSoup/bs4/doc/_images/6.1.jpg
-    :align: right
-
 `Beautiful Soup <http://www.crummy.com/software/BeautifulSoup/>`_ 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.
 
 这篇文档介绍了BeautifulSoup4中所有主要特性,并且有小例子.让我来向你展示它适合做什么,如何工作,怎样使用,如何达到你想要的效果,和处理异常情况.
@@ -269,7 +266,7 @@ Beautiful Soup支持Python标准库中的HTML解析器,还支持一些第三方�
 对象的种类
 ==========
 
-Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构,每个节点都是Python对象,所有对象可以归纳为4种: 
+Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构,每个节点都是Python对象,所有对象可以归纳为4种:
 ``Tag`` , ``NavigableString`` , ``BeautifulSoup`` , ``Comment`` .
 
 Tag
@@ -682,7 +679,7 @@ tag的 ``.contents`` 属性可以将tag的子节点以列表的方式输出:
 
 全部是空格的行会被忽略掉,段首和段末的空白会被删除
 
-父节点 
+父节点
 -------
 
 继续分析文档树,每个tag或字符串都有父节点:被包含在某个tag中
@@ -810,7 +807,7 @@ tag的 ``.contents`` 属性可以将tag的子节点以列表的方式输出:
 如果以为第一个<a>标签的 ``.next_sibling`` 结果是第二个<a>标签,那就错了,真实结果是第一个<a>标签和第二个<a>标签之间的顿号和换行符:
 
 ::
-    
+
     link = soup.a
     link
     # <a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
@@ -935,7 +932,7 @@ Beautiful Soup定义了很多搜索方法,这里着重介绍2个: ``find()`` 和
 
     <p class="story">...</p>
     """
-    
+
     from bs4 import BeautifulSoup
     soup = BeautifulSoup(html_doc, 'html.parser')
 
@@ -1042,7 +1039,7 @@ True
 
 ::
 
-	
+
 	def not_lacie(href):
 		return href and not re.compile("lacie").search(href)
 	soup.find_all(href=not_lacie)
@@ -1202,7 +1199,7 @@ tag的 ``class`` 属性是 `多值属性`_ .按照CSS类名搜索tag时,可以�
 搜索 ``class`` 属性时也可以通过CSS值完全匹配:
 
 ::
-    
+
     css_soup.find_all("p", class_="body strikeout")
     # [<p class="body strikeout"></p>]
 
@@ -1234,10 +1231,10 @@ tag的 ``class`` 属性是 `多值属性`_ .按照CSS类名搜索tag时,可以�
     def is_the_only_string_within_a_tag(s):
         ""Return True if this string is the only child of its parent tag.""
         return (s == s.parent.string)
-            
+
     soup.find_all(string=is_the_only_string_within_a_tag)
     # [u"The Dormouse's story", u"The Dormouse's story", u'Elsie', u'Lacie', u'Tillie', u'...']
-            
+
 虽然 ``string`` 参数用于搜索字符串,还可以与其它参数混合使用来过滤tag.Beautiful Soup会找到 ``.string`` 方法与 ``string`` 参数值相符的tag.下面代码用来搜索内容里面包含“Elsie”的<a>标签:
 
 ::
@@ -1284,7 +1281,7 @@ tag的 ``class`` 属性是 `多值属性`_ .按照CSS类名搜索tag时,可以�
 
     soup.html.find_all("title", recursive=False)
     # []
-	
+
 这是文档片段
 
 ::
@@ -1296,7 +1293,7 @@ tag的 ``class`` 属性是 `多值属性`_ .按照CSS类名搜索tag时,可以�
 	    </title>
 		</head>
 		...
-		
+
 <title>标签在 <html> 标签下, 但并不是直接子节点, <head> 标签才是直接子节点.
 在允许查询所有后代节点时 Beautiful Soup 能够查找到 <title> 标签.
 但是使用了 ``recursive=False``  参数之后,只能查找直接子节点,这样就查不到 <title> 标签了.
@@ -1535,7 +1532,7 @@ Beautiful Soup支持大部分的CSS选择器 `<http://www.w3.org/TR/CSS2/selecto
 找到兄弟节点标签:
 
 ::
-    
+
     soup.select("#link1 ~ .sister")
     # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,
     #  <a class="sister" href="http://example.com/tillie"  id="link3">Tillie</a>]
@@ -1566,7 +1563,7 @@ Beautiful Soup支持大部分的CSS选择器 `<http://www.w3.org/TR/CSS2/selecto
 
     soup.select("a#link2")
     # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
-	
+
 同时用多种CSS选择器查询元素:
 
 ::
@@ -1618,7 +1615,7 @@ Beautiful Soup支持大部分的CSS选择器 `<http://www.w3.org/TR/CSS2/selecto
     # [<p lang="en">Hello</p>,
     #  <p lang="en-us">Howdy, y'all</p>,
     #  <p lang="en-gb">Pip-pip, old fruit</p>]
-	
+
 返回查找到的元素的第一个
 
 ::
@@ -1630,7 +1627,7 @@ Beautiful Soup支持大部分的CSS选择器 `<http://www.w3.org/TR/CSS2/selecto
 对于熟悉CSS选择器语法的人来说这是个非常方便的方法.Beautiful Soup也支持CSS选择器API,
 如果你仅仅需要CSS选择器的功能,那么直接使用 ``lxml`` 也可以,
 而且速度更快,支持更多的CSS选择器语法,但Beautiful Soup整合了CSS选择器的语法和自身方便使用API.
-        
+
 
 修改文档树
 ===========
@@ -1880,7 +1877,7 @@ wrap()
 
     soup.p.wrap(soup.new_tag("div"))
     # <div><p><b>I wish I was bold.</b></p></div>
-    
+
 该方法在 Beautiful Soup 4.0.5 中添加
 
 unwrap()
@@ -2008,7 +2005,7 @@ get_text()
 或者使用 `.stripped_strings`_ 生成器,获得文本列表后手动处理列表:
 
 ::
-    
+
     [text for text in soup.stripped_strings]
     # [u'I linked to', u'example.com']
 
@@ -2041,7 +2038,7 @@ Beautiful Soup为不同的解析器提供了相同的接口,但解析器本身�
 同样的文档使用XML解析如下(解析XML需要安装lxml库).注意,空标签<b />依然被保留,并且文档前添加了XML头,而不是被包含在<html>标签内:
 
 ::
-    
+
     BeautifulSoup("<a><b /></a>", "xml")
     # <?xml version="1.0" encoding="utf-8"?>
     # <a><b/></a>
@@ -2120,7 +2117,7 @@ html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树
     <h1>םולש</h1>
     soup.original_encoding
     'iso8859-8'
-	
+
 如果仅知道文档采用了Unicode编码, 但不知道具体编码. 可以先自己猜测, 猜测错误(依旧是乱码)时,
 可以把错误编码作为 ``exclude_encodings`` 参数, 这样文档就不会尝试使用这种编码了解码了.
 译者备注: 在没有指定编码的情况下, BS会自己猜测编码, 把不正确的编码排除掉, BS就更容易猜到正确编码.
@@ -2132,8 +2129,8 @@ html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树
 	<h1>םולש</h1>
 	soup.original_encoding
 	'WINDOWS-1255'
-	
-猜测结果是 Windows-1255 编码, 猜测结果可能不够准确, 但是 Windows-1255 编码是 ISO-8859-8 的扩展集, 
+
+猜测结果是 Windows-1255 编码, 猜测结果可能不够准确, 但是 Windows-1255 编码是 ISO-8859-8 的扩展集,
 所以猜测结果已经十分接近了, 并且不影响使用. (``exclude_encodings`` 参数是 4.4.0版本的新功能)
 
 少数情况下(通常是UTF-8编码的文档中包含了其它编码格式的文件),想获得正确的Unicode编码就不得不将文档中少数特殊编码字符替换成特殊Unicode编码,“REPLACEMENT CHARACTER” (U+FFFD, �) [9]_ . 如果Beautifu Soup猜测文档编码时作了特殊字符的替换,那么Beautiful Soup会把 ``UnicodeDammit`` 或 ``BeautifulSoup`` 对象的 ``.contains_replacement_characters`` 属性标记为 ``True`` .这样就可以知道当前文档进行Unicode编码后丢失了一部分特殊内容字符.如果文档中包含�而 ``.contains_replacement_characters`` 属性是 ``False`` ,则表示�就是文档中原来的字符,不是转码失败.
@@ -2213,7 +2210,7 @@ SNOWMAN字符在UTF-8编码中可以正常显示(看上去像是☃),但有些�
     # <b>&#9731;</b>
 
 Unicode, Dammit! (乱码, 靠!)
------------------------
+-----------------------------
 
 译者备注: UnicodeDammit 是BS内置库, 主要用来猜测文档编码.
 
@@ -2276,7 +2273,7 @@ Unicode, Dammit! (乱码, 靠!)
 ...........
 
 有时文档的大部分都是用UTF-8,但同时还包含了Windows-1252编码的字符,就像微软的智能引号 [10]_ 一样.
-一些包含多个信息的来源网站容易出现这种情况. ``UnicodeDammit.detwingle()`` 
+一些包含多个信息的来源网站容易出现这种情况. ``UnicodeDammit.detwingle()``
 方法可以把这类文档转换成纯UTF-8编码格式,看个简单的例子:
 
 ::
@@ -2311,9 +2308,9 @@ Unicode, Dammit! (乱码, 靠!)
 ``UnicodeDammit.detwingle()`` 方法在Beautiful Soup 4.1.0版本中新增
 
 比较对象是否相同
-===============
+=================
 
-两个 ``NavigableString`` 或 ``Tag`` 对象具有相同的HTML或XML结构时, 
+两个 ``NavigableString`` 或 ``Tag`` 对象具有相同的HTML或XML结构时,
 Beautiful Soup就判断这两个对象相同. 这个例子中, 2个 <b> 标签在 BS 中是相同的,
 尽管他们在文档树的不同位置, 但是具有相同的表象: "<b>pizza</b>"
 
@@ -2348,7 +2345,7 @@ Beautiful Soup就判断这两个对象相同. 这个例子中, 2个 <b> 标签�
 	# <p>I want <b>pizza</b> and more <b>pizza</b>!</p>
 
 复制后的对象跟与对象是相等的, 但指向不同的内存地址
-	
+
 ::
 
 	print soup.p == p_copy
@@ -2366,7 +2363,7 @@ Beautiful Soup就判断这两个对象相同. 这个例子中, 2个 <b> 标签�
 	# None
 
 这是因为相等的对象不能同时插入相同的位置
-	
+
 
 解析部分文档
 ============
@@ -2696,7 +2693,7 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3版本中有很�
 
 `多值属性`_ 比如 ``class`` 属性包含一个他们的值的列表,而不是一个字符串.这可能会影响到如何按照CSS类名哦搜索tag.
 
-如果使用 ``find*`` 方法时同时传入了 `text 参数`_ 和 `name 参数`_ .Beautiful Soup会搜索指定name的tag,并且这个tag的 `Tag.string`_ 属性包含text参数的内容.结果中不会包含字符串本身.旧版本中Beautiful Soup会忽略掉tag参数,只搜索text参数.
+如果使用 ``find*`` 方法时同时传入了 `string 参数`_ 和 `name 参数`_ .Beautiful Soup会搜索指定name的tag,并且这个tag的 `Tag.string`_ 属性包含text参数的内容.结果中不会包含字符串本身.旧版本中Beautiful Soup会忽略掉tag参数,只搜索text参数.
 
 ``BeautifulSoup`` 构造方法不再支持 markupMassage 参数.现在由解析器负责文档的解析正确性.
 
@@ -2720,7 +2717,7 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3版本中有很�
 .. _.stripped_strings: `.strings 和 stripped_strings`_
 .. _安装lxml: `安装解析器`_
 .. _安装lxml或html5lib: `安装解析器`_
-.. _编码自动检测: `Unicode, dammit! (靠!)`_
+.. _编码自动检测: `Unicode, Dammit! (乱码, 靠!)`_
 .. _Tag.string: `.string`_
 
 
