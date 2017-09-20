@@ -1976,7 +1976,7 @@ Beautiful Soup输出是会将HTML中的特殊字符转换成Unicode,比如“&lq
 get_text()
 ----------
 
-如果只想得到tag中包含的文本内容,那么可以嗲用 ``get_text()`` 方法,这个方法获取到tag中包含的所有文版内容包括子孙tag中的内容,并将结果作为Unicode字符串返回:
+如果只想得到tag中包含的文本内容,那么可以调用 ``get_text()`` 方法,这个方法获取到tag中包含的所有文版内容包括子孙tag中的内容,并将结果作为Unicode字符串返回:
 
 ::
 
@@ -2188,7 +2188,7 @@ html5lib库没有忽略掉</p>标签,而是自动补全了标签,还给文档树
     soup.p.encode("utf-8")
     # '<p>Sacr\xc3\xa9 bleu!</p>'
 
-如果文档中包含当前编码不支持的字符,那么这些字符将呗转换成一系列XML特殊字符引用,下面例子中包含了Unicode编码字符SNOWMAN:
+如果文档中包含当前编码不支持的字符,那么这些字符将被转换成一系列XML特殊字符引用,下面例子中包含了Unicode编码字符SNOWMAN:
 
 ::
 
@@ -2293,7 +2293,7 @@ Unicode, Dammit! (乱码, 靠!)
     # â˜ƒâ˜ƒâ˜ƒ“I like snowmen!”
 
 如果对这段文档用UTF-8解码就会得到 ``UnicodeDecodeError`` 异常,如果用Windows-1252解码就回得到一堆乱码.
-幸好, ``UnicodeDammit.detwingle()`` 方法会吧这段字符串转换成UTF-8编码,允许我们同时显示出文档中的snowmen和引号:
+幸好, ``UnicodeDammit.detwingle()`` 方法会把这段字符串转换成UTF-8编码,允许我们同时显示出文档中的snowmen和引号:
 
 ::
 
@@ -2470,7 +2470,7 @@ SoupStrainer
 
 文档解析错误有两种.一种是崩溃,Beautiful Soup尝试解析一段文档结果却抛除了异常,通常是 ``HTMLParser.HTMLParseError`` .还有一种异常情况,是Beautiful Soup解析后的文档树看起来与原来的内容相差很多.
 
-这些错误几乎都不是Beautiful Soup的原因,这不会是因为Beautiful Soup得代码写的太优秀,而是因为Beautiful Soup没有包含任何文档解析代码.异常产生自被依赖的解析器,如果解析器不能很好的解析出当前的文档,那么最好的办法是换一个解析器.更多细节查看 `安装解析器`_ 章节.
+这些错误几乎都不是Beautiful Soup的原因,这不会是因为Beautiful Soup的代码写的太优秀,而是因为Beautiful Soup没有包含任何文档解析代码.异常产生自被依赖的解析器,如果解析器不能很好的解析出当前的文档,那么最好的办法是换一个解析器.更多细节查看 `安装解析器`_ 章节.
 
 最常见的解析错误是 ``HTMLParser.HTMLParseError: malformed start tag`` 和 ``HTMLParser.HTMLParseError: bad end tag`` .这都是由Python内置的解析器引起的,解决方法是 `安装lxml或html5lib`_
 
@@ -2479,7 +2479,7 @@ SoupStrainer
 版本错误
 ----------
 
-* ``SyntaxError: Invalid syntax`` (异常位置在代码行: ``ROOT_TAG_NAME = u'[document]'`` ),因为Python2版本的代码没有经过迁移就在Python3中窒息感
+* ``SyntaxError: Invalid syntax`` (异常位置在代码行: ``ROOT_TAG_NAME = u'[document]'`` ),因为Python2语法的代码(没有经过迁移)直接在Python3中运行
 
 * ``ImportError: No module named HTMLParser`` 因为在Python3中执行Python2版本的Beautiful Soup
 
