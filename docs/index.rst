@@ -1387,7 +1387,7 @@ find_parent( `name`_ , `attrs`_ , `recursive`_ , `string`_ , `**kwargs`_ )
 
 ``find_parent()`` 和 ``find_parents()`` 方法会让人联想到 `.parent`_ 和 `.parents`_ 属性.它们之间的联系非常紧密.搜索父辈节点的方法实际上就是对 ``.parents`` 属性的迭代搜索.
 
-find_next_siblings() 合 find_next_sibling()
+find_next_siblings() 和 find_next_sibling()
 -------------------------------------------
 
 find_next_siblings( `name`_ , `attrs`_ , `recursive`_ , `string`_ , `**kwargs`_ )
