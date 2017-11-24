@@ -1,5 +1,5 @@
 .. BeautifulSoup文档 documentation master file, created by
-   delong wang on Fri Nov 29 13:49:30 2013.
+   Deron Wang on Fri Nov 29 13:49:30 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -2734,6 +2734,6 @@ HTML或XML实体都会被解析成Unicode字符,Beautiful Soup 3版本中有很�
 
 原文: http://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
-翻译: delong
+翻译: Deron Wang
 
 查看 `BeautifulSoup3 文档`_
