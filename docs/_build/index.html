@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Beautiful Soup 4.4.0 文档 &#8212; beautifulsoup 4.4.0 文档</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <title>Beautiful Soup 4.4.0 文档 &#8212; beautifulsoup 4.4.0q 文档</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '4.4.0',
+        VERSION:     '4.4.0q',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -23,18 +23,16 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" /> 
+    <link rel="search" title="搜索" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head>
   <body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>导航</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="总目录"
-             accesskey="I">索引</a></li>
-        <li class="nav-item nav-item-0"><a href="#">beautifulsoup 4.4.0 文档</a> &#187;</li> 
-      </ul>
-    </div>  
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -2339,161 +2337,13 @@ Beautiful Soup就判断这两个对象相同. 这个例子中, 2个 &lt;b&gt; �
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">內容目录</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Beautiful Soup 4.4.0 文档</a><ul>
-<li><a class="reference internal" href="#id4">寻求帮助</a></li>
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#id7">快速开始</a></li>
-<li><a class="reference internal" href="#id8">安装 Beautiful Soup</a><ul>
-<li><a class="reference internal" href="#id11">安装完成后的问题</a></li>
-<li><a class="reference internal" href="#id12">安装解析器</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id13">如何使用</a></li>
-<li><a class="reference internal" href="#id14">对象的种类</a><ul>
-<li><a class="reference internal" href="#tag">Tag</a><ul>
-<li><a class="reference internal" href="#name">Name</a></li>
-<li><a class="reference internal" href="#attributes">Attributes</a><ul>
-<li><a class="reference internal" href="#id15">多值属性</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id16">可以遍历的字符串</a></li>
-<li><a class="reference internal" href="#beautifulsoup">BeautifulSoup</a></li>
-<li><a class="reference internal" href="#id17">注释及特殊字符串</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id18">遍历文档树</a><ul>
-<li><a class="reference internal" href="#id19">子节点</a><ul>
-<li><a class="reference internal" href="#id20">tag的名字</a></li>
-<li><a class="reference internal" href="#contents-children">.contents 和 .children</a></li>
-<li><a class="reference internal" href="#descendants">.descendants</a></li>
-<li><a class="reference internal" href="#string">.string</a></li>
-<li><a class="reference internal" href="#strings-stripped-strings">.strings 和 stripped_strings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id23">父节点</a><ul>
-<li><a class="reference internal" href="#parent">.parent</a></li>
-<li><a class="reference internal" href="#parents">.parents</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id24">兄弟节点</a><ul>
-<li><a class="reference internal" href="#next-sibling-previous-sibling">.next_sibling 和 .previous_sibling</a></li>
-<li><a class="reference internal" href="#next-siblings-previous-siblings">.next_siblings 和 .previous_siblings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id25">回退和前进</a><ul>
-<li><a class="reference internal" href="#next-element-previous-element">.next_element 和 .previous_element</a></li>
-<li><a class="reference internal" href="#next-elements-previous-elements">.next_elements 和 .previous_elements</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id27">搜索文档树</a><ul>
-<li><a class="reference internal" href="#id28">过滤器</a><ul>
-<li><a class="reference internal" href="#id30">字符串</a></li>
-<li><a class="reference internal" href="#id31">正则表达式</a></li>
-<li><a class="reference internal" href="#id32">列表</a></li>
-<li><a class="reference internal" href="#true">True</a></li>
-<li><a class="reference internal" href="#id33">方法</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#find-all">find_all()</a><ul>
-<li><a class="reference internal" href="#id35">name 参数</a></li>
-<li><a class="reference internal" href="#keyword">keyword 参数</a></li>
-<li><a class="reference internal" href="#css">按CSS搜索</a></li>
-<li><a class="reference internal" href="#id36"><code class="docutils literal"><span class="pre">string</span></code> 参数</a></li>
-<li><a class="reference internal" href="#limit"><code class="docutils literal"><span class="pre">limit</span></code> 参数</a></li>
-<li><a class="reference internal" href="#recursive"><code class="docutils literal"><span class="pre">recursive</span></code> 参数</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#find-all-tag">像调用 <code class="docutils literal"><span class="pre">find_all()</span></code> 一样调用tag</a></li>
-<li><a class="reference internal" href="#find">find()</a></li>
-<li><a class="reference internal" href="#find-parents-find-parent">find_parents() 和 find_parent()</a></li>
-<li><a class="reference internal" href="#find-next-siblings-find-next-sibling">find_next_siblings() 和 find_next_sibling()</a></li>
-<li><a class="reference internal" href="#find-previous-siblings-find-previous-sibling">find_previous_siblings() 和 find_previous_sibling()</a></li>
-<li><a class="reference internal" href="#find-all-next-find-next">find_all_next() 和 find_next()</a></li>
-<li><a class="reference internal" href="#find-all-previous-find-previous">find_all_previous() 和 find_previous()</a></li>
-<li><a class="reference internal" href="#id41">CSS选择器</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id44">修改文档树</a><ul>
-<li><a class="reference internal" href="#id45">修改tag的名称和属性</a></li>
-<li><a class="reference internal" href="#id46">修改 .string</a></li>
-<li><a class="reference internal" href="#append">append()</a></li>
-<li><a class="reference internal" href="#navigablestring-new-tag">NavigableString() 和 .new_tag()</a></li>
-<li><a class="reference internal" href="#insert">insert()</a></li>
-<li><a class="reference internal" href="#insert-before-insert-after">insert_before() 和 insert_after()</a></li>
-<li><a class="reference internal" href="#clear">clear()</a></li>
-<li><a class="reference internal" href="#extract">extract()</a></li>
-<li><a class="reference internal" href="#decompose">decompose()</a></li>
-<li><a class="reference internal" href="#replace-with">replace_with()</a></li>
-<li><a class="reference internal" href="#wrap">wrap()</a></li>
-<li><a class="reference internal" href="#unwrap">unwrap()</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id48">输出</a><ul>
-<li><a class="reference internal" href="#id49">格式化输出</a></li>
-<li><a class="reference internal" href="#id50">压缩输出</a></li>
-<li><a class="reference internal" href="#id51">输出格式</a></li>
-<li><a class="reference internal" href="#get-text">get_text()</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id52">指定文档解析器</a><ul>
-<li><a class="reference internal" href="#id53">解析器之间的区别</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id55">编码</a><ul>
-<li><a class="reference internal" href="#id57">输出编码</a></li>
-<li><a class="reference internal" href="#unicode-dammit">Unicode, Dammit! (乱码, 靠!)</a><ul>
-<li><a class="reference internal" href="#id58">智能引号</a></li>
-<li><a class="reference internal" href="#id60">矛盾的编码</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id62">比较对象是否相同</a></li>
-<li><a class="reference internal" href="#id63">复制Beautiful Soup对象</a></li>
-<li><a class="reference internal" href="#id64">解析部分文档</a><ul>
-<li><a class="reference internal" href="#soupstrainer">SoupStrainer</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id65">常见问题</a><ul>
-<li><a class="reference internal" href="#id66">代码诊断</a></li>
-<li><a class="reference internal" href="#id67">文档解析错误</a></li>
-<li><a class="reference internal" href="#id68">版本错误</a></li>
-<li><a class="reference internal" href="#xml">解析成XML</a></li>
-<li><a class="reference internal" href="#id69">解析器的错误</a></li>
-<li><a class="reference internal" href="#id71">杂项错误</a></li>
-<li><a class="reference internal" href="#id72">如何提高效率</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#beautiful-soup-3">Beautiful Soup 3</a><ul>
-<li><a class="reference internal" href="#id75">迁移到BS4</a><ul>
-<li><a class="reference internal" href="#id76">需要的解析器</a></li>
-<li><a class="reference internal" href="#id77">方法名的变化</a></li>
-<li><a class="reference internal" href="#id78">生成器</a></li>
-<li><a class="reference internal" href="#id79">XML</a></li>
-<li><a class="reference internal" href="#id80">实体</a></li>
-<li><a class="reference internal" href="#id81">迁移杂项</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id82">附录</a></li>
-</ul>
-
-  <div role="note" aria-label="source link">
-    <h3>本页</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">显示源代码</a></li>
-    </ul>
-   </div>
+</div>
 <div id="searchbox" style="display: none" role="search">
   <h3>快速搜索</h3>
     <form class="search" action="search.html" method="get">
@@ -2508,18 +2358,20 @@ Beautiful Soup就判断这两个对象相同. 这个例子中, 2个 &lt;b&gt; �
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>导航</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="总目录"
-             >索引</a></li>
-        <li class="nav-item nav-item-0"><a href="#">beautifulsoup 4.4.0 文档</a> &#187;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2018, Deron.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2016, delong.
-      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5 创建。
-    </div>
+
+    
+
+    
   </body>
 </html>
