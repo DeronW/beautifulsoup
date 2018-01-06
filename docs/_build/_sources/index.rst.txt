@@ -1493,7 +1493,7 @@ Beautiful Soup支持大部分的CSS选择器 `<http://www.w3.org/TR/CSS2/selecto
     soup.select("title")
     # [<title>The Dormouse's story</title>]
 
-    soup.select("p nth-of-type(3)")
+    soup.select("p:nth-of-type(3)")
     # [<p class="story">...</p>]
 
 通过tag标签逐层查找:
