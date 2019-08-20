@@ -2625,7 +2625,7 @@ Beautiful Soup构造方法的参数部分也有名字变化:
 
 * ``Tag.isSelfClosing`` -> ``Tag.is_empty_element``
 
-修改了下面3个属性的名字,以免雨Python保留字冲突.这些变动不是向下兼容的,如果在BS3中使用了这些属性,那么在BS4中这些代码无法执行.
+修改了下面3个属性的名字,以免与Python保留字冲突.这些变动不是向下兼容的,如果在BS3中使用了这些属性,那么在BS4中这些代码无法执行.
 
 * UnicodeDammit.Unicode -> UnicodeDammit.Unicode_markup``
 
