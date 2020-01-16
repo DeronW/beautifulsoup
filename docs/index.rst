@@ -24,7 +24,7 @@ Beautiful Soup 4.4.0 文档
 寻求帮助
 --------
 
-如果你有关于BeautifulSoup的问题,可以发送邮件到 `讨论组 <https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup>`_ .如果你的问题包含了一段需要转换的HTML代码,那么确保你提的问题描述中附带这段HTML文档的 `代码诊断`_ [1]_
+如果你有关于BeautifulSoup的问题，可以发送邮件到 `讨论组 <https://groups.google.com/forum/?fromgroups#!forum/beautifulsoup>`_ .如果你的问题包含了一段需要转换的HTML代码，那么确保你提的问题描述中附带这段HTML文档的 `代码诊断`_ [1]_
 
 快速开始
 ========
