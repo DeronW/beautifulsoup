@@ -1,22 +1,28 @@
-Beautiful Soup4
-================
+# Beautiful Soup4 文档
 
-This is the Beautiful Soup4 document in Chinese.
-
-这是Beautiful Soup 4 的中文文档.
+Beautiful Soup 升级到 4.x 版本后官方没有继续更新中文文档, 为了方便大家阅读, 
+将 4.x 版本文档翻译成中文, 如有纰漏还望指正。
 
 官方网站: http://www.crummy.com/software/BeautifulSoup/
 
 原版文档: http://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
-You didn't write that awful page. You're just trying to get some data out of it. Beautiful Soup is here to help. Since 2004, it's been saving programmers hours or days of work on quick-turnaround screen scraping projects. ---- official website
+### 文档原文
 
-Beautiful Soup升级到4.x版本后中文文档没有继续更新,为了方便大家阅读,将文档翻译出中文版本,如有纰漏还望指正.
+在[官方文档](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) 侧边栏最下有一个 
+[Show Source](https://www.crummy.com/software/BeautifulSoup/bs4/doc/_sources/index.rst.txt) 链接，
+点击可以查看文档的原始 rst 格式文件。文档原文未标记版本号，不方便对比版本变化，所以下载下来并放在 `source` 目录，
+文档源文件是单个文件，所以用 `[version].rst` 格式命名，方便对比。
 
-编译html命令
+### 编译文档
 
->   sphinx-build -b html docs docs/_build
+```shell
+# 安装 sphinx 编译工具
+pip install sphinx
+```
 
-* 4.4.0p
+编译 html 命令
 
-增加了pdf输出文件
+```shell
+sphinx-build -b html docs docs/\_build
+```
